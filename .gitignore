@@ -1,7 +1,9 @@
 data/meal.csv
 data/rating.csv
 
+# IDE
 .idea/
+.vscode/
 venv/
 
 # OS generated files
