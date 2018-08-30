@@ -2,7 +2,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-CRED = credentials.Certificate("tuk-mensa-kl-conv-ai-firebase-adminsdk-s5fmi-17678edf98.json")
+CRED = credentials.Certificate(
+    "/Users/konsti/vm/tuk.mensa-kl-conv-ai/util/firestore_connection/tuk-mensa-kl-conv-ai-firebase-adminsdk-s5fmi-17678edf98.json")
 
 
 class FirestoreConnector:
