@@ -68,6 +68,5 @@ class FirestoreConnector:
 
 if __name__ == "__main__":
     connector = FirestoreConnector()
-    users = connector.get_collection("users")
-    for i in users:
-        print(i.to_dict())
+    day = connector.get_document("mensa/2018/0827/2")
+    print(day)
