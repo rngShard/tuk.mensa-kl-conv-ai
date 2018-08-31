@@ -1,4 +1,3 @@
-import argparse
 import csv
 import datetime
 import os
@@ -16,6 +15,7 @@ URL_MENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen
 URL_ATRIUM = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/cafeteria-atrium/"
 URL_ABENDMENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/abendmensa/"
 
+DB = connection.FirestoreConnector()
 
 def get_data(url):
     html_mensa = requests.get(url)
@@ -61,7 +61,7 @@ def save_as_csv(mensa_plan, name):
                           + "_" + str(calener_week[2]) + ".csv", index=False)
 
 
-def parse_mensa_firestore(dailyplans):
+def parse_mensa_firestore(dailyplans, name):
     week_plan = []
     for dailyplan in dailyplans:
         date = dailyplan.h5.string
@@ -71,9 +71,12 @@ def parse_mensa_firestore(dailyplans):
         day = date_list[0]
         day_plan = {}
         loc = {}
+        counter_atrium = 1
         for location in dailyplan.find_all("div", "subcolumns"):
-            location_name = location.find("div", "counter-name").strong.string
-
+            if name == "mensa":
+                location_name = location.find("div", "counter-name").strong.string
+            elif name == "atrium":
+                location_name = "atrium" + str(counter_atrium)
             for i, alternative in enumerate(location.find("div", "counter-meal").find_all("strong")):
                 alternative_name = alternative.string
                 price_tag = alternative.next_sibling.next_sibling
@@ -89,7 +92,7 @@ def parse_mensa_firestore(dailyplans):
                         "meal": alternative_name,
                         "price": alternative_price
                     }
-                elif i == 1:
+                elif i == 1 and not "atrium" in location_name:
                     loc[location_name + "veg"] = {
                         "loc": location_name + "veg",
                         "date_string": date,
@@ -97,38 +100,39 @@ def parse_mensa_firestore(dailyplans):
                         "meal": alternative_name,
                         "price": alternative_price
                     }
+                counter_atrium += 1
             day_plan[year + month + day] = loc
         week_plan.append(day_plan)
 
     return week_plan
 
 
-def save_mensa_firestore(mensa_plan):
-    db = connection.FirestoreConnector()
+def save_mensa_firestore(mensa_plan, db=DB):
     for day in mensa_plan:
         for date, locations in day.items():
             year = date[:4]
             month = date[4:6]
             day = date[6:]
-            week = str(datetime.datetime(int(year), int(month), int(day)).isocalendar())
+            week = str(datetime.datetime(int(year), int(month), int(day)).isocalendar()[1])
             for location, meal in locations.items():
                 db.create_document("mensa/" + year + "/" + month + "/" + week + "/" + day + "/" + location, meal)
 
 
-def main(url, name):
-    raw_data = get_data(url)
-    plan = parse_mensa_firestore(raw_data)
+def main():
+    raw_data_mensa = get_data(URL_MENSA)
+    raw_data_atrium = get_data(URL_ATRIUM)
+    # Parsing Mensa Data
+    plan = parse_mensa_firestore(raw_data_mensa, "mensa")
     save_mensa_firestore(plan)
+    plan = parse_mensa_plan_csv(raw_data_mensa, "mensa")
+    save_as_csv(plan, "mensa")
+
+    # Parsing Atrium Data
+    plan = parse_mensa_firestore(raw_data_atrium, "atrium")
+    save_mensa_firestore(plan)
+    plan = parse_mensa_plan_csv(raw_data_atrium, "atrium")
+    save_as_csv(plan, "atrium")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("mensa", help="Please specify if you want to scrape 'mensa' or 'atrium'")
-    args = parser.parse_args(['mensa'])
-
-    if args.mensa == "mensa":
-        main(URL_MENSA, "mensa")
-    elif args.mensa == "atrium":
-        main(URL_ATRIUM, "atrium")
-    else:
-        print("Please use 'mensa' or 'atrium' as attribute")
+    main()
