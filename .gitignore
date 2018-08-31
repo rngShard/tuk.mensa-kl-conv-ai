@@ -1,3 +1,7 @@
+# configs
+*firebase-adminsdk*
+
+# data files
 data/meal.csv
 data/rating.csv
 *.csv
