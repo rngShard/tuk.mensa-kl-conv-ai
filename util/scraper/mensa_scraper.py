@@ -1,8 +1,8 @@
 import argparse
 import csv
 import datetime
-import sys
 import os
+import sys
 
 import pandas as pd
 import requests
@@ -110,8 +110,9 @@ def save_mensa_firestore(mensa_plan):
             year = date[:4]
             month = date[4:6]
             day = date[6:]
+            week = str(datetime.datetime(int(year), int(month), int(day)).isocalendar())
             for location, meal in locations.items():
-                db.create_document("mensa/" + year + "/" + month + day + "/" + location, meal)
+                db.create_document("mensa/" + year + "/" + month + "/" + week + "/" + day + "/" + location, meal)
 
 
 def main(url, name):

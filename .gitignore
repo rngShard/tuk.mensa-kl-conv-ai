@@ -20,3 +20,4 @@ venv/
 ehthumbs.db
 Thumbs.db
 *.pyc
+.ipynb_checkpoints/
