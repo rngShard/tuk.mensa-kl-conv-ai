@@ -1,9 +1,10 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import os
 
-CRED = credentials.Certificate(
-    "/Users/konsti/vm/tuk.mensa-kl-conv-ai/util/firestore_connection/tuk-mensa-kl-conv-ai-firebase-adminsdk-s5fmi-17678edf98.json")
+current_file = os.path.abspath(os.path.dirname(__file__))
+CRED = credentials.Certificate(os.path.join(current_file, "tuk-mensa-kl-conv-ai-firebase-adminsdk.json"))
 
 
 class FirestoreConnector:

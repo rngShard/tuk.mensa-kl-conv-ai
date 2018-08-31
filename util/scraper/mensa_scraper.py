@@ -2,12 +2,14 @@ import argparse
 import csv
 import datetime
 import sys
+import os
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-sys.path.append("..")
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
+sys.path.append(parent_path)
 from firestore_connection import connection
 
 URL_MENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/mensa/"
@@ -121,7 +123,7 @@ def main(url, name):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("mensa", help="Please specify if you want to scrape 'mensa' or 'atrium'")
-    args = parser.parse_args()
+    args = parser.parse_args(['mensa'])
 
     if args.mensa == "mensa":
         main(URL_MENSA, "mensa")
