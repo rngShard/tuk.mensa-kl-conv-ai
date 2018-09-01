@@ -10,12 +10,14 @@ from bs4 import BeautifulSoup
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
 sys.path.append(parent_path)
 from firestore_connection import connection
+from normalizer.food_title_normalizer import FoodNormalizer
 
 URL_MENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/mensa/"
 URL_ATRIUM = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/cafeteria-atrium/"
 URL_ABENDMENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/abendmensa/"
 
 DB = connection.FirestoreConnector()
+
 
 def get_data(url):
     html_mensa = requests.get(url)
@@ -35,30 +37,53 @@ def parse_mensa_plan_csv(dailyplans, name):
                 location_name = "atrium"
             for i, alternative in enumerate(location.find("div", "counter-meal").find_all("strong")):
                 alternative_name = alternative.string
+                title_norm = FoodNormalizer.separate_food_title(alternative_name)
+                title_prim = title_norm[0][0]
                 price_tag = alternative.next_sibling.next_sibling
                 if price_tag.string is None:
                     alternative_price = price_tag.next_sibling.string
                 else:
                     alternative_price = alternative.next_sibling.next_sibling.string
-                if i == 0:
-                    week_data.append([date, location_name, alternative_name, alternative_price])
-                elif i == 1:
-                    week_data.append([date, location_name + "veg",
-                                      alternative_name, alternative_price])
+                if i == 1 and "atrium" not in location_name:
+                    location_name = location_name + "veg"
+                week_data.append([date, location_name, alternative_name, alternative_price, title_prim, title_norm])
+
     return week_data
 
 
 def save_as_csv(mensa_plan, name):
-    header = ["date", "loc", "title", "price"]
+    header = ["date", "loc", "title", "price", "title_prim", "title_norm"]
     mensa_data = pd.DataFrame(mensa_plan, dtype='str')
+    if mensa_data.shape == (0, 0):
+        print("No data available")
+        return
     mensa_data.columns = header
-    calener_week = datetime.datetime.today().isocalendar()
+    date = mensa_data.date[0].split(",")[1].split(".")
+
+    calener_week = datetime.datetime(int(date[2]), int(date[1]), int(date[0])).isocalendar()
     if name == "mensa":
         mensa_data.to_csv("./mensa/" + str(calener_week[0]) + "_"
                           + str(calener_week[1]) + ".csv", index=False, quoting=csv.QUOTE_ALL)
     elif name == "atrium":
         mensa_data.to_csv("./atrium/" + str(calener_week[0]) + "_" + str(calener_week[1])
                           + "_" + str(calener_week[2]) + ".csv", index=False)
+
+
+def title_norm2dict(title_list):
+    title_norm = {}
+    index = 0
+    for i in title_list:
+        if len(i) == 1:
+            title_norm["title_norm" + str(index)] = {
+                "title": i[0]
+            }
+        else:
+            title_norm["title_norm" + str(index)] = {
+                "title": i[0],
+                "additives": i[1]
+            }
+        index += 1
+    return title_norm
 
 
 def parse_mensa_firestore(dailyplans, name):
@@ -79,27 +104,25 @@ def parse_mensa_firestore(dailyplans, name):
                 location_name = "atrium" + str(counter_atrium)
             for i, alternative in enumerate(location.find("div", "counter-meal").find_all("strong")):
                 alternative_name = alternative.string
+                titels_norm = FoodNormalizer.separate_food_title(alternative_name)
+                titels_prim = titels_norm[0][0]
+                titels_norm_dict = title_norm2dict(titels_norm)
                 price_tag = alternative.next_sibling.next_sibling
                 if price_tag.string is None:
                     alternative_price = price_tag.next_sibling.string
                 else:
                     alternative_price = alternative.next_sibling.next_sibling.string
-                if i == 0:
-                    loc[location_name] = {
-                        "loc": location_name,
-                        "date_string": date,
-                        "date": year + month + day,
-                        "meal": alternative_name,
-                        "price": alternative_price
-                    }
-                elif i == 1 and not "atrium" in location_name:
-                    loc[location_name + "veg"] = {
-                        "loc": location_name + "veg",
-                        "date_string": date,
-                        "date": year + month + day,
-                        "meal": alternative_name,
-                        "price": alternative_price
-                    }
+                if i == 1 and "atrium" not in location_name:
+                    location_name = location_name + "veg"
+                loc[location_name] = {
+                    "loc": location_name,
+                    "date_string": date,
+                    "date": year + month + day,
+                    "title": alternative_name,
+                    "price": alternative_price,
+                    "title_prim": titels_prim,
+                    "title_norm": titels_norm_dict
+                }
                 counter_atrium += 1
             day_plan[year + month + day] = loc
         week_plan.append(day_plan)
