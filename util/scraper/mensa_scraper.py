@@ -7,12 +7,11 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-
-from normalizer.food_title_normalizer import FoodNormalizer
-
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(parent_path)
 from cloud_connection import firestore_connection, bucket_connection
+from normalizer.food_title_normalizer import FoodNormalizer
+
 URL_MENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/mensa/"
 URL_ATRIUM = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/cafeteria-atrium/"
 URL_ABENDMENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/abendmensa/"
