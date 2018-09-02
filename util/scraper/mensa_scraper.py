@@ -7,16 +7,17 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
-sys.path.append(parent_path)
-from firestore_connection import connection
+from cloud_connection import firestore_connection, bucket_connection
 from normalizer.food_title_normalizer import FoodNormalizer
+
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(parent_path)
 
 URL_MENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/mensa/"
 URL_ATRIUM = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/cafeteria-atrium/"
 URL_ABENDMENSA = "https://www.studierendenwerk-kaiserslautern.de/kaiserslautern/essen-und-trinken/tu-kaiserslautern/abendmensa/"
 
-DB = connection.FirestoreConnector()
+DB = firestore_connection.FirestoreConnector()
 
 
 def get_data(url):
@@ -62,11 +63,13 @@ def save_as_csv(mensa_plan, name):
 
     calener_week = datetime.datetime(int(date[2]), int(date[1]), int(date[0])).isocalendar()
     if name == "mensa":
-        mensa_data.to_csv("./mensa/" + str(calener_week[0]) + "_"
-                          + str(calener_week[1]) + ".csv", index=False, quoting=csv.QUOTE_ALL)
+        file_name = str(calener_week[0]) + "_" + str(calener_week[1]) + ".csv"
+        mensa_data.to_csv("./mensa/" + file_name, index=False, quoting=csv.QUOTE_ALL)
+        bucket_connection.upload_blob("mensa_data", "./mensa/" + file_name, "mensa/" + file_name)
     elif name == "atrium":
-        mensa_data.to_csv("./atrium/" + str(calener_week[0]) + "_" + str(calener_week[1])
-                          + "_" + str(calener_week[2]) + ".csv", index=False)
+        file_name = str(calener_week[0]) + "_" + str(calener_week[1]) + "_" + str(calener_week[2]) + ".csv"
+        mensa_data.to_csv("./atrium/" + file_name, index=False)
+        bucket_connection.upload_blob("mensa_data", "./atrium/" + file_name, "atrium/" + file_name)
 
 
 def title_norm2dict(title_list):
@@ -140,19 +143,21 @@ def save_mensa_firestore(mensa_plan, db=DB):
             for location, meal in locations.items():
                 db.create_document("mensa/" + year + "/" + month + "/" + week + "/" + day + "/" + location, meal)
 
-
 def main():
     raw_data_mensa = get_data(URL_MENSA)
     raw_data_atrium = get_data(URL_ATRIUM)
+
     # Parsing Mensa Data
-    plan = parse_mensa_firestore(raw_data_mensa, "mensa")
-    save_mensa_firestore(plan)
+
+    # plan = parse_mensa_firestore(raw_data_mensa, "mensa")
+    # save_mensa_firestore(plan)
     plan = parse_mensa_plan_csv(raw_data_mensa, "mensa")
     save_as_csv(plan, "mensa")
 
     # Parsing Atrium Data
-    plan = parse_mensa_firestore(raw_data_atrium, "atrium")
-    save_mensa_firestore(plan)
+
+    # plan = parse_mensa_firestore(raw_data_atrium, "atrium")
+    # save_mensa_firestore(plan)
     plan = parse_mensa_plan_csv(raw_data_atrium, "atrium")
     save_as_csv(plan, "atrium")
 

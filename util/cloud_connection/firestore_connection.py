@@ -1,7 +1,8 @@
+import os
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import os
 
 current_file = os.path.abspath(os.path.dirname(__file__))
 CRED = credentials.Certificate(os.path.join(current_file, "tuk-mensa-kl-conv-ai-firebase-adminsdk.json"))
@@ -69,5 +70,6 @@ class FirestoreConnector:
 
 if __name__ == "__main__":
     connector = FirestoreConnector()
-    day = connector.get_document("mensa/2018/0827/2")
-    print(day)
+    day = connector.get_collection("mensa/2018/09/36/03")
+    for i in day:
+        print(i.to_dict())
