@@ -19,7 +19,7 @@ class FoodNormalizer:
         self.meal_df = pd.read_csv(csv_os_file_path)
 
     @staticmethod
-    def separate_food_title(title):
+    def separate_food_title(title, ignore_additives):
         """Separate single string (food-title) into its food components."""
 
         re_title_delimiters = ', | mit | und |, dazu|:| in '
@@ -40,17 +40,19 @@ class FoodNormalizer:
                 additives = additives[0:-1]+','+addit_in_name_component[1:]
             
             component = component.strip()
-            return [component, additives] if additives else [component]
+            return [component, additives] if (additives and ignore_additives) else [component]
         title_split_components = [separate_additives(component) for component in title_split]
             
         return title_split_components
 
     def assign_norm_titles(self):
         titles = self.meal_df.title
-        titels_norm = [FoodNormalizer.separate_food_title(title) for title in titles]
+        titels_norm_additives = [FoodNormalizer.separate_food_title(title, True) for title in titles]
+        titels_norm = [FoodNormalizer.separate_food_title(title, False) for title in titles]
         titels_prim = [title[0][0] for title in titels_norm]
         self.meal_df = self.meal_df.assign(title_prim=titels_prim)
         self.meal_df = self.meal_df.assign(title_norm=titels_norm)
+        self.meal_df = self.meal_df.assign(title_norm_additives=titels_norm_additives)
 
     def export_to_csv(self, path):
         current_file = os.path.abspath(os.path.dirname(__file__))
