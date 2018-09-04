@@ -37,7 +37,7 @@ def parse_mensa_plan_csv(dailyplans, name):
                 location_name = "atrium"
             for i, alternative in enumerate(location.find("div", "counter-meal").find_all("strong")):
                 alternative_name = alternative.string
-                title_norm = FoodNormalizer.separate_food_title(alternative_name)
+                title_norm = FoodNormalizer.separate_food_title(alternative_name, True)
                 title_prim = title_norm[0][0]
                 price_tag = alternative.next_sibling.next_sibling
                 if price_tag.string is None:
@@ -59,14 +59,13 @@ def save_as_csv(mensa_plan, name):
         return
     mensa_data.columns = header
     date = mensa_data.date[0].split(",")[1].split(".")
-
-    calener_week = datetime.datetime(int(date[2]), int(date[1]), int(date[0])).isocalendar()
+    calendar_week = datetime.datetime(int(date[2]), int(date[1]), int(date[0])).isocalendar()
     if name == "mensa":
-        file_name = str(calener_week[0]) + "_" + str(calener_week[1]) + ".csv"
+        file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + ".csv"
         mensa_data.to_csv("./mensa/" + file_name, index=False, quoting=csv.QUOTE_ALL)
         bucket_connection.upload_blob("mensa_data", "./mensa/" + file_name, "mensa/" + file_name)
     elif name == "atrium":
-        file_name = str(calener_week[0]) + "_" + str(calener_week[1]) + "_" + str(calener_week[2]) + ".csv"
+        file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + "_" + str(calendar_week[2]) + ".csv"
         mensa_data.to_csv("./atrium/" + file_name, index=False)
         bucket_connection.upload_blob("mensa_data", "./atrium/" + file_name, "atrium/" + file_name)
 
@@ -106,7 +105,7 @@ def parse_mensa_firestore(dailyplans, name):
                 location_name = "atrium" + str(counter_atrium)
             for i, alternative in enumerate(location.find("div", "counter-meal").find_all("strong")):
                 alternative_name = alternative.string
-                titels_norm = FoodNormalizer.separate_food_title(alternative_name)
+                titels_norm = FoodNormalizer.separate_food_title(alternative_name, True)
                 titels_prim = titels_norm[0][0]
                 titels_norm_dict = title_norm2dict(titels_norm)
                 price_tag = alternative.next_sibling.next_sibling
@@ -141,6 +140,7 @@ def save_mensa_firestore(mensa_plan, db=DB):
             week = str(datetime.datetime(int(year), int(month), int(day)).isocalendar()[1])
             for location, meal in locations.items():
                 db.create_document("mensa/" + year + "/" + month + "/" + week + "/" + day + "/" + location, meal)
+
 
 def main():
     raw_data_mensa = get_data(URL_MENSA)
