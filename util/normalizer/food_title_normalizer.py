@@ -68,7 +68,15 @@ if __name__ == '__main__':
 
     normalizer = FoodNormalizer(args.csv)
     normalizer.assign_norm_titles()
-    normalizer.export_to_csv('test_norm_meal.csv')
+
+    titles = normalizer.meal_df.loc[:,'title']
+    titles_norm = normalizer.meal_df.loc[:,'title_norm']
+    lens = [len(title_comps) for title_comps in titles_norm]
+    for i, l in enumerate(lens):
+        if l > 6:
+            # print(titles_norm[i])
+            print(titles[i])
+    # normalizer.export_to_csv('test_norm_meal.csv')
 
     # print normalizer.meal_df.head()
     
