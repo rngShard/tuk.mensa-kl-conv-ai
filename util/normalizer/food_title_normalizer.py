@@ -2,22 +2,27 @@
 # -*- coding: UTF-8 -*-
 
 import argparse
-import pandas as pd
 import os
 import re
+
+import pandas as pd
 
 DEFAULT_MEAL_CSV_PATH = '../../data/meal_manually_cleaned.csv'
 
 class FoodNormalizer:
     """Normalizing the provided meal-csv-data into consise, usable format."""
 
-    def __init__(self, csv_path):
-        current_file = os.path.abspath(os.path.dirname(__file__))
-        csv_os_file_path = os.path.join(current_file, csv_path)
-        self.meal_csv_path = csv_os_file_path
-        self.meal_df_original = pd.read_csv(csv_os_file_path)
-        self.meal_df = pd.read_csv(csv_os_file_path)
-
+    def __init__(self, csv_path, absolute_csv_path=None):
+        if absolute_csv_path is None:
+            current_file = os.path.abspath(os.path.dirname(__file__))
+            csv_os_file_path = os.path.join(current_file, csv_path)
+            self.meal_csv_path = csv_os_file_path
+            self.meal_df_original = pd.read_csv(csv_os_file_path)
+            self.meal_df = pd.read_csv(csv_os_file_path)
+        else:
+            self.meal_csv_path = csv_path
+            self.meal_df_original = pd.read_csv(csv_path)
+            self.meal_df = pd.read_csv(csv_path)
     @staticmethod
     def separate_food_title(title, ignore_additives):
         """Separate single string (food-title) into its food components."""
@@ -54,10 +59,13 @@ class FoodNormalizer:
         self.meal_df = self.meal_df.assign(title_norm=titels_norm)
         self.meal_df = self.meal_df.assign(title_norm_additives=titels_norm_additives)
 
-    def export_to_csv(self, path):
-        current_file = os.path.abspath(os.path.dirname(__file__))
-        os_file_path =  os.path.join(current_file, path)
-        self.meal_df.to_csv(os_file_path, encoding='utf-8', index=False)
+    def export_to_csv(self, path, absolute_path=None):
+        if absolute_path is None:
+            current_file = os.path.abspath(os.path.dirname(__file__))
+            os_file_path = os.path.join(current_file, path)
+            self.meal_df.to_csv(os_file_path, encoding='utf-8', index=False)
+        else:
+            self.meal_df.to_csv(path, encoding='utf-8', index=False)
 
 
 
