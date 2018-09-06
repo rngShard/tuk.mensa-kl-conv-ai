@@ -83,18 +83,18 @@ def save_as_csv(mensa_plan, name):
     meal_path = (os.path.join(current_file, "meal.csv"))
     if name == "mensa":
         file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + ".csv"
-        mensa_data.to_csv("./mensa/" + file_name, index=False, quoting=csv.QUOTE_ALL)
         current_path = (os.path.join(current_file, "mensa/"))
+        mensa_data.to_csv(current_path + file_name, index=False, quoting=csv.QUOTE_ALL)
         normalize_titles(current_path + file_name)
         normalize_m_ids(current_path + file_name, meal_path)
-        bucket_connection.upload_blob("mensa_data", "./mensa/" + file_name,
+        bucket_connection.upload_blob("mensa_data", current_path + file_name,
                                       "mensa/" + file_name)
     elif name == "atrium":
         file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + "_" + str(calendar_week[2]) + ".csv"
-        mensa_data.to_csv("./atrium/" + file_name, index=False)
         current_path = (os.path.join(current_file, "atrium/"))
+        mensa_data.to_csv(current_path + file_name, index=False)
         normalize_titles(current_path + file_name)
-        bucket_connection.upload_blob("mensa_data", "./atrium/" + file_name, "atrium/" + file_name)
+        bucket_connection.upload_blob("mensa_data", current_path + file_name, "atrium/" + file_name)
     bucket_connection.upload_blob("mensa_data", meal_path, "meal.csv")
 
 def title_norm2dict(title_list):
