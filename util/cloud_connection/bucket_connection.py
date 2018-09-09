@@ -1,7 +1,10 @@
 import os
 
+import pandas as pd
 from google.cloud import storage
 from google.oauth2 import service_account
+
+from definitions import ROOT_DIR
 
 current_file = os.path.abspath(os.path.dirname(__file__))
 
@@ -33,3 +36,15 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     print('Blob {} downloaded to {}.'.format(
         source_blob_name,
         destination_file_name))
+
+
+def get_meals():
+    """
+
+    :return: Returns a Pandas Dataframe with the current meal data
+    """
+    tmp_path = ROOT_DIR + "/meal_tmp.csv"
+    download_blob("mensa_data", "meal.csv", tmp_path)
+    df_meal = pd.read_csv(tmp_path)
+    os.remove(tmp_path)
+    return df_meal
