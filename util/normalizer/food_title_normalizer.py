@@ -67,7 +67,8 @@ class FoodNormalizer:
 
     @staticmethod
     def unique_title_normalization(u_title):
-        res = re.sub(r'"[\w ]*"','',u_title).strip() if re.sub(r'"[\w ]*"','',u_title).strip() != '' else u_title
+        res = re.sub(r'\([\w ]*','',u_title).strip() if re.sub(r'\([\w ]*\)','',u_title).strip() != '' else u_title     # for unclosed paranthesis after title norm.
+        res = re.sub(r'"[\w ]*"','',res).strip() if re.sub(r'"[\w ]*"','',res).strip() != '' else res
         res = re.sub(r"'[\w ]*'",'',res).strip() if re.sub(r"'[\w ]*'",'',res).strip() != '' else res
         res = re.sub(r'\([\w ]*\)','',res).strip() if re.sub(r'\([\w ]*\)','',res).strip() != '' else res
         stopwordlist = ['zwei', 'ein', '1/2', 'kg', 'pfälzer', 'auf wunsch mild', 'gebackener', 'gebackenes', 'gebratener', 'gebratenes', 'gebratene', 'süß-sauer', 'auf wunsch dazu', 'im']
@@ -143,15 +144,3 @@ if __name__ == '__main__':
     normalizer.assign_norm_titles()
 
     normalizer.export_to_csv('meal_norm_2.csv')
-
-    # print(normalizer.meal_df.loc[0,'title_norm'])
-
-
-    # titles = normalizer.meal_df.loc[:,'title']
-    # titles_norm = normalizer.meal_df.loc[:,'title_norm']
-    # lens = [len(title_comps) for title_comps in titles_norm]
-    # for i, l in enumerate(lens):
-    #     if l > 6:
-    #         print(titles_norm[i])
-    #         # print(titles[i])
-    
