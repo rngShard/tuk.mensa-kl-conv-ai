@@ -14,7 +14,7 @@ class IndexNormalizer:
         self.source_path_ratings = source_path_ratings
         self.df_ratings = pd.read_csv(source_path_ratings)
 
-        bucket_connection.download_blob("mensa_data", "meal.csv", "./meal.csv")
+        bucket_connection.download_blob("mensa_data", "meal_norm_2.csv", "./meal.csv")
         self.df_meals = pd.read_csv("meal.csv")
 
     def update_index(self):
@@ -28,7 +28,7 @@ class IndexNormalizer:
                 print(i[1].m_id, index_tracker)
                 continue
             else:
-                ident_meal_id = self.df_meals[self.df_meals["title_norm"] == i[1].title_norm].m_id
+                ident_meal_id = self.df_meals[self.df_meals["uTitle"] == i[1].uTitle].m_id
                 self.df_meals.m_id = self.df_meals.m_id.replace(list(ident_meal_id), new_index)
                 self.df_ratings.m_id = self.df_ratings.m_id.replace(list(ident_meal_id), new_index)
                 self.df_meals.drop_duplicates(subset="m_id", inplace=True)

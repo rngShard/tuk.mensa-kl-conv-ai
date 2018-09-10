@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 
 
@@ -14,12 +16,12 @@ class IdMatcher:
         m_ids = []
         rows = []
         for i in self.df_current.iterrows():
-            title = i[1].title_norm
-            if sum(self.df_meals.title_norm.isin([title])) > 0:
-                m_ids.append(self.df_meals[self.df_meals["title_norm"] == title].m_id)
+            title = i[1].uTitle
+            if sum(self.df_meals.uTitle.isin([title])) > 0:
+                m_ids.append(self.df_meals[self.df_meals["uTitle"] == title].m_id)
             else:
                 m_ids.append(next_id)
-                current_list = list(self.df_current[self.df_current.title_norm.isin([title])].iloc[0])
+                current_list = list(self.df_current[self.df_current.uTitle.isin([title])].iloc[0])
                 new_row = [next_id] + current_list
                 rows.append(new_row)
                 print(rows)
@@ -28,6 +30,7 @@ class IdMatcher:
         for k, v in enumerate(rows):
             if v[0] not in self.df_meals.m_id.values:
                 self.df_meals.loc[last_index + 1 + k] = rows[k]
+                print(m_ids)
         m_ids = [int(i) for i in m_ids]
         self.df_current.insert(0, "m_id", m_ids)
 
