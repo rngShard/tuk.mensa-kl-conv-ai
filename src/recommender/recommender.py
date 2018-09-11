@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 
-from cloud_connection import bucket_connection
+from util.cloud_connection import bucket_connection
 from definitions import ROOT_DIR
 
 RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
