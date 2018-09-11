@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 
-from util.cloud_connection import bucket_connection
 from definitions import ROOT_DIR
+from util.cloud_connection import bucket_connection
 
 RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
 
@@ -18,8 +18,10 @@ class Recommender:
                                           'uTitle'].to_string(index=False)
                         for m_id in self.df_ratings.loc[:, 'm_id']])
         self.df_user_item = self.create_user_item()
+        ind = self.df_user_item.index
         self.user_similarity = self.compute_user_sim()
-
+        self.user_similarity.columns = ind
+        self.user_similarity.index = ind
     def create_user_item(self):
         df_user_item = self.df_ratings.pivot_table(index="user",
                                                    columns="m_id",
@@ -31,14 +33,13 @@ class Recommender:
         user_similarity = pd.DataFrame(1 - pairwise_distances(self.df_user_item, metric=metric))
         return user_similarity
 
-    @staticmethod
-    def get_k_similar_users(user_similarity, k=None):
-        if k is None:
-            similar_users = list(user_similarity[user_similarity.iloc[2] > 0].index)
+    def get_all_similar_users(self, current_user):
+        similar_users = list(self.user_similarity[self.user_similarity.loc[current_user] > 0].index)
+        # similar_users = [i + 1 for i in similar_users]
         return similar_users
 
     def predict_rating(self, current_user, m_id):
-        similar_users = self.get_k_similar_users(current_user, self.user_similarity)
+        similar_users = self.get_all_similar_users(current_user)
         real_rating = self.df_user_item.loc[current_user].loc[m_id]
         if real_rating != 0:
             return m_id, real_rating
@@ -63,4 +64,5 @@ class Recommender:
 
 
 if __name__ == "__main__":
-    Recommender()
+    recommender = Recommender()
+    print(recommender.predict_rating(1, 115))
