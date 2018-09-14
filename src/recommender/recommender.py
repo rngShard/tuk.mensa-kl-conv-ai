@@ -10,7 +10,7 @@ RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
 
 class Recommender:
 
-    def __init__(self, simi_threshhold):
+    def __init__(self, simi_threshhold=0):
         self.df_ratings = pd.read_csv(RATING_CSV)
         self.df_meals = bucket_connection.get_meals()
         self.df_ratings = self.df_ratings.assign(
