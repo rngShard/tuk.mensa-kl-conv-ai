@@ -19,10 +19,14 @@ class Recommender:
                         for m_id in self.df_ratings.loc[:, 'm_id']])
         
         self.df_user_item = self._create_user_item()
+        self.set_user_similaritie()
+        self.simi_threshhold = simi_threshhold
+
+    def set_user_similaritie(self, users=None):
         self.user_similarity = {}
         for metric in ['correlation', 'cosine', 'dice', 'jaccard']:
-            self.user_similarity[metric] = self._create_user_user_sim(self.df_user_item.index, metric=metric)
-        self.simi_threshhold = simi_threshhold
+            self.user_similarity[metric] = self._create_user_user_sim(self.df_user_item.index, users=users, metric=metric)
+
 
     def _create_user_item(self):
         df_user_item = self.df_ratings.pivot_table(index="user",
@@ -31,11 +35,18 @@ class Recommender:
                                                    aggfunc=np.mean).fillna(0)
         return df_user_item
 
-    def _create_user_user_sim(self, user_index, metric):
-        user_similarity = pd.DataFrame(1 - pairwise_distances(self.df_user_item, metric=metric))
-        user_similarity.index = user_index
-        user_similarity.columns = user_index
-        return user_similarity
+    def _create_user_user_sim(self, user_index, users=None, metric='cosine'):
+        if users != None:
+            df_user_item_updated = self.df_user_item.loc[users,:]
+            user_similarity = pd.DataFrame(1 - pairwise_distances(df_user_item_updated, metric=metric))
+            user_similarity.index = df_user_item_updated.index
+            user_similarity.columns = df_user_item_updated.index
+            return user_similarity
+        else:
+            user_similarity = pd.DataFrame(1 - pairwise_distances(self.df_user_item, metric=metric))
+            user_similarity.index = user_index
+            user_similarity.columns = user_index
+            return user_similarity
 
     def get_all_similar_users(self, current_user, metric="cosine"):
         df_sim_mat = self.user_similarity[metric]
@@ -43,8 +54,9 @@ class Recommender:
         similar_users.remove(current_user)
         return similar_users
 
-    def predict_rating(self, current_user, m_id=None, metric='cosine', explain=False):
-        similar_users = self.get_all_similar_users(current_user, metric)
+    def predict_rating(self, current_user, m_id=None, similar_users=[], metric='cosine', explain=False):
+        if len(similar_users) == 0:
+            similar_users = self.get_all_similar_users(current_user, metric)
 
         if explain:
             print("Similar users: {}".format(similar_users))
@@ -55,11 +67,11 @@ class Recommender:
                 print("... with sim. user ratings of {} for meal {}".format([self.df_user_item.loc[u,m_id] for u in similar_users], m_id))
 
         if m_id is None:
-            return self.bulk_predict(current_user, similar_users, metric)
+            return self._bulk_predict(current_user, similar_users, metric)
         else:
-            return self.predict(current_user, similar_users, m_id, metric)
+            return self._predict(current_user, similar_users, m_id, metric)
 
-    def predict(self, current_user, similar_users, m_id, metric):
+    def _predict(self, current_user, similar_users, m_id, metric):
         real_rating = self.df_user_item.loc[current_user].loc[m_id]
         if real_rating != 0:
             return real_rating
@@ -77,7 +89,8 @@ class Recommender:
             else:
                 prediction = sum_ratings / sum_sim
                 return prediction
-    def bulk_predict(self, current_user, similar_users, metric):
+
+    def _bulk_predict(self, current_user, similar_users, metric):
         """Note that now m_id not explicitely given, but rather compute all ratings of 0-rating."""
         preserved_current_rating = self.df_user_item.loc[current_user].replace(0, np.nan)
 
