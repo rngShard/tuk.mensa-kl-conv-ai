@@ -10,7 +10,7 @@ RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
 
 class Recommender:
 
-    def __init__(self):
+    def __init__(self, simi_threshhold):
         self.df_ratings = pd.read_csv(RATING_CSV)
         self.df_meals = bucket_connection.get_meals()
         self.df_ratings = self.df_ratings.assign(
@@ -22,6 +22,7 @@ class Recommender:
         self.user_similarity = {}
         for metric in ['correlation', 'cosine', 'dice', 'jaccard']:
             self.user_similarity[metric] = self._create_user_user_sim(self.df_user_item.index, metric=metric)
+        self.simi_threshhold = simi_threshhold
 
     def _create_user_item(self):
         df_user_item = self.df_ratings.pivot_table(index="user",
@@ -38,7 +39,7 @@ class Recommender:
 
     def get_all_similar_users(self, current_user, metric="cosine"):
         df_sim_mat = self.user_similarity[metric]
-        similar_users = list(df_sim_mat[df_sim_mat.loc[current_user] > 0].index)
+        similar_users = list(df_sim_mat[df_sim_mat.loc[current_user] > self.simi_threshhold].index)
         similar_users.remove(current_user)
         return similar_users
 
@@ -54,7 +55,7 @@ class Recommender:
                 print("... with sim. user ratings of {} for meal {}".format([self.df_user_item.loc[u,m_id] for u in similar_users], m_id))
 
         if m_id is None:
-            return [self.predict(current_user, similar_users, m_id, metric) for m_id in self.df_user_item.columns]
+            return self.bulk_predict(current_user, similar_users, metric)
         else:
             return self.predict(current_user, similar_users, m_id, metric)
 
@@ -76,8 +77,27 @@ class Recommender:
             else:
                 prediction = sum_ratings / sum_sim
                 return prediction
+    def bulk_predict(self, current_user, similar_users, metric):
+        """Note that now m_id not explicitely given, but rather compute all ratings of 0-rating."""
+        preserved_current_rating = self.df_user_item.loc[current_user].replace(0, np.nan)
+
+        aggregated_similar_user_ratings = self.df_user_item.loc[similar_users].replace(0, np.nan)
+        # print(aggregated_similar_user_ratings.head())
+        aggregated_similar_user_ratings['user'] = [current_user for _ in range(len(aggregated_similar_user_ratings.index))]
+        # print(aggregated_similar_user_ratings.head())
+        aggregated_similar_user_ratings = aggregated_similar_user_ratings.groupby('user').mean().fillna(0)
+        # print(aggregated_similar_user_ratings)
+
+        for idx, preserved_rating in preserved_current_rating.iteritems():
+            if preserved_rating > 0:
+                aggregated_similar_user_ratings.loc[:,idx] = preserved_rating
+        return aggregated_similar_user_ratings
+
+
 
 
 if __name__ == "__main__":
-    recommender = Recommender()
-    print(recommender.predict_rating(1, metric='cosine', explain=True))
+    recommender = Recommender(simi_threshhold=0)
+    
+    for u in recommender.df_user_item.index:
+        print(recommender.predict_rating(u, metric='cosine', explain=True))
