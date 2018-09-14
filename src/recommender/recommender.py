@@ -2,38 +2,21 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 
-from definitions import ROOT_DIR
-from util.cloud_connection import bucket_connection
-
-RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
+from src.recommender.data import Data
 
 
 class Recommender:
 
     def __init__(self, simi_threshhold=0):
-        self.df_ratings = pd.read_csv(RATING_CSV)
-        self.df_meals = bucket_connection.get_meals()
-        self.df_ratings = self.df_ratings.assign(
-            title_prim=[self.df_meals.loc[(self.df_meals['m_id'] == m_id),
-                                          'uTitle'].to_string(index=False)
-                        for m_id in self.df_ratings.loc[:, 'm_id']])
-        
-        self.df_user_item = self._create_user_item()
-        self.set_user_similaritie()
-        self.simi_threshhold = simi_threshhold
+        self.data = Data()
+        # self.set_user_similaritie()
+        # self.simi_threshhold = simi_threshhold
 
     def set_user_similaritie(self, users=None):
         self.user_similarity = {}
         for metric in ['correlation', 'cosine', 'dice', 'jaccard']:
             self.user_similarity[metric] = self._create_user_user_sim(self.df_user_item.index, users=users, metric=metric)
 
-
-    def _create_user_item(self):
-        df_user_item = self.df_ratings.pivot_table(index="user",
-                                                   columns="m_id",
-                                                   values="rating",
-                                                   aggfunc=np.mean).fillna(0)
-        return df_user_item
 
     def _create_user_user_sim(self, user_index, users=None, metric='cosine'):
         if users != None:
@@ -110,7 +93,9 @@ class Recommender:
 
 
 if __name__ == "__main__":
-    recommender = Recommender(simi_threshhold=0)
+    r = Recommender(0)
+    print(r.data.df_user_item)
+    # recommender = Recommender(simi_threshhold=0)
     
-    for u in recommender.df_user_item.index:
-        print(recommender.predict_rating(u, metric='cosine', explain=True))
+    # for u in recommender.df_user_item.index:
+    #     print(recommender.predict_rating(u, metric='cosine', explain=True))
