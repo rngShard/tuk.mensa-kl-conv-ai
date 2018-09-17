@@ -26,6 +26,7 @@ class FoodNormalizer:
             self.meal_df_original = pd.read_csv(csv_path)
             self.meal_df = pd.read_csv(csv_path)
         self.meal_index_tracker = set()
+
     @staticmethod
     def separate_food_title(title, ignore_additives):
         """Separate single string (food-title) into its food components."""
@@ -53,7 +54,8 @@ class FoodNormalizer:
             
         return title_split_components
 
-    def get_prim_title(self, titles_norm_comps):
+    @staticmethod
+    def get_prim_title(titles_norm_comps):
         """Takes components of title and generates a primary title of the meal.
         
         E.g. "[['Chinesisches Gemüse'], ['Hähnchenbruststreifen süß-sauer'], ['Reis']]" --> "chinesisches gemüse"
@@ -66,18 +68,7 @@ class FoodNormalizer:
         return title_prim
 
     @staticmethod
-    def unique_title_normalization(u_title):
-        res = re.sub(r'\([\w ]*','',u_title).strip() if re.sub(r'\([\w ]*\)','',u_title).strip() != '' else u_title     # for unclosed paranthesis after title norm.
-        res = re.sub(r'"[\w ]*"','',res).strip() if re.sub(r'"[\w ]*"','',res).strip() != '' else res
-        res = re.sub(r"'[\w ]*'",'',res).strip() if re.sub(r"'[\w ]*'",'',res).strip() != '' else res
-        res = re.sub(r'\([\w ]*\)','',res).strip() if re.sub(r'\([\w ]*\)','',res).strip() != '' else res
-        stopwordlist = ['zwei', 'ein', '1/2', 'kg', 'pfälzer', 'auf wunsch mild', 'gebackener', 'gebackenes', 'gebratener', 'gebratenes', 'gebratene', 'süß-sauer', 'auf wunsch dazu', 'im']
-        for stopword in stopwordlist:
-            res = res.replace(' '+stopword,' ').strip()
-            res = res.replace(stopword+' ',' ').strip()
-        return res
-
-    def get_unique_meal_ids(self, titles_prim):
+    def get_unique_meal_ids(titles_prim):
         """Assign unique food IDs
         
         Based additionally on
@@ -85,13 +76,25 @@ class FoodNormalizer:
         - occurence of same words (where stopwords are (manually) eliminated first)
         to filter for same food entries.
         """
+
+        def unique_title_normalization(u_title):
+            res = re.sub(r'\([\w ]*','',u_title).strip() if re.sub(r'\([\w ]*\)','',u_title).strip() != '' else u_title     # for unclosed paranthesis after title norm.
+            res = re.sub(r'"[\w ]*"','',res).strip() if re.sub(r'"[\w ]*"','',res).strip() != '' else res
+            res = re.sub(r"'[\w ]*'",'',res).strip() if re.sub(r"'[\w ]*'",'',res).strip() != '' else res
+            res = re.sub(r'\([\w ]*\)','',res).strip() if re.sub(r'\([\w ]*\)','',res).strip() != '' else res
+            stopwordlist = ['zwei', 'ein', '1/2', 'kg', 'pfälzer', 'auf wunsch mild', 'gebackener', 'gebackenes', 'gebratener', 'gebratenes', 'gebratene', 'süß-sauer', 'auf wunsch dazu', 'im']
+            for stopword in stopwordlist:
+                res = res.replace(' '+stopword,' ').strip()
+                res = res.replace(stopword+' ',' ').strip()
+            return res
+
         unique_titles, unique_meal_ids = [], []
 
         for title in titles_prim:
-            title_norm = FoodNormalizer.unique_title_normalization(title)   # as assumed to be unique for now (default True)
+            title_norm = unique_title_normalization(title)   # as assumed to be unique for now (default True)
             is_new, known_idx = True, -1
             for i, u_title in enumerate(unique_titles):
-                u_title_norm = FoodNormalizer.unique_title_normalization(u_title)
+                u_title_norm = unique_title_normalization(u_title)
                 # Levenshtein dist close enough?
                 if levenshtein(title_norm, u_title_norm) < UNIQUE_LEVENSHTEIN_THRESH:
                     is_new, known_idx = False, i
@@ -116,8 +119,8 @@ class FoodNormalizer:
         titles_norm_additives = [FoodNormalizer.separate_food_title(title, True) for title in titles]
         titles_norm = [FoodNormalizer.separate_food_title(title, False) for title in titles]
 
-        titles_prim = [self.get_prim_title(title) for title in titles_norm]
-        titles_uTitle, titles_uID = self.get_unique_meal_ids(titles_prim)
+        titles_prim = [FoodNormalizer.get_prim_title(title) for title in titles_norm]
+        titles_uTitle, titles_uID = FoodNormalizer.get_unique_meal_ids(titles_prim)
         
         self.meal_df = self.meal_df.assign(title_prim=titles_prim)
         self.meal_df = self.meal_df.assign(title_norm=titles_norm)
