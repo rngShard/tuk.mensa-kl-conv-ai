@@ -57,7 +57,7 @@ def normalize_titles(current_meals_path, meals_path):
     meals = pd.read_csv(meals_path)
     last_index = meals.shape[0]
     next_id = meals.m_id.max() + 1
-    with open(meals_path, 'a') as csvfile:
+    with open(meals_path, 'a', encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow("")
         for row in current_meals:
@@ -71,7 +71,6 @@ def normalize_titles(current_meals_path, meals_path):
     # current_meals = current_meals.iloc[last_index:]
     food_normalizer = FoodNormalizer(meals_path, True)
     food_normalizer.assign_norm_titles()
-    print(food_normalizer.meal_df)
     export_to_csv(food_normalizer.meal_df.iloc[last_index:].drop("m_id", axis=1), current_meals_path, True)
     meals = pd.read_csv(meals_path)
     meals = meals.iloc[:last_index]

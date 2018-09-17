@@ -24,13 +24,11 @@ class IdMatcher:
                 current_list = list(self.df_current[self.df_current.uTitle.isin([title])].iloc[0])
                 new_row = [next_id] + current_list
                 rows.append(new_row)
-                print(rows)
                 next_id += 1
                 last_index = self.df_meals.iloc[-1].name
         for k, v in enumerate(rows):
             if v[0] not in self.df_meals.m_id.values:
                 self.df_meals.loc[last_index + 1 + k] = rows[k]
-                print(m_ids)
         m_ids = [int(i) for i in m_ids]
         self.df_current.insert(0, "m_id", m_ids)
 
