@@ -2,12 +2,15 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 
+from src.recommender.cluster import Cluster
 from src.recommender.data import Data
 
 
 class Recommender:
 
-    def __init__(self):
+    def __init__(self, cluster=False):
+        if cluster:
+            self.cluster = Cluster()
         self.data = Data()
         self.user_similarities = self._set_total_usr_usr_simis()
 
@@ -38,7 +41,7 @@ class Recommender:
     # not tested yet /!\
     def update_user_user_sim(self, users, metric):
         """Update user_similarities[metric] to the user-simis only accounting for subset of users."""
-        self.user_similarities[metric] = create_user_user_sim(users, metric=metric)
+        self.user_similarities[metric] = self._create_user_user_sim(users, metric=metric)
 
 
     def get_similar_users(self, current_user, metric="cosine", simi_threshhold=0):
@@ -102,7 +105,35 @@ class Recommender:
                 aggregated_similar_user_ratings.loc[:,idx] = preserved_rating
         return aggregated_similar_user_ratings
 
+    def predict_cluster(self, current_user, m_id=None):
+        real_ratings = self.data.df_user_item.loc[current_user]
+        user_cluster = self.cluster.predict_cluster(real_ratings)
+        neighbors = self.cluster.get_neighbbors(user_cluster[0])
 
+        if m_id is None:
+            return self._bulk_predict_average(current_user, neighbors)
+        else:
+            return self._predict_average(current_user, neighbors, m_id)
+
+    def _predict_average(self, current_user, neighbors, m_id):
+        real_rating = self.data.df_user_item.loc[current_user].loc[m_id]
+        if real_rating != 0:
+            return real_rating
+        ratings = self.data.df_user_item[self.data.df_user_item.index.isin(neighbors)].loc[:, m_id]
+        average_prediction = ratings.where(ratings > 0).mean()
+        if np.isnan(average_prediction):
+            return 0
+        else:
+            return average_prediction
+
+    def _bulk_predict_average(self, current_user, neighbors):
+        preserved_current_rating = self.data.df_user_item.loc[current_user]
+        ratings = self.data.df_user_item[self.data.df_user_item.index.isin(neighbors)]
+        average_prediction = ratings.where(ratings > 0).mean()
+        for idx, preserved_rating in preserved_current_rating.iteritems():
+            if preserved_rating > 0:
+                average_prediction[idx] = preserved_rating
+        return average_prediction
 
 
 if __name__ == "__main__":
@@ -112,4 +143,7 @@ if __name__ == "__main__":
     print(r.data.df_user_item.loc[1])
     print(r.predict_rating(1, 115, explain=True))
     print(r.predict_rating(1, explain=True))
-    
+
+    r = Recommender(cluster=True)
+    print(r.predict_cluster(1, 601))
+
