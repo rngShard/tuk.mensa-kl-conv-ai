@@ -52,10 +52,32 @@ def parse_mensa_plan_csv(dailyplans, name):
     return week_data
 
 
-def normalize_titles(csv_path):
-    food_normalizer = FoodNormalizer(csv_path, True)
+def normalize_titles(current_meals_path, meals_path):
+    current_meals = pd.read_csv(current_meals_path).values.tolist()
+    meals = pd.read_csv(meals_path)
+    last_index = meals.shape[0]
+    next_id = meals.m_id.max() + 1
+    with open(meals_path, 'a') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow("")
+        for row in current_meals:
+            row1 = row
+            row1.insert(0, next_id)
+            row1 = row1 + ["nan", "nan", "nan", "nan", "nan"]
+            # row1 = str(next_id) + "," + ",".join(row) + ", nan, nan, nan, nan, nan" + "\n"
+            writer.writerow(row1)
+            next_id += 1
+    # current_meals = pd.read_csv(meals_path)
+    # current_meals = current_meals.iloc[last_index:]
+    food_normalizer = FoodNormalizer(meals_path, True)
     food_normalizer.assign_norm_titles()
-    food_normalizer.export_to_csv(csv_path, True)
+    print(food_normalizer.meal_df)
+    export_to_csv(food_normalizer.meal_df.iloc[last_index:].drop("m_id", axis=1), current_meals_path, True)
+    meals = pd.read_csv(meals_path)
+    meals = meals.iloc[:last_index]
+    export_to_csv(meals, meals_path, True)
+
+    # food_normalizer.export_to_csv(meals_path, True)
 
 
 def normalize_m_ids(csv_path, meal_path):
@@ -85,7 +107,7 @@ def save_as_csv(mensa_plan, name):
         file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + ".csv"
         current_path = (os.path.join(current_file, "mensa/"))
         mensa_data.to_csv(current_path + file_name, index=False, quoting=csv.QUOTE_ALL)
-        normalize_titles(current_path + file_name)
+        normalize_titles(current_path + file_name, meal_path)
         normalize_m_ids(current_path + file_name, meal_path)
         bucket_connection.upload_blob("mensa_data", current_path + file_name,
                                       "mensa/" + file_name)
@@ -93,7 +115,7 @@ def save_as_csv(mensa_plan, name):
         file_name = str(calendar_week[0]) + "_" + str(calendar_week[1]) + "_" + str(calendar_week[2]) + ".csv"
         current_path = (os.path.join(current_file, "atrium/"))
         mensa_data.to_csv(current_path + file_name, index=False)
-        normalize_titles(current_path + file_name)
+        # normalize_titles(current_path + file_name, meal_path)
         bucket_connection.upload_blob("mensa_data", current_path + file_name, "atrium/" + file_name)
     bucket_connection.upload_blob("mensa_data", meal_path, "meal.csv")
 
@@ -169,6 +191,14 @@ def save_mensa_firestore(mensa_plan, db=DB):
                 db.create_document("mensa/" + year + "/" + month + "/" + week + "/" + day + "/" + location, meal)
 
 
+def export_to_csv(dataframe, path, absolute_path=None):
+    if absolute_path is None:
+        current_file = os.path.abspath(os.path.dirname(__file__))
+        os_file_path = os.path.join(current_file, path)
+        dataframe.to_csv(os_file_path, encoding='utf-8', index=False)
+    else:
+        dataframe.to_csv(path, encoding='utf-8', index=False)
+
 def main():
     raw_data_mensa = get_data(URL_MENSA)
     raw_data_atrium = get_data(URL_ATRIUM)
@@ -184,8 +214,8 @@ def main():
 
     # plan = parse_mensa_firestore(raw_data_atrium, "atrium")
     # save_mensa_firestore(plan)
-    plan = parse_mensa_plan_csv(raw_data_atrium, "atrium")
-    save_as_csv(plan, "atrium")
+    # plan = parse_mensa_plan_csv(raw_data_atrium, "atrium")
+    # save_as_csv(plan, "atrium")
 
 
 if __name__ == "__main__":
