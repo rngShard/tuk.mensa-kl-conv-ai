@@ -7,19 +7,28 @@
 - jo
 
 ## intent:ask
-- was gibt es [heute](time:today)
-- was gibt es [heute](time:today) zu essen
-- was gibt's [heute](time:today)
-- was gibt's [heute](time:today) zu essen
-- welches essen gibt es [heute](time:today)
-- was gibt es [morgen](time:tomorrow)
-- was gibt es diese [woche](time:week)
-- was gibt es diese [woche](time:week) zu essen
-- welches essen gibt es [diese woche](time:week)
+- was gibt es zu essen
+- was steht auf dem menü
+- was gibt es diesmal zu essen
 
+- essen [heute](time)
+- was gibt es [heute](time)
+- was gibt es [heute](time) zu essen
+- welches essen gibt es [heute](time)
+<!-- - was gibt es [diesen tag](time) zu essen -->
 
-## synonym:heute
+- essen [morgen](time)
+- was gibt es [morgen](time)
+<!-- - essen [nächster tag](time) -->
+<!-- - was gibt es am [nächsten tag](time) -->
+
+- essen die [woche](time)
+- was gibt es diese [woche](time)
+- was gibt es diese [woche](time) zu essen
+
+<!-- ## synonym:heute
 - diesen tag
-- an diesem tag
-- diesesmal
-- diesmal
+
+## synonym:morgen
+- nächster tag
+- nächsten tag -->
