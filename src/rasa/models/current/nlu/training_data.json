@@ -1,165 +1,170 @@
 {
   "rasa_nlu_data": {
-    "lookup_tables": [],
+    "entity_synonyms": [
+      {
+        "synonyms": [
+          "morgen"
+        ],
+        "value": "tomorrow"
+      },
+      {
+        "synonyms": [
+          "heute"
+        ],
+        "value": "today"
+      },
+      {
+        "synonyms": [
+          "woche",
+          "diese woche"
+        ],
+        "value": "week"
+      },
+      {
+        "synonyms": [
+          "diesesmal",
+          "an diesem tag",
+          "diesen tag",
+          "diesmal"
+        ],
+        "value": "heute"
+      }
+    ],
     "regex_features": [],
-    "entity_synonyms": [],
     "common_examples": [
       {
-        "intent": "greet",
-        "text": "hey"
+        "text": "hey",
+        "intent": "greet"
       },
       {
-        "intent": "greet",
-        "text": "hello"
+        "text": "hallo",
+        "intent": "greet"
       },
       {
-        "intent": "greet",
-        "text": "hi"
+        "text": "hi",
+        "intent": "greet"
       },
       {
-        "intent": "greet",
-        "text": "good morning"
+        "text": "guten tag",
+        "intent": "greet"
       },
       {
-        "intent": "greet",
-        "text": "good evening"
+        "text": "guten morgen",
+        "intent": "greet"
       },
       {
-        "intent": "greet",
-        "text": "hey there"
+        "text": "jo",
+        "intent": "greet"
       },
       {
-        "intent": "goodbye",
-        "text": "bye"
+        "text": "was gibt es heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "today",
+            "end": 17
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "goodbye",
-        "text": "goodbye"
+        "text": "was gibt es heute zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "today",
+            "end": 17
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "goodbye",
-        "text": "see you around"
+        "text": "was gibt's heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 11,
+            "value": "today",
+            "end": 16
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "goodbye",
-        "text": "see you later"
+        "text": "was gibt's heute zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 11,
+            "value": "today",
+            "end": 16
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "mood_affirm",
-        "text": "yes"
+        "text": "welches essen gibt es heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 22,
+            "value": "today",
+            "end": 27
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "mood_affirm",
-        "text": "indeed"
+        "text": "was gibt es morgen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "tomorrow",
+            "end": 18
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "mood_affirm",
-        "text": "of course"
+        "text": "was gibt es diese woche",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 18,
+            "value": "week",
+            "end": 23
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "mood_affirm",
-        "text": "that sounds good"
+        "text": "was gibt es diese woche zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 18,
+            "value": "week",
+            "end": 23
+          }
+        ],
+        "intent": "ask"
       },
       {
-        "intent": "mood_affirm",
-        "text": "correct"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "no"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "never"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "I don't think so"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "don't like that"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "no way"
-      },
-      {
-        "intent": "mood_deny",
-        "text": "not really"
-      },
-      {
-        "intent": "mood_great",
-        "text": "perfect"
-      },
-      {
-        "intent": "mood_great",
-        "text": "very good"
-      },
-      {
-        "intent": "mood_great",
-        "text": "great"
-      },
-      {
-        "intent": "mood_great",
-        "text": "amazing"
-      },
-      {
-        "intent": "mood_great",
-        "text": "wonderful"
-      },
-      {
-        "intent": "mood_great",
-        "text": "I am feeling very good"
-      },
-      {
-        "intent": "mood_great",
-        "text": "I am great"
-      },
-      {
-        "intent": "mood_great",
-        "text": "I'm good"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "sad"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "very sad"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "unhappy"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "bad"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "very bad"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "awful"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "terrible"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "not very good"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "extremly sad"
-      },
-      {
-        "intent": "mood_unhappy",
-        "text": "so sad"
+        "text": "welches essen gibt es diese woche",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 22,
+            "value": "week",
+            "end": 33
+          }
+        ],
+        "intent": "ask"
       }
-    ]
+    ],
+    "lookup_tables": []
   }
 }

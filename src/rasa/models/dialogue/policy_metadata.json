@@ -1,18 +1,6 @@
 {
   "python": "3.5.2",
-  "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
   "rasa_core": "0.11.3",
-  "action_fingerprints": {
-    "action_listen": {
-      "slots": []
-    },
-    "utter_happy": {
-      "slots": []
-    },
-    "utter_goodbye": {
-      "slots": []
-    }
-  },
   "policy_names": [
     "rasa_core.policies.fallback.FallbackPolicy",
     "rasa_core.policies.memoization.MemoizationPolicy",
@@ -22,5 +10,17 @@
     null,
     3,
     3
-  ]
+  ],
+  "action_fingerprints": {
+    "action_inform_today": {
+      "slots": []
+    },
+    "action_listen": {
+      "slots": []
+    },
+    "utter_cannot_do_that_yet": {
+      "slots": []
+    }
+  },
+  "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble"
 }

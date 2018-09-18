@@ -26,7 +26,9 @@ python -m rasa_nlu.train -c nlu_config.yml --data nlu.md -o models --fixed_model
 To run the rasa instance [with nlu understanding], use
 
 ```Bash
-python -m rasa_core.run -d models/dialogue [-u models/current/nlu]
+python -m rasa_core.run -d models/dialogue [-u models/current/nlu] --endpoints endpoints.yml [--debug]
 ```
+
+with an _ActionServer_ (`python -m rasa_core_sdk.endpoint --actions actions`) already running.
 
 Note: Not utilizing NLU requires input in form of _\[intent]_.

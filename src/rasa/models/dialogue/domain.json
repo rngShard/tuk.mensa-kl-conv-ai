@@ -1,18 +1,13 @@
 {
   "states": [
-    "intent_goodbye",
+    "intent_ask",
     "intent_greet",
-    "intent_mood_affirm",
-    "intent_mood_deny",
-    "intent_mood_great",
-    "intent_mood_unhappy",
+    "entity_time",
     "prev_action_listen",
     "prev_action_restart",
     "prev_action_default_fallback",
-    "prev_utter_greet",
-    "prev_utter_cheer_up",
-    "prev_utter_did_that_help",
-    "prev_utter_happy",
-    "prev_utter_goodbye"
+    "prev_utter_ask_howcanhelp",
+    "prev_utter_cannot_do_that_yet",
+    "prev_action_inform_today"
   ]
 }
