@@ -160,5 +160,5 @@ if __name__ == "__main__":
     # r = Recommender(cluster=True)
     # print(r.predict_cluster(1, 601))
 
-    print(r.menu.df_menus)
+    print(str(r.menu.get_food_per_day('Montag').loc[:,'title'].tolist()))
 

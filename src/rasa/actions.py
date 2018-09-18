@@ -5,7 +5,6 @@ import os, sys
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
 
-from src.recommender.recommender import Recommender
 
 
 class ActionDisplayMeals(Action):
@@ -15,9 +14,23 @@ class ActionDisplayMeals(Action):
     def run(self, dispatcher, tracker, domain):
         # type: (Dispatcher, DialogueStateTracker, Domain) -> List[Event]
 
-        # r = Recommender()
+        dispatcher.utter_message("Suche aktuelles Essen ({}):".format(tracker.get_slot("time")))
 
-        dispatcher.utter_message("Suche aktuelles Essen für {}".format(tracker.get_slot("time")))
-        food_today = 'Pommes'
-        dispatcher.utter_message("Heute gibt es: {}".format(food_today))
+        # TODO replace with api calling instead of instanciating
+        #
+        import datetime
+        STR_WEEKDAYS_DE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+        from src.recommender.recommender import Recommender
+        r = Recommender()
+
+        if tracker.get_slot("time") == 'heute':
+            today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
+            dispatcher.utter_message( str(r.menu.get_food_per_day(today_weekday).loc[:,'title'].tolist()) )
+        elif tracker.get_slot("time") == 'morgen':
+            tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
+            dispatcher.utter_message( str(r.menu.get_food_per_day(tomorrow_weekday).loc[:,'title'].tolist()) )
+        elif tracker.get_slot("time") == 'woche':
+            dispatcher.utter_message( str(r.menu.df_menus.loc[:,'title'].tolist()) )
+
+
         return []
