@@ -2,10 +2,11 @@
 * greet
   - utter_ask_howcanhelp
 * ask{"time":"today"}
-  - action_inform_today
+  - action_display_meals
 
 ## 002 food this week
 * greet
   - utter_ask_howcanhelp
-* ask{"time":"week"}
-  - utter_cannot_do_that_yet
+* ask
+  - slot{"time":"week"}
+  - action_display_meals

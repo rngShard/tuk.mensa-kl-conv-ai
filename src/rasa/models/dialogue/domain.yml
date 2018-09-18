@@ -3,19 +3,22 @@
 actions:
 - utter_ask_howcanhelp
 - utter_cannot_do_that_yet
-- action_inform_today
+- action_display_meals
 config:
   store_entities_as_slots: true
 entities:
 - time
 intents:
-- ask:
-    use_entities: true
 - greet:
     use_entities: true
-slots: {}
+- ask:
+    use_entities: true
+slots:
+  time:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
 templates:
   utter_ask_howcanhelp:
-  - text: Hi, wie kann ich helfen?
+  - text: Hi, MensaKL-Bot hier, wie kann ich helfen?
   utter_cannot_do_that_yet:
   - text: Das wurde mir noch nicht beigebracht.

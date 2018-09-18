@@ -6,11 +6,15 @@
 data/meal.csv
 data/rating.csv
 *.csv
+.cluster_data/
 
 # IDE
 .idea/
 .vscode/
 venv/
+
+# Rasa
+src/rasa/models/
 
 # OS generated files
 .DS_Store
@@ -22,3 +26,6 @@ ehthumbs.db
 Thumbs.db
 *.pyc
 .ipynb_checkpoints/
+
+# General
+*.log

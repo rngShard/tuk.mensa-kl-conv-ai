@@ -1,2 +1,2 @@
-language: de
-pipeline: tensorflow_embedding
+language: "de"
+pipeline: "spacy_sklearn"

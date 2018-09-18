@@ -1,3 +1,7 @@
+slots:
+   time:
+      type: text
+
 entities:
   - time
   # - location
@@ -5,14 +9,14 @@ entities:
 intents:
   - greet
   - ask
-  
+
 templates:
   utter_ask_howcanhelp:
-    - text: "Hi, wie kann ich helfen?"
+    - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"
   utter_cannot_do_that_yet:
     - text: "Das wurde mir noch nicht beigebracht."
 
 actions:
 - utter_ask_howcanhelp
 - utter_cannot_do_that_yet
-- action_inform_today
+- action_display_meals

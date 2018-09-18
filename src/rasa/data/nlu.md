@@ -18,7 +18,7 @@
 - welches essen gibt es [diese woche](time:week)
 
 
-##synonym:heute
+## synonym:heute
 - diesen tag
 - an diesem tag
 - diesesmal
