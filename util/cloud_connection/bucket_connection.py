@@ -4,6 +4,9 @@ import pandas as pd
 from google.cloud import storage
 from google.oauth2 import service_account
 
+import os, sys
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.append(parent_path)
 from definitions import ROOT_DIR
 
 current_file = os.path.abspath(os.path.dirname(__file__))
@@ -45,6 +48,14 @@ def get_meals():
     """
     tmp_path = ROOT_DIR + "/meal_tmp.csv"
     download_blob("mensa_data", "meal.csv", tmp_path)
+    df_meal = pd.read_csv(tmp_path)
+    os.remove(tmp_path)
+    return df_meal
+
+def get_menus(year, week):
+    tmp_path = ROOT_DIR + "/menues_tmp.csv"
+    source_blob_name = "mensa/{}_{}.csv".format(year, week)
+    download_blob("mensa_data", source_blob_name, tmp_path)
     df_meal = pd.read_csv(tmp_path)
     os.remove(tmp_path)
     return df_meal

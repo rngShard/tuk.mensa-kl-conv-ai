@@ -1,6 +1,11 @@
 from rasa_core_sdk import Action
 # from rasa_core_sdk.events import SlotSet
-### from bot import RestaurantAPI
+
+import os, sys
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.append(parent_path)
+
+from src.recommender.recommender import Recommender
 
 
 class ActionDisplayMeals(Action):
@@ -9,6 +14,8 @@ class ActionDisplayMeals(Action):
 
     def run(self, dispatcher, tracker, domain):
         # type: (Dispatcher, DialogueStateTracker, Domain) -> List[Event]
+
+        # r = Recommender()
 
         dispatcher.utter_message("Suche aktuelles Essen für {}".format(tracker.get_slot("time")))
         food_today = 'Pommes'
