@@ -2,8 +2,13 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 
+import os, sys
+parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.append(parent_path)
+
 from src.recommender.cluster import Cluster
 from src.recommender.data import Data
+from src.recommender.menu import Menu
 
 
 class Recommender:
@@ -12,7 +17,15 @@ class Recommender:
         if cluster:
             self.cluster = Cluster()
         self.data = Data()
+        year, week = self._get_year_week()
+        self.menu = Menu(year, week)
         self.user_similarities = self._set_total_usr_usr_simis()
+
+    def _get_year_week(self):
+        import datetime
+        now = datetime.datetime.now()
+        week =datetime.datetime(int(now.year), int(now.month), int(now.day)).isocalendar()[1]
+        return now.year, week
 
     def _set_total_usr_usr_simis(self):
         """Compute initial user-user-similarities (for all metrics) across all users in the provided ratings-data.
@@ -138,12 +151,14 @@ class Recommender:
 
 if __name__ == "__main__":
     r = Recommender()
-    # print(r.user_similarities['cosine'].head())
-    # print(r.get_similar_users(1,'cosine'))
-    print(r.data.df_user_item.loc[1])
-    print(r.predict_rating(1, 115, explain=True))
-    print(r.predict_rating(1, explain=True))
+    # # print(r.user_similarities['cosine'].head())
+    # # print(r.get_similar_users(1,'cosine'))
+    # print(r.data.df_user_item.loc[1])
+    # print(r.predict_rating(1, 115, explain=True))
+    # print(r.predict_rating(1, explain=True))
 
-    r = Recommender(cluster=True)
-    print(r.predict_cluster(1, 601))
+    # r = Recommender(cluster=True)
+    # print(r.predict_cluster(1, 601))
+
+    print(r.menu.df_menus)
 

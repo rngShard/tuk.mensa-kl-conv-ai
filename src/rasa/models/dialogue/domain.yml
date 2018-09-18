@@ -1,0 +1,24 @@
+%YAML 1.1
+---
+actions:
+- utter_ask_howcanhelp
+- utter_cannot_do_that_yet
+- action_display_meals
+config:
+  store_entities_as_slots: true
+entities:
+- time
+intents:
+- greet:
+    use_entities: true
+- ask:
+    use_entities: true
+slots:
+  time:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
+templates:
+  utter_ask_howcanhelp:
+  - text: Hi, MensaKL-Bot hier, wie kann ich helfen?
+  utter_cannot_do_that_yet:
+  - text: Das wurde mir noch nicht beigebracht.

@@ -1,0 +1,22 @@
+slots:
+   time:
+      type: text
+
+entities:
+  - time
+  # - location
+
+intents:
+  - greet
+  - ask
+
+templates:
+  utter_ask_howcanhelp:
+    - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"
+  utter_cannot_do_that_yet:
+    - text: "Das wurde mir noch nicht beigebracht."
+
+actions:
+- utter_ask_howcanhelp
+- utter_cannot_do_that_yet
+- action_display_meals

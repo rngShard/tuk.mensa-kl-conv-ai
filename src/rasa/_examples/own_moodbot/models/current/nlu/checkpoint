@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/oli/Repos/tuk.mensa-kl-conv-ai/src/rasa/models/current/nlu/intent_classifier_tensorflow_embedding.ckpt"
+all_model_checkpoint_paths: "/home/oli/Repos/tuk.mensa-kl-conv-ai/src/rasa/models/current/nlu/intent_classifier_tensorflow_embedding.ckpt"

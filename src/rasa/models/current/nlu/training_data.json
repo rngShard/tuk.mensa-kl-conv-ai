@@ -1,0 +1,170 @@
+{
+  "rasa_nlu_data": {
+    "entity_synonyms": [
+      {
+        "synonyms": [
+          "morgen"
+        ],
+        "value": "tomorrow"
+      },
+      {
+        "synonyms": [
+          "heute"
+        ],
+        "value": "today"
+      },
+      {
+        "synonyms": [
+          "woche",
+          "diese woche"
+        ],
+        "value": "week"
+      },
+      {
+        "synonyms": [
+          "diesesmal",
+          "an diesem tag",
+          "diesen tag",
+          "diesmal"
+        ],
+        "value": "heute"
+      }
+    ],
+    "regex_features": [],
+    "common_examples": [
+      {
+        "text": "hey",
+        "intent": "greet"
+      },
+      {
+        "text": "hallo",
+        "intent": "greet"
+      },
+      {
+        "text": "hi",
+        "intent": "greet"
+      },
+      {
+        "text": "guten tag",
+        "intent": "greet"
+      },
+      {
+        "text": "guten morgen",
+        "intent": "greet"
+      },
+      {
+        "text": "jo",
+        "intent": "greet"
+      },
+      {
+        "text": "was gibt es heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "today",
+            "end": 17
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt es heute zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "today",
+            "end": 17
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt's heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 11,
+            "value": "today",
+            "end": 16
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt's heute zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 11,
+            "value": "today",
+            "end": 16
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "welches essen gibt es heute",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 22,
+            "value": "today",
+            "end": 27
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt es morgen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 12,
+            "value": "tomorrow",
+            "end": 18
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt es diese woche",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 18,
+            "value": "week",
+            "end": 23
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "was gibt es diese woche zu essen",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 18,
+            "value": "week",
+            "end": 23
+          }
+        ],
+        "intent": "ask"
+      },
+      {
+        "text": "welches essen gibt es diese woche",
+        "entities": [
+          {
+            "entity": "time",
+            "start": 22,
+            "value": "week",
+            "end": 33
+          }
+        ],
+        "intent": "ask"
+      }
+    ],
+    "lookup_tables": []
+  }
+}

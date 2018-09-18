@@ -5,7 +5,7 @@ import numpy as np
 from sklearn import tree
 from sklearn.cluster import KMeans
 
-from cloud_connection import bucket_connection
+from util.cloud_connection import bucket_connection
 from definitions import ROOT_DIR
 
 
@@ -74,6 +74,8 @@ class Cluster:
 
 
 if __name__ == "__main__":
+    Cluster.download_cluster_data()
+    
     cluster = Cluster()
     test_user1 = np.zeros(132)
     test_user1[75] = 2
