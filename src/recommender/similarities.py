@@ -40,8 +40,11 @@ class Similarities:
         """Update user_similarities[metric] to the user-simis only accounting for subset of users."""
         self.df_initial_user_similarities[metric] = self._create_user_user_sim(df_user_item, users, metric=metric)
 
+    def get_user_similarity(self, current_user, metric="cosine"):
+        return self.df_user_similarities[current_user][metric]
+
     def get_similar_users(self, current_user, metric="cosine", simi_threshhold=0):
-        df_sim_mat = self.df_user_similarities[current_user][metric]
+        df_sim_mat = self.get_user_similarity(current_user, metric)
         similar_users = list(df_sim_mat[df_sim_mat.loc[current_user] > simi_threshhold].index)
         similar_users.remove(current_user)
         return similar_users

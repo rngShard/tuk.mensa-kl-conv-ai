@@ -5,8 +5,8 @@ import numpy as np
 from sklearn import tree
 from sklearn.cluster import KMeans
 
-from util.cloud_connection import bucket_connection
 from definitions import ROOT_DIR
+from util.cloud_connection import bucket_connection
 
 
 class Cluster:
@@ -70,7 +70,7 @@ class Cluster:
         return dTree, dot_data
 
     def predict_cluster(self, user_ratings):
-        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))
+        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))[0]
 
 
 if __name__ == "__main__":

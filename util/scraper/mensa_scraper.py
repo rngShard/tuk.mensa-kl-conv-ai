@@ -218,7 +218,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
+    main()
     raw_data_mensa = get_data(URL_MENSA)
     plan = parse_mensa_plan_csv(raw_data_mensa, "mensa")
     print(plan)

@@ -41,5 +41,8 @@ class Data:
     def get_meal_ids(self):
         return self.df_initial_user_item.columns
 
+    def get_meals(self):
+        return self._df_meals
+
     def get_user_item(self, user):
         return self.df_user_item[user]

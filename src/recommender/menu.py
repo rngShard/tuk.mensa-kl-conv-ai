@@ -20,7 +20,13 @@ class Menu:
             if group_name.find(substring) > -1:
                 return g.get_group(group_name)
 
+    def get_meal_ids_per_day(self, substring):
+        g = self.df_menus.groupby('date')
+        for group_name in g.groups:
+            if group_name.find(substring) > -1:
+                return g.get_group(group_name).m_id
 
 if __name__ == "__main__":
     m = Menu()
     print(m.get_food_per_day('Montag'))
+    print(m.get_meal_ids_per_day('Montag'))
