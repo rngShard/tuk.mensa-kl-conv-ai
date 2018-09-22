@@ -51,6 +51,12 @@ class FirestoreConnector:
         else:
             return {}
 
+    def update_rating(self, user_id, m_id, rating):
+        data = {"ratings." + str(m_id): rating}
+        doc_ref = self.db.collection("users").document(str(user_id))
+        doc_ref.update(data)
+        print("Saved user_id:{}, m_id:{}, rating:{}".format(user_id, m_id, rating))
+
     @staticmethod
     def validate_collection_path(path):
         if len(path.split("/")) % 2 != 1:

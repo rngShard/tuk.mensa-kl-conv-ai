@@ -1,11 +1,11 @@
-import numpy as np
-import pandas as pd
+import os
+import sys
 
-import os, sys
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
 
 from util.cloud_connection import bucket_connection
+
 
 class Menu:
 
@@ -19,6 +19,7 @@ class Menu:
         for group_name in g.groups:
             if group_name.find(substring) > -1:
                 return g.get_group(group_name)
+
 
 if __name__ == "__main__":
     m = Menu()
