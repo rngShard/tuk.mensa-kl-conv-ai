@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -33,7 +34,7 @@ def download_blob(bucket_name, source_blob_name, destination_file_name):
     storage_client = storage.Client(credentials=CRED, project="tuk-mensa-kl-conv-ai")
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
-
+    print(destination_file_name)
     blob.download_to_filename(destination_file_name)
 
     print('Blob {} downloaded to {}.'.format(
@@ -60,3 +61,17 @@ def get_menus(year, week):
     df_meal = pd.read_csv(tmp_path)
     os.remove(tmp_path)
     return df_meal
+
+
+def get_additives():
+    tmp_path = ROOT_DIR + "/additives.json"
+    download_blob("mensa_data", "additives.json", tmp_path)
+    with open(tmp_path, "r") as read_file:
+        data = json.load(read_file)
+    df_additives = pd.DataFrame.from_dict(data, orient="index", columns=["Additive"])
+    os.remove(tmp_path)
+    return df_additives
+
+
+if __name__ == "__main__":
+    print(get_additives())
