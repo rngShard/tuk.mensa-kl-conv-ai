@@ -47,10 +47,10 @@ if __name__ == '__main__':
     utils.configure_colored_logging(loglevel="INFO")
 
     parser = argparse.ArgumentParser(description='starts the bot',
-                                     argument_default='train-nlu')
+                                     argument_default='train-all')
 
     parser.add_argument('--task',
-                        choices=["train-nlu", "train-dialogue", "run"],
+                        choices=["train-nlu", "train-dialogue", "train-all"],
                         help="what the bot should do - e.g. run or train?")
     task = parser.parse_args().task
 
@@ -58,4 +58,7 @@ if __name__ == '__main__':
     if task == "train-nlu":
         train_nlu()
     elif task == "train-dialogue":
+        train_dialogue()
+    elif task == 'train-all':
+        train_nlu()
         train_dialogue()
