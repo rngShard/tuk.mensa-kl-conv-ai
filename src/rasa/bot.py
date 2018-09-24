@@ -6,6 +6,7 @@ from rasa_core import utils
 from rasa_core.agent import Agent
 from rasa_core.policies.memoization import MemoizationPolicy
 from rasa_core.policies.keras_policy import KerasPolicy
+from rasa_core.policies.fallback import FallbackPolicy
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,10 @@ def train_dialogue(domain_file="domain.yml",
                    training_data_file="data/stories.md"):
     agent = Agent(domain_file,
                   policies=[MemoizationPolicy(max_history=3),
-                            KerasPolicy()])
+                            KerasPolicy(),
+                            FallbackPolicy(fallback_action_name="action_default_fallback",
+                                           core_threshold=0.3,
+                                           nlu_threshold=0.3)])
 
     training_data = agent.load_data(training_data_file)
     agent.train(
@@ -46,9 +50,8 @@ def train_nlu():
 if __name__ == '__main__':
     utils.configure_colored_logging(loglevel="INFO")
 
-    parser = argparse.ArgumentParser(description='starts the bot',
-                                     argument_default='train-all')
-
+    parser = argparse.ArgumentParser(description='starts the bot')
+                                    #  argument_default='train-all')
     parser.add_argument('--task',
                         choices=["train-nlu", "train-dialogue", "train-all"],
                         help="what the bot should do - e.g. run or train?")
