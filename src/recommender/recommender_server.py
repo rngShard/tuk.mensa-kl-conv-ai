@@ -1,7 +1,10 @@
+import datetime
+import operator
+import os
+import sys
+
 import flask
 from flask import request, jsonify
-import datetime
-import sys, os
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
@@ -35,9 +38,18 @@ def user_exists():
 def predict():
     data = request.get_json()
     user_id = data["user_id"]
-    prediction = r.predict(user_id)
+    try:
+        day = data["day"]
+    except KeyError:
+        day = 0
+
+    predictions = r.predict(user_id, day=day)
+    recommendation = []
+    sorted_predictions = sorted(predictions.items(), key=operator.itemgetter(1), reverse=True)
+    for prediction in sorted_predictions:
+        recommendation.append(r.data.get_meal_title_without_additives(prediction[0]))
     answer = {}
-    answer["prediction"] = prediction
+    answer["prediction"] = recommendation
     return jsonify(answer)
 
 @app.route("/getmeals", methods=['GET','POST'])

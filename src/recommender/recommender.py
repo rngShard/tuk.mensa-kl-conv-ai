@@ -46,7 +46,7 @@ class Recommender:
         day = datetime.datetime(int(now.year), int(now.month), int(now.day)).isocalendar()[2]
         return now.year, week, day
 
-    def predict(self, current_user, metric="cosine", m_id=None, day=None):
+    def predict(self, current_user, metric="cosine", m_id=None, day=0):
         try:
             self.cluster
             cluster = True
@@ -58,11 +58,11 @@ class Recommender:
             print(user_cluster)
             cluster_neighbors = self.cluster.get_neighbbors(user_cluster)
             predictions = {}
-            if day is None:
+            if day is 0:
                 if self.day is 6 or self.day is 7:
                     day = WEEKDAYS[1]
-                else:
-                    day = WEEKDAYS[self.day]
+            else:
+                day = WEEKDAYS[self.day]
             df_user_item = self.data.get_user_item(current_user)
             if m_id is None:
                 m_ids = self.menu.get_meal_ids_per_day(day)
@@ -78,8 +78,8 @@ class Recommender:
             if day is None:
                 if self.day is 6 or self.day is 7:
                     day = WEEKDAYS[1]
-                else:
-                    day = WEEKDAYS[self.day]
+            else:
+                day = WEEKDAYS[self.day]
             df_similarity = self.similarities.get_user_similarity(current_user, metric)
             sim_users = self.similarities.get_similar_users(current_user, metric)
             df_user_item = self.data.get_user_item(current_user)

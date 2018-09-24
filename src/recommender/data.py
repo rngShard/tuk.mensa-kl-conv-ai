@@ -57,6 +57,15 @@ class Data:
     def get_meal_title(self, m_id):
         return self._df_meals[self._df_meals.m_id == m_id].title.values[0]
 
+    def get_meal_title_without_additives(self, m_id):
+        title = self.get_meal_title(m_id)
+        regex = "\([A|Bio|Ei|En|Fi|Gl|Gt|G|Kr|K|La|Lu|L|Nu|R|Se|Sf|Sl|So|Sw|S|V+|V|Wt|W|1|2|3|4|5|6|7|8|9|10].+?\)"
+        reg = re.compile(regex)
+        pos = reg.findall(title)
+        for i in pos:
+            title = title.replace(i, "")
+        return title
+
     def get_additives_table(self):
         return self.df_additives
 
