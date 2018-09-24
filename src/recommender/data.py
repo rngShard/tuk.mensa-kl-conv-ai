@@ -35,6 +35,14 @@ class Data:
                                                     columns="m_id",
                                                     values="rating",
                                                     aggfunc=np.mean).fillna(0)
+
+        df_user_item_mids = set(df_user_item.columns)
+        df_meals_mids = set(self._df_meals.m_id)
+        missing_columns = set.difference(df_meals_mids, df_user_item_mids)
+        values = np.zeros(len(df_user_item.index))
+        for i in missing_columns:
+            df_user_item[i] = values
+        df_user_item = df_user_item.reindex(sorted(df_user_item.columns), axis=1)
         return df_user_item
 
     def _create_user_item(self, rating):

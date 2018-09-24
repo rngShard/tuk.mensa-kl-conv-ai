@@ -20,8 +20,10 @@ class Users:
         self.users = {}
         self.user_ids = []
         self.ratings = {}
+        self.additives = {}
         self.get_all_users()
         self.prepare_user_ratings()
+        self.prepare_user_additives()
 
     def user_exists(self, user_id):
         try:
@@ -33,7 +35,7 @@ class Users:
     def create_user(self, user_id=None):
         if user_id is None:
             user_id = self.get_new_user_id()
-        data = {"fid": user_id, "ratings": {}}
+        data = {"fid": user_id, "ratings": {}, "additives": []}
         self.firebase.create_document(self.db_user_path + "/" + user_id, data)
         return user_id
 
@@ -53,12 +55,20 @@ class Users:
                 ratings_series.loc[int(k)] = v
             self.ratings[user] = ratings_series
 
+    def prepare_user_additives(self):
+        for user in self.user_ids:
+            user_additives = set(self.users[user]["additives"])
+            self.additives[user] = user_additives
+
     def update_rating(self, user_id, m_id, rating):
         self.firebase.update_rating(user_id, m_id, rating)
         self.ratings[user_id].loc[m_id] = rating
 
     def get_user_ratings(self, user_id):
         return self.ratings[user_id]
+
+    def get_user_additives(self, user_id):
+        return self.additives[user_id]
 
     def get_new_user_id(self):
         return max(self.user_ids) + 1
@@ -74,7 +84,7 @@ if __name__ == "__main__":
          579, 580, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600,
          601])
     print(users.get_new_user_id())
-
+    print(users.get_user_additives(56))
 # doc_ref = self.db.db.collection(self.db_user_path)
 # user = doc_ref.where("fid", "==", "1324").get()
 # user = [(i.id, i.to_dict()) for i in user]

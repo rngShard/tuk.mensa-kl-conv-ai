@@ -97,7 +97,9 @@ class Recommender:
 
 if __name__ == "__main__":
     r = Recommender()
+    print(r.predict(54))
     print(r.predict(54, m_id=115))
+    print(r.predict(55, m_id=493))
 
     # r = Recommender(cluster=True)
     # print(r.predict(55, m_id=601))
