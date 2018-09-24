@@ -1,22 +1,35 @@
 slots:
    time:
-      type: text
+      type: categorical
+      values:
+      - heute
+      - morgen
+      - woche
 
 entities:
   - time
-  # - location
 
 intents:
   - greet
+  # - affirm
+  - deny
   - ask
+  - inform
 
 templates:
   utter_ask_howcanhelp:
     - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"
+  utter_ask_when:
+    - text: "Für wann willst du das Essen wissen? (heute / morgen / woche)"
   utter_cannot_do_that_yet:
     - text: "Das wurde mir noch nicht beigebracht."
+  utter_default:
+    - text: "Ich habe dich leider nicht verstanden."
 
 actions:
 - utter_ask_howcanhelp
+- utter_ask_when
 - utter_cannot_do_that_yet
-- action_display_meals
+- utter_default
+- action_query_recommender
+- action_get_all_meals

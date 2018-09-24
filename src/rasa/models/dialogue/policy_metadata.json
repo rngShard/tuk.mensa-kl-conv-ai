@@ -1,23 +1,31 @@
 {
   "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
-  "policy_names": [
-    "rasa_core.policies.memoization.MemoizationPolicy",
-    "rasa_core.policies.keras_policy.KerasPolicy"
-  ],
   "max_histories": [
     3,
-    5
+    5,
+    null
   ],
-  "rasa_core": "0.11.3",
+  "rasa_core": "0.11.6",
+  "python": "3.5.2",
   "action_fingerprints": {
-    "action_display_meals": {
+    "action_query_recommender": {
+      "slots": []
+    },
+    "action_get_all_meals": {
       "slots": []
     },
     "action_listen": {
       "slots": [
         "time"
       ]
+    },
+    "utter_cannot_do_that_yet": {
+      "slots": []
     }
   },
-  "python": "3.5.2"
+  "policy_names": [
+    "rasa_core.policies.memoization.MemoizationPolicy",
+    "rasa_core.policies.keras_policy.KerasPolicy",
+    "rasa_core.policies.fallback.FallbackPolicy"
+  ]
 }

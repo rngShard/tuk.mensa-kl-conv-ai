@@ -1,14 +1,21 @@
 {
   "states": [
     "intent_ask",
+    "intent_deny",
     "intent_greet",
+    "intent_inform",
     "entity_time",
     "slot_time_0",
+    "slot_time_1",
+    "slot_time_2",
     "prev_action_listen",
     "prev_action_restart",
     "prev_action_default_fallback",
     "prev_utter_ask_howcanhelp",
+    "prev_utter_ask_when",
     "prev_utter_cannot_do_that_yet",
-    "prev_action_display_meals"
+    "prev_utter_default",
+    "prev_action_query_recommender",
+    "prev_action_get_all_meals"
   ]
 }
