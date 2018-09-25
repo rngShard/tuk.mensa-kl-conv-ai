@@ -22,9 +22,8 @@ WEEKDAYS = {
 
 class Recommender:
 
-    def __init__(self, cluster=False):
-        if cluster:
-            self.cluster = Cluster()
+    def __init__(self):
+        cluster = self.cluster = Cluster()
         self.data = Data()
         self.similarities = Similarities(self.data.df_initial_user_item)
         self.users = Users(self.data.df_initial_user_item.columns)
@@ -46,12 +45,7 @@ class Recommender:
         day = datetime.datetime(int(now.year), int(now.month), int(now.day)).isocalendar()[2]
         return now.year, week, day
 
-    def predict(self, current_user, metric="cosine", m_id=None, day=0):
-        try:
-            self.cluster
-            cluster = True
-        except AttributeError:
-            cluster = False
+    def predict(self, current_user, metric="cosine", m_id=None, day=0, cluster=False):
 
         if cluster:
             user_cluster = self.cluster.predict_cluster(self.users.get_user_ratings(current_user))

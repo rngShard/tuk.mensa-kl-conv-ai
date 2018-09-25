@@ -84,5 +84,6 @@ class Data:
 
 if __name__ == "__main__":
     data = Data()
-    print(data.get_meal_title(115))
+    print(data.get_meal_title(57))
+    print(data.get_meal_title_without_additives(57))
     print(data.get_meal_additives(115))

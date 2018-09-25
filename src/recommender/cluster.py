@@ -57,6 +57,9 @@ class Cluster:
     def get_neighbbors(self, current_cluster):
         return self.clusters[current_cluster]
 
+    def get_decision_points(self):
+        return self.decision_points
+
     @staticmethod
     def create_decision_tree(df_user_item, cluster_labels):
         dTree = tree.DecisionTreeClassifier(max_leaf_nodes=5)
@@ -70,13 +73,13 @@ class Cluster:
         return dTree, dot_data
 
     def predict_cluster(self, user_ratings):
-        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))[0]
+        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))
 
 
 if __name__ == "__main__":
     Cluster.download_cluster_data()
-    
     cluster = Cluster()
-    test_user1 = np.zeros(132)
+    print(cluster.get_decision_points())
+    test_user1 = np.zeros(cluster.dTree.n_features_)
     test_user1[75] = 2
     print(cluster.predict_cluster(test_user1))

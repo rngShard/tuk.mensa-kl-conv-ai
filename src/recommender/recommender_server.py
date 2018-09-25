@@ -22,7 +22,7 @@ def index():
     pass
 
 
-@app.route("/userexists", methods=['GET', 'POST'])
+@app.route("/userexists", methods=['POST'])
 def user_exists():
     data = request.get_json()
     print(data)
@@ -34,7 +34,7 @@ def user_exists():
     return jsonify({"user_exists": exists})
 
 
-@app.route("/prediction", methods=['GET', 'POST'])
+@app.route("/prediction", methods=['POST'])
 def predict():
     data = request.get_json()
     user_id = data["user_id"]
@@ -52,7 +52,7 @@ def predict():
     answer["prediction"] = recommendation
     return jsonify(answer)
 
-@app.route("/getmeals", methods=['GET','POST'])
+@app.route("/getmeals", methods=['POST'])
 def get_meals():
     data = request.get_json()
     time = data["time"]
@@ -66,6 +66,11 @@ def get_meals():
         return jsonify({'msg': str(r.menu.df_menus.loc[:,'title'].tolist()) })
     else:
         return jsonify({'error':"Invalid value for attribute <time>."})
+
+
+@app.route("/createuser", methods=['POST'])
+def create_user():
+    pass
 
 
 
