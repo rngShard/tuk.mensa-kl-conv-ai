@@ -87,3 +87,7 @@ if __name__ == "__main__":
     print(data.get_meal_title(57))
     print(data.get_meal_title_without_additives(57))
     print(data.get_meal_additives(115))
+
+    # for t in [75, 112, 121, 113, 118]:
+    #     print(data.get_meal_title(t))
+    # print(data.get_meal_additives(115))

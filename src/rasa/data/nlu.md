@@ -6,7 +6,15 @@
 - guten morgen
 - jo
 
-<!-- ## intent:affirm -->
+## intent:affirm
+- ja
+- ja bitte
+- ja genau
+- jep
+- yes
+- ja doch
+- klar
+- aber hallo
 
 ## intent:deny
 - nein
@@ -16,6 +24,9 @@
 - no
 - bitte nicht
 - blos nicht
+- nein danke
+- niemals
+- never
 
 ## intent:ask
 - hi, was gibt es [heute](time) zu essen
