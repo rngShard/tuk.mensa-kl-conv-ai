@@ -23,7 +23,7 @@ WEEKDAYS = {
 class Recommender:
 
     def __init__(self):
-        cluster = self.cluster = Cluster()
+        self.cluster = Cluster()
         self.data = Data()
         self.similarities = Similarities(self.data.df_initial_user_item)
         self.users = Users(self.data.df_initial_user_item.columns)
@@ -37,6 +37,15 @@ class Recommender:
         for user_id in self.users.user_ids:
             self.data._create_user_item(self.users.get_user_ratings(user_id))
             self.similarities.create_usr_usr_sim(self.data.get_user_item(user_id), user_id)
+
+    def build_user_specific_data(self, user_id):
+        self.users.prepare_new_user_ratings(user_id)
+        self.data._create_user_item(self.users.get_user_ratings(user_id))
+        self.similarities.create_usr_usr_sim(self.data.get_user_item(user_id), user_id)
+
+    def update_user_specific_data(self, user_id):
+        self.data._create_user_item(self.users.get_user_ratings(user_id))
+        self.similarities.create_usr_usr_sim(self.data.get_user_item(user_id), user_id)
 
     def _get_year_week_day(self):
         import datetime
@@ -91,7 +100,6 @@ if __name__ == "__main__":
     print(r.predict("55", m_id=493))
     print(r.menu.get_food_per_day("Dienstag"))
     print(r.predict("konsti"))
-
     # r = Recommender(cluster=True)
     # print(r.predict(55, m_id=601))
     # print(r.predict(56))

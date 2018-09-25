@@ -51,6 +51,7 @@ def predict():
     except KeyError:
         day = r.day
     recommendation = r.predict(str(user_id), day=day)
+    print(recommendation)
     menu = r.menu.get_food_per_day(WEEKDAYS[day])
     recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
     recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
@@ -81,9 +82,18 @@ def get_meals():
 @app.route("/createuser", methods=['POST'])
 def create_user():
     data = request.get_json()
+    user_id = data["user_id"]
+    user_ratings = data["ratings"]
+    decision_points = r.cluster.get_decision_points()
 
+    r.users.create_user(user_id)
+    r.build_user_specific_data(user_id)
 
+    for i in range(len(decision_points)):
+        r.users.update_rating(user_id, decision_points[i], user_ratings[i])
+    r.update_user_specific_data(user_id)
 
+    return ("User created!")
 
 
 if __name__ == "__main__":

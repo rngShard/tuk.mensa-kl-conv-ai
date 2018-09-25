@@ -55,6 +55,11 @@ class Users:
                 ratings_series.loc[int(k)] = v
             self.ratings[user] = ratings_series
 
+    def prepare_new_user_ratings(self, user_id):
+        ratings_row = np.zeros(len(self.meal_ids))
+        ratings_series = pd.Series(ratings_row, self.meal_ids, name=user_id)
+        self.ratings[user_id] = ratings_series
+
     def prepare_user_additives(self):
         for user in self.user_ids:
             user_additives = set(self.users[user]["additives"])
@@ -85,6 +90,7 @@ if __name__ == "__main__":
          601])
     print(users.get_new_user_id())
     print(users.get_user_additives(56))
+
 # doc_ref = self.db.db.collection(self.db_user_path)
 # user = doc_ref.where("fid", "==", "1324").get()
 # user = [(i.id, i.to_dict()) for i in user]
