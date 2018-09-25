@@ -84,5 +84,6 @@ class Data:
 
 if __name__ == "__main__":
     data = Data()
-    print(data.get_meal_title(115))
-    print(data.get_meal_additives(115))
+    for t in [75, 112, 121, 113, 118]:
+        print(data.get_meal_title(t))
+    # print(data.get_meal_additives(115))

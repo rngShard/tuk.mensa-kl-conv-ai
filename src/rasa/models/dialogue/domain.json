@@ -1,10 +1,22 @@
 {
   "states": [
+    "intent_affirm",
     "intent_ask",
     "intent_deny",
     "intent_greet",
     "intent_inform",
     "entity_time",
+    "slot_like_q1_0",
+    "slot_like_q2_0",
+    "slot_like_q3_0",
+    "slot_like_q4_0",
+    "slot_like_q5_0",
+    "slot_q1_meal_0",
+    "slot_q2_meal_0",
+    "slot_q3_meal_0",
+    "slot_q4_meal_0",
+    "slot_q5_meal_0",
+    "slot_requested_slot_0",
     "slot_time_0",
     "slot_time_1",
     "slot_time_2",
@@ -12,10 +24,16 @@
     "prev_action_restart",
     "prev_action_default_fallback",
     "prev_utter_ask_howcanhelp",
-    "prev_utter_ask_when",
+    "prev_utter_ask_time",
+    "prev_utter_ask_like_q1",
+    "prev_utter_ask_like_q2",
+    "prev_utter_ask_like_q3",
+    "prev_utter_ask_like_q4",
+    "prev_utter_ask_like_q5",
     "prev_utter_cannot_do_that_yet",
     "prev_utter_default",
     "prev_action_query_recommender",
-    "prev_action_get_all_meals"
+    "prev_action_get_all_meals",
+    "prev_action_ask_specific_questions"
   ]
 }

@@ -2,25 +2,66 @@
 ---
 actions:
 - utter_ask_howcanhelp
-- utter_ask_when
+- utter_ask_time
+- utter_ask_like_q1
+- utter_ask_like_q2
+- utter_ask_like_q3
+- utter_ask_like_q4
+- utter_ask_like_q5
 - utter_cannot_do_that_yet
 - utter_default
 - action_query_recommender
 - action_get_all_meals
+- action_ask_specific_questions
 config:
   store_entities_as_slots: true
 entities:
 - time
 intents:
-- deny:
-    use_entities: true
-- ask:
+- affirm:
     use_entities: true
 - inform:
     use_entities: true
 - greet:
     use_entities: true
+- deny:
+    use_entities: true
+- ask:
+    use_entities: true
 slots:
+  like_q1:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
+  like_q2:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
+  like_q3:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
+  like_q4:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
+  like_q5:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
+  q1_meal:
+    initial_value: Pommes
+    type: rasa_core.slots.TextSlot
+  q2_meal:
+    initial_value: Schnitzel
+    type: rasa_core.slots.TextSlot
+  q3_meal:
+    initial_value: Gruenzeug
+    type: rasa_core.slots.TextSlot
+  q4_meal:
+    initial_value: Suppe
+    type: rasa_core.slots.TextSlot
+  q5_meal:
+    initial_value: Steak
+    type: rasa_core.slots.TextSlot
+  requested_slot:
+    initial_value: null
+    type: rasa_core.slots.TextSlot
   time:
     initial_value: null
     type: rasa_core.slots.CategoricalSlot
@@ -31,9 +72,17 @@ slots:
 templates:
   utter_ask_howcanhelp:
   - text: Hi, MensaKL-Bot hier, wie kann ich helfen?
-  utter_ask_when:
+  utter_ask_like_q1:
+  - text: Magst du "{q1_meal}"?
+  utter_ask_like_q2:
+  - text: Magst du "{q2_meal}"?
+  utter_ask_like_q3:
+  - text: Magst du "{q3_meal}"?
+  utter_ask_like_q4:
+  - text: Magst du "{q4_meal}"?
+  utter_ask_like_q5:
+  - text: Magst du "{q5_meal}"?
+  utter_ask_time:
   - text: Für wann willst du das Essen wissen? (heute / morgen / woche)
-  utter_cannot_do_that_yet:
-  - text: Das wurde mir noch nicht beigebracht.
   utter_default:
   - text: Ich habe dich leider nicht verstanden.
