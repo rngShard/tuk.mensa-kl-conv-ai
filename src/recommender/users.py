@@ -35,7 +35,7 @@ class Users:
     def create_user(self, user_id=None):
         if user_id is None:
             user_id = self.get_new_user_id()
-        data = {"fid": user_id, "ratings": {}, "additives": []}
+        data = {"user_id": user_id, "ratings": {}, "additives": []}
         self.firebase.create_document(self.db_user_path + "/" + user_id, data)
         return user_id
 
@@ -43,8 +43,8 @@ class Users:
         doc_ref = self.firebase.db.collection(self.db_user_path)
         users = doc_ref.get()
         for user in users:
-            self.users[int(user.id)] = user.to_dict()
-            self.user_ids.append(int(user.id))
+            self.users[user.id] = user.to_dict()
+            self.user_ids.append(user.id)
 
     def prepare_user_ratings(self):
         for user in self.user_ids:

@@ -13,6 +13,14 @@ from util.cloud_connection import bucket_connection
 RATING_CSV = ROOT_DIR + '/data/rating_normalized.csv'
 
 
+def clean_title_additives(title):
+    regex = "\([A|Bio|Ei|En|Fi|Gl|Gt|G|Kr|K|La|Lu|L|Nu|R|Se|Sf|Sl|So|Sw|S|V+|V|Wt|W|1|2|3|4|5|6|7|8|9|10].*?\)"
+    reg = re.compile(regex)
+    pos = reg.findall(title)
+    for i in pos:
+        title = title.replace(i, "")
+    return title
+
 class Data:
 
     def __init__(self):

@@ -12,7 +12,7 @@ from util.cloud_connection import bucket_connection
 class Cluster:
 
     def __init__(self):
-        # Cluster.download_cluster_data()
+        Cluster.download_cluster_data()
         self.load_cluster_data()
 
     def load_cluster_data(self):

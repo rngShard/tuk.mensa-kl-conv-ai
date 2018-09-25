@@ -1,5 +1,4 @@
 import datetime
-import operator
 import os
 import sys
 
@@ -10,6 +9,15 @@ parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
 
 from src.recommender.recommender import Recommender
+from src.recommender.data import clean_title_additives
+
+WEEKDAYS = {
+    1: "Montag",
+    2: "Dienstag",
+    3: "Mittwoch",
+    4: "Donnerstag",
+    5: "Freitag"
+}
 
 STR_WEEKDAYS_DE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
 
@@ -41,16 +49,18 @@ def predict():
     try:
         day = data["day"]
     except KeyError:
-        day = 0
-
-    predictions = r.predict(user_id, day=day)
-    recommendation = []
-    sorted_predictions = sorted(predictions.items(), key=operator.itemgetter(1), reverse=True)
-    for prediction in sorted_predictions:
-        recommendation.append(r.data.get_meal_title_without_additives(prediction[0]))
+        day = r.day
+    recommendation = r.predict(str(user_id), day=day)
+    menu = r.menu.get_food_per_day(WEEKDAYS[day])
+    recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+    recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+    predictions = []
+    for prediction in recommendation:
+        predictions.append(clean_title_additives(prediction[0]))
     answer = {}
-    answer["prediction"] = recommendation
+    answer["prediction"] = predictions
     return jsonify(answer)
+
 
 @app.route("/getmeals", methods=['POST'])
 def get_meals():
@@ -70,7 +80,8 @@ def get_meals():
 
 @app.route("/createuser", methods=['POST'])
 def create_user():
-    pass
+    data = request.get_json()
+
 
 
 
