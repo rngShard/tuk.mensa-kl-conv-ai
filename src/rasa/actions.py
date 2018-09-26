@@ -35,7 +35,7 @@ class ActionGetMeals(Action):
 
                     res2_meal_list = res2_dict['prediction']
                 else:
-                    msg_profile = "Es wurde kein bestehendes Nutzerprofil gefunden.\n"
+                    msg_profile = "Es wurde kein bestehendes Nutzerprofil gefunden."
 
                     res2 = requests.post('http://127.0.0.1:5000/getmeals', json={"time":time})
                     res2_dict = json.loads(res2.text)
@@ -44,7 +44,7 @@ class ActionGetMeals(Action):
 
                 utter_msg = "({} \t {})".format(msg_time, msg_profile)
                 for meal in res2_meal_list:
-                    utter_msg += "- " + meal + "\n"
+                    utter_msg += "\n - " + meal
                 dispatcher.utter_message(utter_msg)
             except KeyError:
                 # pass
@@ -69,16 +69,16 @@ class ActionAskSpecificQuestions(FormAction):
         return 'action_ask_specific_questions'
 
     def submit(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
         likes = [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
         
-
-        dispatcher.utter_message("Got likes <{}>".format(likes))
+        json = {
+            "user_id": str(user_id),
+            "ratings": [5 if like else 1 for like in likes]
+        }
+        print(json)
+        res = requests.post('http://127.0.0.1:5000/createuser', json=json)
+        
+        dispatcher.utter_message("Neues User-Profil mit Bewertungen {} erstellt!".format(json['ratings']))
         return []
         
-        # TODO: proper hand-over of user-q-likes to recommender to create profile
-
-        # results = RestaurantAPI().search(
-        #     tracker.get_slot("cuisine"),
-        #     tracker.get_slot("people"),
-        #     tracker.get_slot("vegetarian"))
-        # return [SlotSet("search_results", results)]

@@ -18,8 +18,6 @@ config:
 entities:
 - time
 intents:
-- greet:
-    use_entities: true
 - help:
     use_entities: true
 - deny:
@@ -27,6 +25,8 @@ intents:
 - inform:
     use_entities: true
 - ask:
+    use_entities: true
+- greet:
     use_entities: true
 - affirm:
     use_entities: true
@@ -80,7 +80,7 @@ templates:
   - text: Hallo! Ich bin der Mensa-KL-Bot! Frage mich was es zu essen gibt!
   - text: Hallöchen, wie geht's wie steht's?
   utter_ask_like_q1:
-  - text: Magst du "{q1_meal}"?
+  - text: "Ok, dann will ich dich mal kennen lernen!\n Magst du \"{q1_meal}\"?"
   utter_ask_like_q2:
   - text: Magst du "{q2_meal}"?
   utter_ask_like_q3:

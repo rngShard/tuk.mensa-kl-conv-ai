@@ -67,6 +67,8 @@
 * deny
   - action_ask_specific_questions
   - slot{"like_q5": false}
+* ask
+  - action_get_meals
 
 ## hi and what
 * greet
