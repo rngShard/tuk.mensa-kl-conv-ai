@@ -19,19 +19,19 @@ slots:
     type: bool
   q1_meal:
     type: text
-    initial_value: "Pommes"
+    initial_value: "Rindfleischstreifen in Paprika-Pfeffersoße, frische Spätzle"  # 498
   q2_meal:
     type: text
-    initial_value: "Schnitzel"
+    initial_value: "Hähncheninvoltini mit Tomaten-Basilikumsoße und Butter-Gnocchi" # 527
   q3_meal:
     type: text
-    initial_value: "Gruenzeug"
+    initial_value: """Fajita Pueblo"" mit Paprika, Zucchini und Zwiebeln, dazu Sour-Cream-Dip, Tortillas und Salat" # 573
   q4_meal:
     type: text
-    initial_value: "Suppe"
+    initial_value: "Gegrilltes Schollenfilet mit Limetten-Dill-Soße und Tagliatelle"  # 457
   q5_meal:
     type: text
-    initial_value: "Steak"
+    initial_value: "Erbseneintopf mit einem Apfelberliner und einem Bio-Weizenbrötchen"  # 539
 
 entities:
   - time

@@ -2,6 +2,8 @@
 
 Code-base for the AI Project "*Conversational AI for Mensa food recommendations*"
 
+To use the _Telegram_-bot, add copy [t.me/mensakl_bot](t.me/mensakl_bot) into your browser window (when using the Telegram Web-App) or simply search globally for "MensaKL" or "mensakl_bot" as Telegram-contact.
+
 
 ## Rasa
 
@@ -41,3 +43,34 @@ curl -XPOST localhost:5005/conversations/default/respond -d '{"query":"hallo"}'
 to access the Rasa instance.
 
 Note: Not utilizing NLU requires input in form of _\[intent]_.
+
+## Deploying Rasa on Remote server
+
+First generate a venv, install packages and prepare data.
+
+```bash
+# create venv and activate
+virtualenv -p python3 venv
+source venv/bin/activate
+
+# install dependencies
+pip install -r requirements.txt
+python -m spacy download de
+
+# copy private files
+mkdir data
+mkdir .cluster_data
+# ... [do copying] ...
+```
+
+Then spin-up the recommender_server (internel recommender-data-cluster-API; --> :5000), the Rasa action server (for defined custom actions; --> :5055) and the Rasa instance (--> :5005).
+
+```
+cd src/rasa
+python bot.py --task train-all
+
+python src/recommender/recommender_server.py &
+cd src/rasa
+python -m rasa_core_sdk.endpoint --actions actions &
+python -m rasa_core.run -d models/dialogue -u models/nlu/default/current/ --endpoints endpoints.yml --debug --enable_api &
+```

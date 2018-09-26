@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import requests, json
 from rasa_core_sdk import Action
 from rasa_core_sdk.forms import FormAction, BooleanFormField
