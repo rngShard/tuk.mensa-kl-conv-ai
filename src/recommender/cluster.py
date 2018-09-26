@@ -12,7 +12,7 @@ from util.cloud_connection import bucket_connection
 class Cluster:
 
     def __init__(self):
-        Cluster.download_cluster_data()
+        # Cluster.download_cluster_data()
         self.load_cluster_data()
 
     def load_cluster_data(self):
@@ -45,7 +45,6 @@ class Cluster:
             cluster = list(np.where(cluster_labels == cl)[0])
             cluster = [i + 1 for i in cluster]
             clusters.append(cluster)
-
         return clusters, cluster_labels
 
     def get_clusters(self):
@@ -73,7 +72,7 @@ class Cluster:
         return dTree, dot_data
 
     def predict_cluster(self, user_ratings):
-        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))
+        return self.dTree.predict(np.array(user_ratings).reshape(1, -1))[0]
 
 
 if __name__ == "__main__":

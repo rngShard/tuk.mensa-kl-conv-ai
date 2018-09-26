@@ -99,6 +99,7 @@ if __name__ == "__main__":
     print(r.predict("54", m_id=115))
     print(r.predict("55", m_id=493))
     print(r.menu.get_food_per_day("Dienstag"))
+    print(r.predict("konsti", cluster=True))
     print(r.predict("konsti"))
     # r = Recommender(cluster=True)
     # print(r.predict(55, m_id=601))
