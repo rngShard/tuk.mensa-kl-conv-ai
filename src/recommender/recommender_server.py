@@ -63,6 +63,17 @@ def predict():
     return jsonify(answer)
 
 
+@app.route("/addrating", methods=["POST"])
+def add_rating():
+    data = request.get_json()
+    user_id = data["user_id"]
+    m_id = data["m_id"]
+    rating = data["rating"]
+    r.users.update_rating(user_id, m_id, rating)
+    r.update_user_specific_data(user_id)
+    return ("Rating added!")
+
+
 @app.route("/getmeals", methods=['POST'])
 def get_meals():
     data = request.get_json()
