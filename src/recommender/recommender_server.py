@@ -74,6 +74,15 @@ def add_rating():
     return ("Rating added!")
 
 
+@app.route("/addadditives", methods=["Post"])
+def add_additives():
+    data = request.get_json()
+    user_id = data["user_id"]
+    additives = data["additives"]
+    for additive in additives:
+        r.users.update_user_additives(user_id, additive)
+    return ("Additives added!")
+
 @app.route("/getmeals", methods=['POST'])
 def get_meals():
     data = request.get_json()

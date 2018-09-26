@@ -69,8 +69,14 @@ class Users:
         self.firebase.update_rating(user_id, m_id, rating)
         self.ratings[user_id].loc[m_id] = rating
 
+
     def get_user_ratings(self, user_id):
         return self.ratings[user_id]
+
+    def update_user_additives(self, user_id, additive):
+        self.firebase.update_additives(user_id, additive)
+        self.additives[user_id].add(additive)
+
 
     def get_user_additives(self, user_id):
         return self.additives[user_id]

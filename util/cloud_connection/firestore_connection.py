@@ -57,6 +57,13 @@ class FirestoreConnector:
         doc_ref.update(data)
         print("Saved user_id:{}, m_id:{}, rating:{}".format(user_id, m_id, rating))
 
+    def update_additives(self, user_id, additive):
+        old_additives = self.db.document("users/" + user_id)
+        data = set(old_additives.get().to_dict()["additives"])
+        data.add(additive)
+        old_additives.update({"additives": list(data)})
+        print("Updated additive {} for user {}".format(additive, user_id))
+
     @staticmethod
     def validate_collection_path(path):
         if len(path.split("/")) % 2 != 1:
