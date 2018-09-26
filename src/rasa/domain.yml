@@ -5,6 +5,8 @@ slots:
     - heute
     - morgen
     - woche
+    # - montag
+    # - dienstag
   requested_slot:
     type: text
   like_q1:
@@ -25,7 +27,7 @@ slots:
     initial_value: "Hähncheninvoltini mit Tomaten-Basilikumsoße und Butter-Gnocchi" # 527
   q3_meal:
     type: text
-    initial_value: """Fajita Pueblo"" mit Paprika, Zucchini und Zwiebeln, dazu Sour-Cream-Dip, Tortillas und Salat" # 573
+    initial_value: "\"Fajita Pueblo\" mit Paprika, Zucchini und Zwiebeln, dazu Sour-Cream-Dip, Tortillas und Salat" # 573
   q4_meal:
     type: text
     initial_value: "Gegrilltes Schollenfilet mit Limetten-Dill-Soße und Tagliatelle"  # 457
@@ -38,16 +40,24 @@ entities:
 
 intents:
   - greet
+  - help
   - affirm
   - deny
   - ask
   - inform
+  - profile
 
 templates:
   utter_ask_howcanhelp:
     - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"
+    - text: "Hallo! Ich bin der Mensa-KL-Bot! Frage mich was es zu essen gibt!"
+    - text: "Hallöchen, wie geht's wie steht's?"
+  utter_what_can_do:
+    - text: "Du kannst mich fragen was es zu essen gibt. Ich erstelle für jeden Benutzer mit Fragen ein knappes Profil und gebe das aktuelle essen nach gelernter Vorliebe sortiert aus!"
+    - text: "Ich kann dir sagen was es an der TU_KL-Mensa grade zu essen gibt. Ich kann sogar deine Präferenzen lernen und dir das Essen sortiert nach deinen Vorlieben ausgeben!"
   utter_ask_time:
     - text: "Für wann willst du das Essen wissen? (heute / morgen / woche)"
+    - text: "Essen von <heute>, <morgen> oder dieser <woche>?"
   utter_ask_like_q1:
     - text: "Magst du \"{q1_meal}\"?"
   utter_ask_like_q2:
@@ -60,9 +70,12 @@ templates:
     - text: "Magst du \"{q5_meal}\"?"
   utter_default:
     - text: "Ich habe dich leider nicht verstanden."
+    - text: "Entschuldigung, ich habe dich nicht verstanden."
+    - text: "Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?"
 
 actions:
 - utter_ask_howcanhelp
+- utter_what_can_do
 - utter_ask_time
 - utter_ask_like_q1
 - utter_ask_like_q2
@@ -71,6 +84,5 @@ actions:
 - utter_ask_like_q5
 - utter_cannot_do_that_yet
 - utter_default
-- action_query_recommender
-- action_get_all_meals
+- action_get_meals
 - action_ask_specific_questions

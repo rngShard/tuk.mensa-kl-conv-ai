@@ -1,25 +1,23 @@
 ## greet & ask
 * greet
   - utter_ask_howcanhelp
-* ask{"time":"heute"} OR ask{"time":"morgen"} OR ask{"time":"woche"}
-  - action_query_recommender
+* ask
+  - action_get_meals
 
 ## urgent with profile readily available
 * ask{"time":"heute"} OR ask{"time":"morgen"} OR ask{"time":"woche"}
-  - action_query_recommender
+  - action_get_meals
 
 ## ask without date and deny profiling
 * ask
-  - utter_ask_time
-* inform <!-- * inform{"time":"heute"} OR inform{"time":"morgen"} OR inform{"time":"woche"} -->
-  - action_query_recommender
-* deny
-  - action_get_all_meals
+  - action_get_meals
+* inform
+  - action_get_meals
 
 ## ask specifics with profiling 001
 * ask{"time":"heute"} OR ask{"time":"morgen"} OR ask{"time":"woche"}
-  - action_query_recommender
-* affirm
+  - action_get_meals
+* profile
   - action_ask_specific_questions
   - slot{"requested_slot":"like_q1"}
 * affirm
@@ -44,10 +42,10 @@
 
 ## ask specifics with profiling 002
 * ask
-  - utter_ask_time
-* inform <!-- * inform{"time":"heute"} OR inform{"time":"morgen"} OR inform{"time":"woche"} -->
-  - action_query_recommender
-* affirm
+  - action_get_meals
+* inform
+  - action_get_meals
+* profile
   - action_ask_specific_questions
   - slot{"requested_slot":"like_q1"}
 * deny
@@ -69,3 +67,13 @@
 * deny
   - action_ask_specific_questions
   - slot{"like_q5": false}
+
+## hi and what
+* greet
+  - utter_ask_howcanhelp
+* help
+  - utter_what_can_do
+
+## what can do
+* help
+  - utter_what_can_do

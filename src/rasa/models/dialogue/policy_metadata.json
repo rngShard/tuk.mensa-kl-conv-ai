@@ -1,39 +1,39 @@
 {
+  "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
+  "rasa_core": "0.11.6",
+  "policy_names": [
+    "rasa_core.policies.memoization.MemoizationPolicy",
+    "rasa_core.policies.keras_policy.KerasPolicy",
+    "rasa_core.policies.fallback.FallbackPolicy"
+  ],
   "action_fingerprints": {
-    "action_query_recommender": {
-      "slots": []
-    },
-    "action_ask_specific_questions": {
-      "slots": [
-        "like_q3",
-        "like_q2",
-        "like_q1",
-        "like_q5",
-        "requested_slot",
-        "like_q4"
-      ]
-    },
     "action_listen": {
       "slots": [
         "like_q2",
         "time"
       ]
     },
-    "action_get_all_meals": {
+    "utter_what_can_do": {
+      "slots": []
+    },
+    "action_ask_specific_questions": {
+      "slots": [
+        "like_q5",
+        "like_q1",
+        "like_q2",
+        "like_q4",
+        "like_q3",
+        "requested_slot"
+      ]
+    },
+    "action_get_meals": {
       "slots": []
     }
   },
-  "policy_names": [
-    "rasa_core.policies.memoization.MemoizationPolicy",
-    "rasa_core.policies.keras_policy.KerasPolicy",
-    "rasa_core.policies.fallback.FallbackPolicy"
-  ],
-  "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
+  "python": "3.5.2",
   "max_histories": [
     3,
     5,
     null
-  ],
-  "rasa_core": "0.11.6",
-  "python": "3.5.2"
+  ]
 }

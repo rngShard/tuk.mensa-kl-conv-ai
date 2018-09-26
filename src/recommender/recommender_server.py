@@ -69,12 +69,12 @@ def get_meals():
     time = data["time"]
     if time == 'heute':
         today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
-        return jsonify({'msg': str(r.menu.get_food_per_day(today_weekday).loc[:,'title'].tolist()) })
+        return jsonify({'msg': r.menu.get_food_per_day(today_weekday).loc[:,'title'].tolist() })
     elif time == 'morgen':
         tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()+1]
-        return jsonify({'msg': str(r.menu.get_food_per_day(tomorrow_weekday).loc[:,'title'].tolist()) })
+        return jsonify({'msg': r.menu.get_food_per_day(tomorrow_weekday).loc[:,'title'].tolist() })
     elif time == 'woche':
-        return jsonify({'msg': str(r.menu.df_menus.loc[:,'title'].tolist()) })
+        return jsonify({'msg': r.menu.df_menus.loc[:,'title'].tolist() })
     else:
         return jsonify({'error':"Invalid value for attribute <time>."})
 

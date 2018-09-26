@@ -2,6 +2,7 @@
 ---
 actions:
 - utter_ask_howcanhelp
+- utter_what_can_do
 - utter_ask_time
 - utter_ask_like_q1
 - utter_ask_like_q2
@@ -10,23 +11,26 @@ actions:
 - utter_ask_like_q5
 - utter_cannot_do_that_yet
 - utter_default
-- action_query_recommender
-- action_get_all_meals
+- action_get_meals
 - action_ask_specific_questions
 config:
   store_entities_as_slots: true
 entities:
 - time
 intents:
-- affirm:
-    use_entities: true
-- inform:
-    use_entities: true
 - greet:
+    use_entities: true
+- help:
     use_entities: true
 - deny:
     use_entities: true
+- inform:
+    use_entities: true
 - ask:
+    use_entities: true
+- affirm:
+    use_entities: true
+- profile:
     use_entities: true
 slots:
   like_q1:
@@ -45,19 +49,20 @@ slots:
     initial_value: null
     type: rasa_core.slots.BooleanSlot
   q1_meal:
-    initial_value: Pommes
+    initial_value: Rindfleischstreifen in Paprika-Pfeffersoße, frische Spätzle
     type: rasa_core.slots.TextSlot
   q2_meal:
-    initial_value: Schnitzel
+    initial_value: Hähncheninvoltini mit Tomaten-Basilikumsoße und Butter-Gnocchi
     type: rasa_core.slots.TextSlot
   q3_meal:
-    initial_value: Gruenzeug
+    initial_value: '"Fajita Pueblo" mit Paprika, Zucchini und Zwiebeln, dazu Sour-Cream-Dip,
+      Tortillas und Salat'
     type: rasa_core.slots.TextSlot
   q4_meal:
-    initial_value: Suppe
+    initial_value: Gegrilltes Schollenfilet mit Limetten-Dill-Soße und Tagliatelle
     type: rasa_core.slots.TextSlot
   q5_meal:
-    initial_value: Steak
+    initial_value: Erbseneintopf mit einem Apfelberliner und einem Bio-Weizenbrötchen
     type: rasa_core.slots.TextSlot
   requested_slot:
     initial_value: null
@@ -72,6 +77,8 @@ slots:
 templates:
   utter_ask_howcanhelp:
   - text: Hi, MensaKL-Bot hier, wie kann ich helfen?
+  - text: Hallo! Ich bin der Mensa-KL-Bot! Frage mich was es zu essen gibt!
+  - text: Hallöchen, wie geht's wie steht's?
   utter_ask_like_q1:
   - text: Magst du "{q1_meal}"?
   utter_ask_like_q2:
@@ -84,5 +91,15 @@ templates:
   - text: Magst du "{q5_meal}"?
   utter_ask_time:
   - text: Für wann willst du das Essen wissen? (heute / morgen / woche)
+  - text: Essen von <heute>, <morgen> oder dieser <woche>?
   utter_default:
   - text: Ich habe dich leider nicht verstanden.
+  - text: Entschuldigung, ich habe dich nicht verstanden.
+  - text: Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?
+  utter_what_can_do:
+  - text: Du kannst mich fragen was es zu essen gibt. Ich erstelle für jeden Benutzer
+      mit Fragen ein knappes Profil und gebe das aktuelle essen nach gelernter Vorliebe
+      sortiert aus!
+  - text: Ich kann dir sagen was es an der TU_KL-Mensa grade zu essen gibt. Ich kann
+      sogar deine Präferenzen lernen und dir das Essen sortiert nach deinen Vorlieben
+      ausgeben!
