@@ -44,24 +44,51 @@ def user_exists():
 
 @app.route("/prediction", methods=['POST'])
 def predict():
+    week = False
     data = request.get_json()
     user_id = data["user_id"]
     try:
         day = data["day"]
+        print("day: " + str(day))
+        if day == 8:
+            day = [1, 2, 3, 4, 5]
+            week = True
     except KeyError:
         day = r.day
-    recommendation = r.predict(str(user_id), day=day)
-    print(recommendation)
-    menu = r.menu.get_food_per_day(WEEKDAYS[day])
-    recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
-    recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
-    predictions = []
-    for prediction in recommendation:
-        predictions.append(clean_title_additives(prediction[0]))
-    answer = {}
-    answer["prediction"] = predictions
-    return jsonify(answer)
-
+    if not week:
+        recommendation = r.predict(str(user_id), day=day)
+        print(recommendation)
+        menu = r.menu.get_food_per_day(WEEKDAYS[day])
+        recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+        recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+        predictions = []
+        # current_day = []
+        # for prediction in recommendation:
+        #    current_day.append(clean_title_additives(prediction[0]))
+        predictions.append(clean_title_additives(recommendation[0][0]))
+        answer = {}
+        answer["meals"] = predictions
+        answer["day"] = day
+        return jsonify(answer)
+    else:
+        predictions = []
+        for d in day:
+            print(d)
+            current_day = []
+            recommendation = r.predict(str(user_id), day=d)
+            print(recommendation)
+            menu = r.menu.get_food_per_day(WEEKDAYS[d])
+            recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+            recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+            print(recommendation)
+            current_day.append(clean_title_additives(recommendation[0][0]))
+            # for prediction in recommendation:
+            #    current_day.append(clean_title_additives(prediction[0]))
+            predictions.append(current_day)
+            answer = {}
+            answer["meals"] = predictions
+            answer["day"] = day
+        return jsonify(answer)
 
 @app.route("/addrating", methods=["POST"])
 def add_rating():
@@ -71,7 +98,7 @@ def add_rating():
     rating = data["rating"]
     r.users.update_rating(user_id, m_id, rating)
     r.update_user_specific_data(user_id)
-    return ("Rating added!")
+    return "Rating added!"
 
 
 @app.route("/addadditives", methods=["Post"])
@@ -81,7 +108,8 @@ def add_additives():
     additives = data["additives"]
     for additive in additives:
         r.users.update_user_additives(user_id, additive)
-    return ("Additives added!")
+    return "Additives added!"
+
 
 @app.route("/getmeals", methods=['POST'])
 def get_meals():
@@ -89,14 +117,14 @@ def get_meals():
     time = data["time"]
     if time == 'heute':
         today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
-        return jsonify({'msg': str(r.menu.get_food_per_day(today_weekday).loc[:,'title'].tolist()) })
+        return jsonify({'msg': str(r.menu.get_food_per_day(today_weekday).loc[:, 'title'].tolist())})
     elif time == 'morgen':
-        tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()+1]
-        return jsonify({'msg': str(r.menu.get_food_per_day(tomorrow_weekday).loc[:,'title'].tolist()) })
+        tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday() + 1]
+        return jsonify({'msg': str(r.menu.get_food_per_day(tomorrow_weekday).loc[:, 'title'].tolist())})
     elif time == 'woche':
-        return jsonify({'msg': str(r.menu.df_menus.loc[:,'title'].tolist()) })
+        return jsonify({'msg': str(r.menu.df_menus.loc[:, 'title'].tolist())})
     else:
-        return jsonify({'error':"Invalid value for attribute <time>."})
+        return jsonify({'error': "Invalid value for attribute <time>."})
 
 
 @app.route("/createuser", methods=['POST'])
@@ -113,7 +141,7 @@ def create_user():
         r.users.update_rating(user_id, decision_points[i], user_ratings[i])
     r.update_user_specific_data(user_id)
 
-    return ("User created!")
+    return "User created!"
 
 
 if __name__ == "__main__":

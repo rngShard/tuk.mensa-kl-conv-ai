@@ -27,7 +27,6 @@ class Recommender:
         self.data = Data()
         self.similarities = Similarities(self.data.df_initial_user_item)
         self.users = Users(self.data.df_initial_user_item.columns)
-
         self.build_user_data_startup()
 
         self.year, self.week, self.day = self._get_year_week_day()
@@ -35,6 +34,7 @@ class Recommender:
 
     def build_user_data_startup(self):
         for user_id in self.users.user_ids:
+            print(user_id)
             self.data._create_user_item(self.users.get_user_ratings(user_id))
             self.similarities.create_usr_usr_sim(self.data.get_user_item(user_id), user_id)
 
@@ -59,7 +59,6 @@ class Recommender:
             day = self.day
         if cluster:
             user_cluster = self.cluster.predict_cluster(self.users.get_user_ratings(current_user))
-            print(user_cluster)
             cluster_neighbors = self.cluster.get_neighbbors(user_cluster)
             predictions = {}
 
@@ -86,7 +85,6 @@ class Recommender:
                         (meal, predict_rating(current_user, df_similarity, df_user_item, df_meals, sim_users,
                                               meal)))
             else:
-                print(m_id)
                 predictions.append((m_id, predict_rating(current_user, df_similarity, df_user_item, df_meals, sim_users,
                                                          m_id)))
 
@@ -98,9 +96,10 @@ if __name__ == "__main__":
     print(r.predict("54"))
     print(r.predict("54", m_id=115))
     print(r.predict("55", m_id=493))
-    print(r.menu.get_food_per_day("Dienstag"))
-    print(r.predict("konsti", cluster=True))
-    print(r.predict("konsti"))
+    #print(r.menu.get_food_per_day("Dienstag"))
+    #print(r.predict("konsti", cluster=True))
+    #print(r.predict("konsti"))
+    #print(r.predict("default"))
     # r = Recommender(cluster=True)
     # print(r.predict(55, m_id=601))
     # print(r.predict(56))
