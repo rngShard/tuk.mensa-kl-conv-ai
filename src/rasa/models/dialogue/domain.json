@@ -4,7 +4,9 @@
     "intent_ask",
     "intent_deny",
     "intent_greet",
+    "intent_help",
     "intent_inform",
+    "intent_profile",
     "entity_time",
     "slot_like_q1_0",
     "slot_like_q2_0",
@@ -24,6 +26,7 @@
     "prev_action_restart",
     "prev_action_default_fallback",
     "prev_utter_ask_howcanhelp",
+    "prev_utter_what_can_do",
     "prev_utter_ask_time",
     "prev_utter_ask_like_q1",
     "prev_utter_ask_like_q2",
@@ -32,8 +35,7 @@
     "prev_utter_ask_like_q5",
     "prev_utter_cannot_do_that_yet",
     "prev_utter_default",
-    "prev_action_query_recommender",
-    "prev_action_get_all_meals",
+    "prev_action_get_meals",
     "prev_action_ask_specific_questions"
   ]
 }

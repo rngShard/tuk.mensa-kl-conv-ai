@@ -6,6 +6,17 @@
 - guten morgen
 - jo
 
+## intent:help
+- was kannst du
+- was sind deine funktionen
+- was kann ich mit dir machen
+- was soll ich hier
+- wie ist deine aufgabe
+- welchen zweck erfüllst du
+- hilfe
+- bitte hilf
+- ich brauche hilfe
+
 ## intent:affirm
 - ja
 - ja bitte
@@ -52,3 +63,10 @@
 - [heute](time)
 - [morgen](time)
 - [woche](time)
+
+## intent:profile
+- lerne mich kennen
+- willst du mich kennen lernen
+- lerne meine präferenzen
+- erstelle ein profil für mich
+- lerne was ich essen will
