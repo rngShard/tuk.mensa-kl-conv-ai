@@ -1,4 +1,5 @@
 # coding=utf-8
+import datetime
 
 import requests, json
 from rasa_core_sdk import Action
@@ -8,6 +9,15 @@ from rasa_core_sdk.forms import FormAction, BooleanFormField
 import os, sys
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
+
+def get_day(time):
+    current_day = datetime.datetime.now().weekday() + 1
+    if time == "heute":
+        return current_day
+    elif time == "morgen":
+        return current_day + 1
+    elif time == "woche":
+        return 8
 
 
 class ActionGetMeals(Action):
@@ -19,7 +29,6 @@ class ActionGetMeals(Action):
 
         user_id = tracker.sender_id
         time = tracker.get_slot("time")
-
         if not time:
             dispatcher.utter_message("Es ist kein Zeit-Attribut (heute/morgen/woche) gesetzt. Für wann soll Essen erfragt werden?")
         else:
@@ -28,9 +37,14 @@ class ActionGetMeals(Action):
 
                 res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id":str(user_id)})
                 if res.json()['user_exists'] == 1:
+                    day = get_day(time)
+                    if day == 6 or day == 7:
+                        dispatcher.utter_message("Heute gibt es nichts zu essen.")
+                        return []
+
                     msg_profile = "Ein bestehendes Benutzerprofil wurde gefunden."
 
-                    res2 = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id)})
+                    res2 = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day": day})
                     res2_dict = json.loads(res2.text)
 
                     res2_meal_list = res2_dict['prediction']

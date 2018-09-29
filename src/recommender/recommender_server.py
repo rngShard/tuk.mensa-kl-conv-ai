@@ -55,6 +55,7 @@ def predict():
             week = True
     except KeyError:
         day = r.day
+    print(day)
     if not week:
         recommendation = r.predict(str(user_id), day=day)
         print(recommendation)
@@ -76,11 +77,9 @@ def predict():
             print(d)
             current_day = []
             recommendation = r.predict(str(user_id), day=d)
-            print(recommendation)
             menu = r.menu.get_food_per_day(WEEKDAYS[d])
             recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
             recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
-            print(recommendation)
             current_day.append(clean_title_additives(recommendation[0][0]))
             # for prediction in recommendation:
             #    current_day.append(clean_title_additives(prediction[0]))
@@ -89,6 +88,7 @@ def predict():
             answer["meals"] = predictions
             answer["day"] = day
         return jsonify(answer)
+
 
 @app.route("/addrating", methods=["POST"])
 def add_rating():
@@ -117,14 +117,14 @@ def get_meals():
     time = data["time"]
     if time == 'heute':
         today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
-        return jsonify({'msg': r.menu.get_food_per_day(today_weekday).loc[:,'title'].tolist() })
+        return jsonify({'msg': r.menu.get_food_per_day(today_weekday).loc[:, 'title'].tolist()})
     elif time == 'morgen':
         tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()+1]
-        return jsonify({'msg': r.menu.get_food_per_day(tomorrow_weekday).loc[:,'title'].tolist() })
+        return jsonify({'msg': r.menu.get_food_per_day(tomorrow_weekday).loc[:, 'title'].tolist()})
     elif time == 'woche':
-        return jsonify({'msg': r.menu.df_menus.loc[:,'title'].tolist() })
+        return jsonify({'msg': r.menu.df_menus.loc[:, 'title'].tolist()})
     else:
-        return jsonify({'error':"Invalid value for attribute <time>."})
+        return jsonify({'error': "Invalid value for attribute <time>."})
 
 
 @app.route("/createuser", methods=['POST'])
