@@ -4,20 +4,77 @@ import datetime
 import requests, json
 from rasa_core_sdk import Action
 from rasa_core_sdk.forms import FormAction, BooleanFormField
-# from rasa_core_sdk.events import SlotSet
+from rasa_core_sdk.events import SlotSet
 
 import os, sys
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
+
+WEEKDAYS = {
+    "montag": 1,
+    "dienstag": 2,
+    "mittwoch": 3,
+    "donnerstag": 4,
+    "freitag": 5
+}
 
 def get_day(time):
     current_day = datetime.datetime.now().weekday() + 1
     if time == "heute":
         return current_day
     elif time == "morgen":
-        return current_day + 1
+        if current_day == 7:
+            current_day = 1
+        else:
+            current_day += 1
+        return current_day
     elif time == "woche":
         return 8
+    else:
+        return WEEKDAYS[time]
+
+
+class action_check_profile(Action):
+    def name(self):
+        return "action_check_profile"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id":str(user_id)})
+        if res.json()['user_exists'] == 1:
+             return [SlotSet("user_exists", True)]
+        else:
+            return [SlotSet("user_exists", False)]
+
+class action_predict_meals_after_registration(Action):
+    def name(self):
+        return "action_predict_meals_after_registration"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        time = tracker.get_slot("time")
+        if not time:
+            dispatcher.utter_message("Es ist kein Zeit-Attribut (heute/morgen/woche) gesetzt. Für wann soll Essen erfragt werden?")
+        day = get_day(time)
+        if day == 6 or day == 7:
+            dispatcher.utter_message("Heute gibt es nichts zu essen.")
+            return []
+        print("DAy:" + str(day))
+        msg_time = "Essen für <{}>.".format(time)
+        res = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day":day})
+        res_dict = json.loads(res.text)
+        meals = res_dict["meals"]
+        print(meals)
+        if day != 0 and meals == []:
+            answer = "An diesem Tag gibt es nichts zu essen."
+        else:
+            answer = "Meine Empfehlung für {}:".format(time)
+            for meal in meals:
+                        answer += "\n - " + meal[0]
+        dispatcher.utter_message(answer)
+        return []
+
+        
 
 
 class ActionGetMeals(Action):
@@ -93,6 +150,6 @@ class ActionAskSpecificQuestions(FormAction):
         print(json)
         res = requests.post('http://127.0.0.1:5000/createuser', json=json)
         
-        dispatcher.utter_message("Neues User-Profil mit Bewertungen {} erstellt!".format(json['ratings']))
+        dispatcher.utter_message("Neues User-Profil mit Bewertungen {} erstellt! Von nun an kannst du Empfehlungen von mir bekommen!".format(json['ratings']))
         return []
-        
+

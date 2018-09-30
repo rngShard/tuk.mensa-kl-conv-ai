@@ -1,12 +1,25 @@
+intents:
+  - greet
+  - affirm
+  - deny
+  - ask
+  - help
+
+
 slots:
+  user_exists:
+    type: bool
   time:
     type: categorical
     values:
     - heute
     - morgen
     - woche
-    # - montag
-    # - dienstag
+    - montag
+    - dienstag
+    - mittwoch
+    - donnerstag
+    - freitag
   requested_slot:
     type: text
   like_q1:
@@ -35,17 +48,25 @@ slots:
     type: text
     initial_value: "Erbseneintopf mit einem Apfelberliner und einem Bio-Weizenbrötchen"  # 539
 
-entities:
-  - time
 
-intents:
-  - greet
-  - help
-  - affirm
-  - deny
-  - ask
-  - inform
-  - profile
+actions:
+- utter_default
+- utter_greet
+- utter_ask_howcanhelp
+- utter_what_can_do
+- action_check_profile
+- utter_welcome_existing_user
+- utter_ask_create_profile
+- utter_bye
+- utter_ask_like_q1
+- utter_ask_like_q2
+- utter_ask_like_q3
+- utter_ask_like_q4
+- utter_ask_like_q5
+- action_ask_specific_questions
+- utter_ask_time
+- action_predict_meals_after_registration
+
 
 templates:
   utter_ask_howcanhelp:
@@ -55,9 +76,21 @@ templates:
   utter_what_can_do:
     - text: "Du kannst mich fragen was es zu essen gibt. Ich erstelle für jeden Benutzer mit Fragen ein knappes Profil und gebe das aktuelle essen nach gelernter Vorliebe sortiert aus!"
     - text: "Ich kann dir sagen was es an der TU_KL-Mensa grade zu essen gibt. Ich kann sogar deine Präferenzen lernen und dir das Essen sortiert nach deinen Vorlieben ausgeben!"
-  utter_ask_time:
-    - text: "Für wann willst du das Essen wissen? (heute / morgen / woche)"
-    - text: "Essen von <heute>, <morgen> oder dieser <woche>?"
+  utter_default:
+    - text: "Ich habe dich leider nicht verstanden."
+    - text: "Entschuldigung, ich habe dich nicht verstanden."
+    - text: "Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?"
+  utter_greet:
+    - text: ""
+  utter_welcome_existing_user:
+    - text: "Hallo, hast du Hunger?"
+    - text: "Wie kann ich dir helfen?"
+  utter_ask_create_profile:
+    - text: "Ich sehe, dass du noch kein Profil hast. Willst du eins erstellen?"
+  utter_decision1:
+    - text: "Magst du Rindfleisch?"
+  utter_bye:
+    - text: "Ciao!"
   utter_ask_like_q1:
     - text: "Ok, dann will ich dich mal kennen lernen!\n Magst du \"{q1_meal}\"?"
   utter_ask_like_q2:
@@ -68,21 +101,7 @@ templates:
     - text: "Magst du \"{q4_meal}\"?"
   utter_ask_like_q5:
     - text: "Magst du \"{q5_meal}\"?"
-  utter_default:
-    - text: "Ich habe dich leider nicht verstanden."
-    - text: "Entschuldigung, ich habe dich nicht verstanden."
-    - text: "Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?"
-
-actions:
-- utter_ask_howcanhelp
-- utter_what_can_do
-- utter_ask_time
-- utter_ask_like_q1
-- utter_ask_like_q2
-- utter_ask_like_q3
-- utter_ask_like_q4
-- utter_ask_like_q5
-- utter_cannot_do_that_yet
-- utter_default
-- action_get_meals
-- action_ask_specific_questions
+  utter_ask_time:
+    - text: "Für wann willst du das Essen wissen? (heute / morgen / woche)"
+    - text: "Essen von <heute>, <morgen> oder dieser <woche>?"
+  

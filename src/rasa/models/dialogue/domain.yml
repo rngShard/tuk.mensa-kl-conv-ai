@@ -1,36 +1,35 @@
 %YAML 1.1
 ---
 actions:
+- utter_default
+- utter_greet
 - utter_ask_howcanhelp
 - utter_what_can_do
-- utter_ask_time
+- action_check_profile
+- utter_welcome_existing_user
+- utter_ask_create_profile
+- utter_bye
 - utter_ask_like_q1
 - utter_ask_like_q2
 - utter_ask_like_q3
 - utter_ask_like_q4
 - utter_ask_like_q5
-- utter_cannot_do_that_yet
-- utter_default
-- action_get_meals
 - action_ask_specific_questions
+- utter_ask_time
+- action_predict_meals_after_registration
 config:
   store_entities_as_slots: true
-entities:
-- time
+entities: []
 intents:
-- help:
-    use_entities: true
-- deny:
-    use_entities: true
-- inform:
-    use_entities: true
-- ask:
-    use_entities: true
 - greet:
     use_entities: true
 - affirm:
     use_entities: true
-- profile:
+- deny:
+    use_entities: true
+- ask:
+    use_entities: true
+- help:
     use_entities: true
 slots:
   like_q1:
@@ -74,7 +73,17 @@ slots:
     - heute
     - morgen
     - woche
+    - montag
+    - dienstag
+    - mittwoch
+    - donnerstag
+    - freitag
+  user_exists:
+    initial_value: null
+    type: rasa_core.slots.BooleanSlot
 templates:
+  utter_ask_create_profile:
+  - text: Ich sehe, dass du noch kein Profil hast. Willst du eins erstellen?
   utter_ask_howcanhelp:
   - text: Hi, MensaKL-Bot hier, wie kann ich helfen?
   - text: Hallo! Ich bin der Mensa-KL-Bot! Frage mich was es zu essen gibt!
@@ -92,10 +101,19 @@ templates:
   utter_ask_time:
   - text: Für wann willst du das Essen wissen? (heute / morgen / woche)
   - text: Essen von <heute>, <morgen> oder dieser <woche>?
+  utter_bye:
+  - text: Ciao!
+  utter_decision1:
+  - text: Magst du Rindfleisch?
   utter_default:
   - text: Ich habe dich leider nicht verstanden.
   - text: Entschuldigung, ich habe dich nicht verstanden.
   - text: Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?
+  utter_greet:
+  - text: ''
+  utter_welcome_existing_user:
+  - text: Hallo, hast du Hunger?
+  - text: Wie kann ich dir helfen?
   utter_what_can_do:
   - text: Du kannst mich fragen was es zu essen gibt. Ich erstelle für jeden Benutzer
       mit Fragen ein knappes Profil und gebe das aktuelle essen nach gelernter Vorliebe

@@ -24,7 +24,7 @@ def train_dialogue(domain_file="domain.yml",
     training_data = agent.load_data(training_data_file)
     agent.train(
             training_data,
-            epochs=111,
+            epochs=50,
             batch_size=100,
             validation_split=0.2
     )
