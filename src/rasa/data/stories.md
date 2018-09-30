@@ -10,9 +10,95 @@
   - utter_welcome
   - action_restart
 
+
 ## what can do
 * help
   - utter_what_can_do
+  - action_restart
+
+
+## ask hasProfile without day
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+* inform
+  - action_predict_meals_after_registration
+  - action_restart
+
+## ask hasProfile heute
+* ask{"time":"heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+
+## ask hasProfile donnerstag
+* ask{"time":"donnerstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask first interaction without day
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction dienstag
+* ask{"time": "dienstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+
+## ask hasNoProfile without day
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform
+  - action_meals_without_registration
+  - action_restart
+
+## ask hasNoProfile heute
+* ask{"time":"heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile freitag
+* ask{"time":"freitag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
   - action_restart
 
 ## hasNoProfile heute
@@ -103,6 +189,17 @@
   - action_meals_without_registration
   - action_restart
 
+## hasProfile without day
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* ask
+  - action_predict_meals_after_registration
+  - action_restart
+
 ## hasProfile heute
 * greet
   - action_check_user_wants_profile
@@ -188,6 +285,72 @@
   - slot{"user_exists": true}
   - utter_welcome
 * ask{"time":"freitag"}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask first question specifics with profiling 00000 without day
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* affirm
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q1": false}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q3": false}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": false}
+  - action_predict_meals_after_registration
+* inform
+  - action_predict_meals_after_registration
+  - action_restart
+
+## ask first question specifics with profiling 00000 with day
+* ask{"time":"heute"} or ask{"time":"morgen"} or ask{"time":"woche"} or ask{"time":"montag"} or ask{"time":"dienstag"} or ask{"time":"mittwoch"} or ask{"time":"donnerstag"} or ask{"time":"freitag"} or ask{"time":"samstag"} or ask{"time":"sonntag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* affirm
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q1": false}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q3": false}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": false}
   - action_predict_meals_after_registration
   - action_restart
 

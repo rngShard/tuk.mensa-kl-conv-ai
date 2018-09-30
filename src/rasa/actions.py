@@ -20,6 +20,7 @@ WEEKDAYS = {
     "freitag": 5
 }
 
+
 def get_day(time):
     current_day = datetime.datetime.now().weekday() + 1
     if time == "heute":
@@ -42,9 +43,9 @@ class action_check_profile(Action):
 
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id":str(user_id)})
+        res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id": str(user_id)})
         if res.json()['user_exists'] == 1:
-             return [SlotSet("user_exists", True)]
+            return [SlotSet("user_exists", True)]
         else:
             return [SlotSet("user_exists", False)]
 
@@ -71,6 +72,7 @@ class set_user_wants_no_profile(Action):
         requests.post('http://127.0.0.1:5000/setusernoprofile', json={"user_id": str(user_id)})
         return []
 
+
 class action_predict_meals_after_registration(Action):
     def name(self):
         return "action_predict_meals_after_registration"
@@ -79,13 +81,15 @@ class action_predict_meals_after_registration(Action):
         user_id = tracker.sender_id
         time = tracker.get_slot("time")
         if not time:
-            dispatcher.utter_message("Es ist kein Zeit-Attribut (heute/morgen/woche) gesetzt. Für wann soll Essen erfragt werden?")
+            dispatcher.utter_message("Es ist kein Zeit-Attribut (heute/morgen/woche) gesetzt. "
+                                     "Für wann soll Essen erfragt werden?")
+            return []
+
         day = get_day(time)
         if day == 6 or day == 7:
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
         print("DAy:" + str(day))
-        msg_time = "Essen für <{}>.".format(time)
         res = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day":day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
@@ -109,6 +113,7 @@ class action_meals_without_registration(Action):
         if not time:
             dispatcher.utter_message(
                 "Es ist kein Zeit-Attribut (heute/morgen) gesetzt. Für wann soll Essen erfragt werden?")
+            return []
         day = get_day(time)
         if day == 8:
             dispatcher.utter_message("Wenn du nicht registriert bist, kann ich dir keine Wochenübersicht ausgeben.")
@@ -117,7 +122,6 @@ class action_meals_without_registration(Action):
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
         print("DAy:" + str(day))
-        msg_time = "Essen für <{}>.".format(time)
         res = requests.post('http://127.0.0.1:5000/getmeals', json={"day": day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
@@ -130,7 +134,6 @@ class action_meals_without_registration(Action):
                 answer += "\n - " + meal[0]
         dispatcher.utter_message(answer)
         return []
-        
 
 
 class ActionGetMeals(Action):
@@ -204,7 +207,7 @@ class ActionAskSpecificQuestions(FormAction):
             "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
-        res = requests.post('http://127.0.0.1:5000/createuser', json=json)
+        requests.post('http://127.0.0.1:5000/createuser', json=json)
         
         dispatcher.utter_message("Neues User-Profil mit Bewertungen {} erstellt! Von nun an kannst du Empfehlungen von mir bekommen!".format(json['ratings']))
         return []

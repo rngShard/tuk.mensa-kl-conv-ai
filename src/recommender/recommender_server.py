@@ -151,8 +151,8 @@ def get_meals():
         except AttributeError:
             menu = []
     meals = []
-    for i in range(len(menu)):
-        meals.append([clean_title_additives(menu[i])])
+    for meal in menu:
+        meals.append([clean_title_additives(meal)])
 
     answer = {}
     answer["meals"] = meals

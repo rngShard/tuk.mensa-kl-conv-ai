@@ -4,6 +4,7 @@ intents:
   - deny
   - ask
   - help
+  - inform
 
 
 slots:
@@ -22,6 +23,8 @@ slots:
     - mittwoch
     - donnerstag
     - freitag
+    - samstag
+    - sonntag
   requested_slot:
     type: text
   like_q1:

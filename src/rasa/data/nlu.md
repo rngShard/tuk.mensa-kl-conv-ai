@@ -111,7 +111,18 @@
 - für [heute](time)
 - [heute](time)
 - [morgen](time)
+- für [morgen](time)
 - [woche](time)
+- diese [woche](time)
+- für diese [woche](time)
+- [montag](time)
+- [dienstag](time)
+- [mittwoch](time)
+- [donnerstag](time)
+- [freitag](time)
+- am [montag](time)
+- für den [montag](time)
+
 
 ## intent:profile
 - lerne mich kennen
