@@ -30,7 +30,11 @@ class Recommender:
         self.build_user_data_startup()
 
         self.year, self.week, self.day = self._get_year_week_day()
-        self.menu = Menu(self.year, self.week)
+        print(self.week, self.day)
+        if self.day == 6 or self.day == 7:
+            self.week += 1
+            print(self.week)
+            self.menu = Menu(self.year, self.week)
 
     def build_user_data_startup(self):
         for user_id in self.users.user_ids:
@@ -57,6 +61,9 @@ class Recommender:
     def predict(self, current_user, metric="cosine", m_id=None, day=0, cluster=False):
         if day == 0:
             day = self.day
+        if day == 6  or day == 7:
+            day = 1
+
         if cluster:
             user_cluster = self.cluster.predict_cluster(self.users.get_user_ratings(current_user))
             cluster_neighbors = self.cluster.get_neighbbors(user_cluster)
@@ -79,11 +86,15 @@ class Recommender:
             df_user_item = self.data.get_user_item(current_user)
             df_meals = self.data.get_meals()
             if m_id is None:
+                print(day)
                 m_ids = self.menu.get_meal_ids_per_day(WEEKDAYS[day])
-                for meal in m_ids:
-                    predictions.append(
-                        (meal, predict_rating(current_user, df_similarity, df_user_item, df_meals, sim_users,
-                                              meal)))
+                if m_ids is None:
+                    predictions.append([])
+                else:
+                    for meal in m_ids:
+                        predictions.append(
+                            (meal, predict_rating(current_user, df_similarity, df_user_item, df_meals, sim_users,
+                                                  meal)))
             else:
                 predictions.append((m_id, predict_rating(current_user, df_similarity, df_user_item, df_meals, sim_users,
                                                          m_id)))

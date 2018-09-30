@@ -39,6 +39,7 @@ def user_exists():
         exists = 1
     else:
         exists = 0
+    print("User exists: " + str(exists))
     return jsonify({"user_exists": exists})
 
 
@@ -57,36 +58,45 @@ def predict():
         day = r.day
     print(day)
     if not week:
+        predictions = []
         recommendation = r.predict(str(user_id), day=day)
         print(recommendation)
         menu = r.menu.get_food_per_day(WEEKDAYS[day])
-        recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
-        recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
-        predictions = []
-        # current_day = []
-        # for prediction in recommendation:
-        #    current_day.append(clean_title_additives(prediction[0]))
-        predictions.append(clean_title_additives(recommendation[0][0]))
+        if menu is None:
+            predictions = []
+        else:
+            recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+            recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+            # current_day = []
+            # for prediction in recommendation:
+            #    current_day.append(clean_title_additives(prediction[0]))
+            predictions.append([clean_title_additives(recommendation[0][0])])
+            print(predictions)
         answer = {}
         answer["meals"] = predictions
         answer["day"] = day
         return jsonify(answer)
     else:
         predictions = []
+        days = []
         for d in day:
             print(d)
             current_day = []
             recommendation = r.predict(str(user_id), day=d)
             menu = r.menu.get_food_per_day(WEEKDAYS[d])
-            recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
-            recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
-            current_day.append(clean_title_additives(recommendation[0][0]))
-            # for prediction in recommendation:
-            #    current_day.append(clean_title_additives(prediction[0]))
+            if menu is None:
+                continue
+            else:
+                recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+                recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+                current_day.append(clean_title_additives(recommendation[0][0]))
+                # for prediction in recommendation:
+                #    current_day.append(clean_title_additives(prediction[0]))
+                days.append(d)
             predictions.append(current_day)
             answer = {}
             answer["meals"] = predictions
-            answer["day"] = day
+            answer["day"] = days
         return jsonify(answer)
 
 
