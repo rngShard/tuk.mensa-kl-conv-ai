@@ -17,6 +17,7 @@ class Users:
         self.meal_ids = meal_ids
         self.firebase = FirestoreConnector()
         self.db_user_path = "users"
+        self.db_users_no_profile_path = "users_no_profile"
         self.users = {}
         self.user_ids = []
         self.ratings = {}
@@ -31,6 +32,18 @@ class Users:
             return True
         except NotFound:
             return False
+
+    def wants_no_profile(self, user_id):
+        try:
+            user = self.firebase.get_document(self.db_users_no_profile_path + "/" + user_id)
+            return True
+        except NotFound:
+            return False
+
+    def set_wants_no_profile(self, user_id):
+        data = {"user_id": user_id}
+        self.firebase.create_document(self.db_users_no_profile_path + "/" + user_id, data)
+        return user_id
 
     def create_user(self, user_id=None):
         if user_id is None:

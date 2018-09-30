@@ -1,12 +1,14 @@
 # coding=utf-8
 import datetime
+import json
+import os
+import sys
 
-import requests, json
+import requests
 from rasa_core_sdk import Action
-from rasa_core_sdk.forms import FormAction, BooleanFormField
 from rasa_core_sdk.events import SlotSet
+from rasa_core_sdk.forms import FormAction, BooleanFormField
 
-import os, sys
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
 
@@ -46,6 +48,29 @@ class action_check_profile(Action):
         else:
             return [SlotSet("user_exists", False)]
 
+
+class action_check_user_wants_profile(Action):
+    def name(self):
+        return "action_check_user_wants_profile"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        res = requests.post('http://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
+        if res.json()['no_profile'] == 1:
+            return [SlotSet("wants_no_profile", True)]
+        else:
+            return [SlotSet("wants_no_profile", False)]
+
+
+class set_user_wants_no_profile(Action):
+    def name(self):
+        return "action_set_user_wants_no_profile"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        requests.post('http://127.0.0.1:5000/setusernoprofile', json={"user_id": str(user_id)})
+        return []
+
 class action_predict_meals_after_registration(Action):
     def name(self):
         return "action_predict_meals_after_registration"
@@ -74,6 +99,37 @@ class action_predict_meals_after_registration(Action):
         dispatcher.utter_message(answer)
         return []
 
+
+class action_meals_without_registration(Action):
+    def name(self):
+        return "action_meals_without_registration"
+
+    def run(self, dispatcher, tracker, domain):
+        time = tracker.get_slot("time")
+        if not time:
+            dispatcher.utter_message(
+                "Es ist kein Zeit-Attribut (heute/morgen) gesetzt. Für wann soll Essen erfragt werden?")
+        day = get_day(time)
+        if day == 8:
+            dispatcher.utter_message("Wenn du nicht registriert bist, kann ich dir keine Wochenübersicht ausgeben.")
+            return []
+        if day == 6 or day == 7:
+            dispatcher.utter_message("Heute gibt es nichts zu essen.")
+            return []
+        print("DAy:" + str(day))
+        msg_time = "Essen für <{}>.".format(time)
+        res = requests.post('http://127.0.0.1:5000/getmeals', json={"day": day})
+        res_dict = json.loads(res.text)
+        meals = res_dict["meals"]
+        print(meals)
+        if day != 0 and meals == []:
+            answer = "An diesem Tag gibt es nichts zu essen."
+        else:
+            answer = "Meine Empfehlung für {}:".format(time)
+            for meal in meals:
+                answer += "\n - " + meal[0]
+        dispatcher.utter_message(answer)
+        return []
         
 
 

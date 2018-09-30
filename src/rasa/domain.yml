@@ -9,6 +9,8 @@ intents:
 slots:
   user_exists:
     type: bool
+  wants_no_profile:
+    type: bool
   time:
     type: categorical
     values:
@@ -55,7 +57,9 @@ actions:
 - utter_ask_howcanhelp
 - utter_what_can_do
 - action_check_profile
-- utter_welcome_existing_user
+- action_check_user_wants_profile
+- action_set_user_wants_no_profile
+- utter_welcome
 - utter_ask_create_profile
 - utter_bye
 - utter_ask_like_q1
@@ -66,6 +70,7 @@ actions:
 - action_ask_specific_questions
 - utter_ask_time
 - action_predict_meals_after_registration
+- action_meals_without_registration
 
 
 templates:
@@ -82,8 +87,7 @@ templates:
     - text: "Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?"
   utter_greet:
     - text: ""
-  utter_welcome_existing_user:
-    - text: "Hallo, hast du Hunger?"
+  utter_welcome:
     - text: "Wie kann ich dir helfen?"
   utter_ask_create_profile:
     - text: "Ich sehe, dass du noch kein Profil hast. Willst du eins erstellen?"

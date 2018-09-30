@@ -5,30 +5,32 @@
         "time"
       ]
     },
+    "action_check_user_wants_profile": {
+      "slots": [
+        "wants_no_profile"
+      ]
+    },
     "action_check_profile": {
       "slots": [
         "user_exists"
       ]
     },
-    "action_ask_specific_questions": {
-      "slots": [
-        "like_q3",
-        "requested_slot",
-        "like_q1",
-        "like_q4",
-        "like_q5",
-        "like_q2"
-      ]
-    },
     "action_restart": {
       "slots": []
     },
-    "utter_what_can_do": {
-      "slots": []
+    "action_ask_specific_questions": {
+      "slots": [
+        "requested_slot",
+        "like_q1",
+        "like_q2",
+        "like_q3",
+        "like_q4",
+        "like_q5"
+      ]
     }
   },
   "rasa_core": "0.11.6",
-  "python": "3.6.5",
+  "python": "3.6.6",
   "max_histories": [
     3,
     5,

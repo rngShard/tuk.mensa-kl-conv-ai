@@ -30,10 +30,8 @@ class Recommender:
         self.build_user_data_startup()
 
         self.year, self.week, self.day = self._get_year_week_day()
-        print(self.week, self.day)
         if self.day == 6 or self.day == 7:
             self.week += 1
-            print(self.week)
             self.menu = Menu(self.year, self.week)
 
     def build_user_data_startup(self):
@@ -86,7 +84,6 @@ class Recommender:
             df_user_item = self.data.get_user_item(current_user)
             df_meals = self.data.get_meals()
             if m_id is None:
-                print(day)
                 m_ids = self.menu.get_meal_ids_per_day(WEEKDAYS[day])
                 if m_ids is None:
                     predictions.append([])

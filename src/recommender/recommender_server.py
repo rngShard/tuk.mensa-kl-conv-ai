@@ -1,4 +1,3 @@
-import datetime
 import os
 import sys
 
@@ -33,7 +32,6 @@ def index():
 @app.route("/userexists", methods=['POST'])
 def user_exists():
     data = request.get_json()
-    print(data)
     user_id = data["user_id"]
     if r.users.user_exists(user_id):
         exists = 1
@@ -43,6 +41,25 @@ def user_exists():
     return jsonify({"user_exists": exists})
 
 
+@app.route("/usernoprofile", methods=["POST"])
+def user_wants_no_profile():
+    data = request.get_json()
+    user_id = data["user_id"]
+    if r.users.wants_no_profile(user_id):
+        no_profile = 1
+    else:
+        no_profile = 0
+    print("User wants no profile: " + str(no_profile))
+    return jsonify({"no_profile": no_profile})
+
+
+@app.route("/setusernoprofile", methods=["POST"])
+def set_user_no_profile():
+    data = request.get_json()
+    user_id = data["user_id"]
+    r.users.set_wants_no_profile(user_id)
+    return "Set user wants no profile"
+
 @app.route("/prediction", methods=['POST'])
 def predict():
     week = False
@@ -50,17 +67,14 @@ def predict():
     user_id = data["user_id"]
     try:
         day = data["day"]
-        print("day: " + str(day))
         if day == 8:
             day = [1, 2, 3, 4, 5]
             week = True
     except KeyError:
         day = r.day
-    print(day)
     if not week:
         predictions = []
         recommendation = r.predict(str(user_id), day=day)
-        print(recommendation)
         menu = r.menu.get_food_per_day(WEEKDAYS[day])
         if menu is None:
             predictions = []
@@ -71,7 +85,6 @@ def predict():
             # for prediction in recommendation:
             #    current_day.append(clean_title_additives(prediction[0]))
             predictions.append([clean_title_additives(recommendation[0][0])])
-            print(predictions)
         answer = {}
         answer["meals"] = predictions
         answer["day"] = day
@@ -80,7 +93,6 @@ def predict():
         predictions = []
         days = []
         for d in day:
-            print(d)
             current_day = []
             recommendation = r.predict(str(user_id), day=d)
             menu = r.menu.get_food_per_day(WEEKDAYS[d])
@@ -121,20 +133,47 @@ def add_additives():
     return "Additives added!"
 
 
-@app.route("/getmeals", methods=['POST'])
+@app.route("/getmeals", methods=["Post"])
 def get_meals():
+    week = False
     data = request.get_json()
-    time = data["time"]
-    if time == 'heute':
-        today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
-        return jsonify({'msg': r.menu.get_food_per_day(today_weekday).loc[:, 'title'].tolist()})
-    elif time == 'morgen':
-        tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()+1]
-        return jsonify({'msg': r.menu.get_food_per_day(tomorrow_weekday).loc[:, 'title'].tolist()})
-    elif time == 'woche':
-        return jsonify({'msg': r.menu.df_menus.loc[:, 'title'].tolist()})
+    try:
+        day = data["day"]
+        if day == 8:
+            week = True
+    except KeyError:
+        day = r.day
+    if week:
+        menu = r.menu.df_menus.loc[:, 'title'].tolist()
     else:
-        return jsonify({'error': "Invalid value for attribute <time>."})
+        try:
+            menu = r.menu.get_food_per_day(WEEKDAYS[day]).loc[:, "title"]
+        except AttributeError:
+            menu = []
+    meals = []
+    for i in range(len(menu)):
+        meals.append([clean_title_additives(menu[i])])
+
+    answer = {}
+    answer["meals"] = meals
+    answer["day"] = day
+    return jsonify(answer)
+
+
+# @app.route("/getmeals", methods=['POST'])
+# def get_meals():
+#     data = request.get_json()
+#     time = data["day"]
+#     if time == 'heute':
+#         today_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()]
+#         return jsonify({'msg': r.menu.get_food_per_day(today_weekday).loc[:, 'title'].tolist()})
+#     elif time == 'morgen':
+#         tomorrow_weekday = STR_WEEKDAYS_DE[datetime.datetime.now().weekday()+1]
+#         return jsonify({'msg': r.menu.get_food_per_day(tomorrow_weekday).loc[:, 'title'].tolist()})
+#     elif time == 'woche':
+#         return jsonify({'msg': r.menu.df_menus.loc[:, 'title'].tolist()})
+#     else:
+#         return jsonify({'error': "Invalid value for attribute <time>."})
 
 
 @app.route("/createuser", methods=['POST'])
