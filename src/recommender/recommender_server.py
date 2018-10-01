@@ -53,6 +53,14 @@ def user_wants_no_profile():
     return jsonify({"no_profile": no_profile})
 
 
+@app.route("/setuserprofile", methods=["POST"])
+def set_user_profile():
+    data = request.get_json()
+    user_id = data["user_id"]
+    r.users.set_wants_profile(user_id)
+    return "Set user wants profile"
+
+
 @app.route("/setusernoprofile", methods=["POST"])
 def set_user_no_profile():
     data = request.get_json()
@@ -123,7 +131,7 @@ def add_rating():
     return "Rating added!"
 
 
-@app.route("/addadditives", methods=["Post"])
+@app.route("/addadditives", methods=["POST"])
 def add_additives():
     data = request.get_json()
     user_id = data["user_id"]
@@ -133,7 +141,7 @@ def add_additives():
     return "Additives added!"
 
 
-@app.route("/getmeals", methods=["Post"])
+@app.route("/getmeals", methods=["POST"])
 def get_meals():
     week = False
     data = request.get_json()

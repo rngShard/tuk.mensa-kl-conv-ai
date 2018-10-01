@@ -20,6 +20,18 @@
 - bitte hilf
 - ich brauche hilfe
 
+## intent:create_profile
+- profil
+- ich will ein profil erstellen
+- kann ich doch ein profil erstellen
+- erstelle ein profil
+- registrieren
+- ich will mich registrieren
+- kann ich mich registrieren
+- personalisieren
+- anmelden
+- ich will mich anmelden
+
 ## intent:affirm
 - ja
 - ja bitte

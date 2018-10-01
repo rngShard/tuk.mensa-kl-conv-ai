@@ -25,6 +25,10 @@ class FirestoreConnector:
             doc_ref = self.db.document(path)
             doc_ref.set(data)
 
+    def delete_document(self, path):
+        doc_ref = self.db.document(path)
+        doc_ref.delete()
+
     def get_document(self, path):
         """
         Function for retrieving a document from Firestore.

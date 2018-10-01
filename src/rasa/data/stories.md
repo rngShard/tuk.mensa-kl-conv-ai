@@ -16,6 +16,179 @@
   - utter_what_can_do
   - action_restart
 
+## create profile 1
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q1": false}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q3": false}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q5": false}
+  - action_restart
+
+## create profile 2
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+  * affirm
+  - action_ask_specific_questions
+  - slot{"like_q1": true}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q3": true}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": true}
+  - action_restart
+
+## create profile 3
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+  * affirm
+  - action_ask_specific_questions
+  - slot{"like_q1": true}
+  - slot{"requested_slot": "like_q2"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q2": true}
+  - slot{"requested_slot": "like_q3"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q3": true}
+  - slot{"requested_slot": "like_q4"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q4": true}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": true}
+  - action_restart
+
+## greet create profile 1
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_welcome
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q1": false}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q3": false}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q5": false}
+  - action_restart
+
+## greet create profile 2
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_welcome
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q1": true}
+  - slot{"requested_slot": "like_q2"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q2": false}
+  - slot{"requested_slot": "like_q3"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q3": true}
+  - slot{"requested_slot": "like_q4"}
+* deny
+  - action_ask_specific_questions
+  - slot{"like_q4": false}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": true}
+  - action_restart
+
+## greet create profile 3
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_welcome
+* create_profile
+  - action_set_user_wants_profile
+  - action_ask_specific_questions
+  - slot{"requested_slot": "like_q1"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q1": true}
+  - slot{"requested_slot": "like_q2"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q2": true}
+  - slot{"requested_slot": "like_q3"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q3": true}
+  - slot{"requested_slot": "like_q4"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q4": true}
+  - slot{"requested_slot": "like_q5"}
+* affirm
+  - action_ask_specific_questions
+  - slot{"like_q5": true}
+  - action_restart
 
 ## ask hasProfile without day
 * ask

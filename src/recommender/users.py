@@ -40,6 +40,10 @@ class Users:
         except NotFound:
             return False
 
+    def set_wants_profile(self, user_id):
+        path = self.db_users_no_profile_path + "/" + user_id
+        self.firebase.delete_document(path)
+
     def set_wants_no_profile(self, user_id):
         data = {"user_id": user_id}
         self.firebase.create_document(self.db_users_no_profile_path + "/" + user_id, data)

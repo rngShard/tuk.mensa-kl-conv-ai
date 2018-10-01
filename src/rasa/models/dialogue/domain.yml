@@ -8,6 +8,7 @@ actions:
 - action_check_profile
 - action_check_user_wants_profile
 - action_set_user_wants_no_profile
+- action_set_user_wants_profile
 - utter_welcome
 - utter_ask_create_profile
 - utter_bye
@@ -35,6 +36,8 @@ intents:
 - help:
     use_entities: true
 - inform:
+    use_entities: true
+- create_profile:
     use_entities: true
 slots:
   like_q1:

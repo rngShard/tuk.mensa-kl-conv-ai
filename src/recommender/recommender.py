@@ -32,7 +32,7 @@ class Recommender:
         self.year, self.week, self.day = self._get_year_week_day()
         if self.day == 6 or self.day == 7:
             self.week += 1
-            self.menu = Menu(self.year, self.week)
+        self.menu = Menu(self.year, self.week)
 
     def build_user_data_startup(self):
         for user_id in self.users.user_ids:

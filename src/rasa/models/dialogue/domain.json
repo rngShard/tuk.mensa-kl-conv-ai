@@ -2,6 +2,7 @@
   "states": [
     "intent_affirm",
     "intent_ask",
+    "intent_create_profile",
     "intent_deny",
     "intent_greet",
     "intent_help",
@@ -39,6 +40,7 @@
     "prev_action_check_profile",
     "prev_action_check_user_wants_profile",
     "prev_action_set_user_wants_no_profile",
+    "prev_action_set_user_wants_profile",
     "prev_utter_welcome",
     "prev_utter_ask_create_profile",
     "prev_utter_bye",

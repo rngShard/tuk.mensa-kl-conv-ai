@@ -73,6 +73,16 @@ class set_user_wants_no_profile(Action):
         return []
 
 
+class set_user_wants_profile(Action):
+    def name(self):
+        return "action_set_user_wants_profile"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        requests.post('http://127.0.0.1:5000/setuserprofile', json={"user_id": str(user_id)})
+        return []
+
+
 class action_predict_meals_after_registration(Action):
     def name(self):
         return "action_predict_meals_after_registration"

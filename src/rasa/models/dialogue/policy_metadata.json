@@ -21,10 +21,10 @@
     "action_ask_specific_questions": {
       "slots": [
         "like_q5",
+        "like_q4",
         "like_q3",
         "requested_slot",
         "like_q1",
-        "like_q4",
         "like_q2"
       ]
     }
