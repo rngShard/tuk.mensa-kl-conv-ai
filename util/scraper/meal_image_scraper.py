@@ -24,6 +24,7 @@ def scrape_images():
         return path
     
     def persist_to_bucket(file_path, bucket_dir):
+        bucket_dir = bucket_dir.replace(' ', '')
         bucket_connection.upload_blob('mensa_data', file_path, bucket_dir)
         pass
 
