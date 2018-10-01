@@ -96,7 +96,10 @@ class Users:
 
 
     def get_user_additives(self, user_id):
-        return self.additives[user_id]
+        try:
+            return self.additives[user_id]
+        except KeyError:
+            return set()
 
     def get_new_user_id(self):
         return max(self.user_ids) + 1

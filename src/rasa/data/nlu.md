@@ -31,6 +31,11 @@
 - personalisieren
 - anmelden
 - ich will mich anmelden
+- lerne mich kennen
+- willst du mich kennen lernen
+- lerne meine präferenzen
+- erstelle ein profil für mich
+- lerne was ich essen will
 
 ## intent:affirm
 - ja
@@ -40,7 +45,6 @@
 - yes
 - ja doch
 - klar
-- aber hallo
 - gerne
 
 ## intent:deny
@@ -136,9 +140,71 @@
 - für den [montag](time)
 
 
-## intent:profile
-- lerne mich kennen
-- willst du mich kennen lernen
-- lerne meine präferenzen
-- erstelle ein profil für mich
-- lerne was ich essen will
+## intent:vegetarisch
+- ich bin vegetarier
+- vegetarisch
+- vegetarisches
+- vegetarier
+- ich will nur vegetarisches essen
+- ich will vegetarisches essen
+- ich esse nur vegetarisch
+- ich esse nur vegetarisches
+- ich ernähre mich vegetarisch
+- ich esse kein fleisch
+- fleisch esse ich nicht
+
+## intent:vegan
+- ich bin veganer
+- vegan
+- veganer
+- ich will nur veganes essen
+- ich will veganes essen
+- ich esse nur vegan
+- ich esse nur veganes
+- ich ernähre mich vegan
+- tierische produkte esse ich nicht
+- ich esse keine tierische produkte
+
+## intent:laktose
+- laktose
+- laktoseintolerant
+- laktose intolerant
+- laktoseintoleranz
+- laktose intoleranz
+- ich vertrage laktose nicht
+- ich bin laktose intolerant
+- ich bin laktoseintolerant
+- keine laktose
+
+## intent: schwein
+- ich esse kein schwein
+- ich esse kein schweinefleisch
+- schweinefleisch esse ich nicht
+- schwein esse ich nicht
+- schwein will ich nicht
+- ich will kein schweinefleisch
+- kein schwein
+- kein schweinefleisch
+
+## intent: rind
+- ich esse kein rind
+- ich esse kein rindfleisch
+- rind esse ich nicht
+- rindfleisch esse ich nicht
+- rind will ich nicht
+- ich will kein rindfleisch
+- kein rind
+- kein rinschfleisch
+
+## intent: fisch
+- ich esse keinen fisch
+- ich esse fisch nicht
+- fisch esse ich nicht
+- fisch mag ich nicht
+- fisch will ich nicht
+- kein fisch
+- keinen fisch
+
+
+
+

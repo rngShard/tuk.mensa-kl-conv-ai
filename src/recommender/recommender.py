@@ -59,7 +59,7 @@ class Recommender:
     def predict(self, current_user, metric="cosine", m_id=None, day=0, cluster=False):
         if day == 0:
             day = self.day
-        if day == 6  or day == 7:
+        if day == 6 or day == 7:
             day = 1
 
         if cluster:
@@ -98,19 +98,39 @@ class Recommender:
 
             return predictions
 
+    def filter_additives(self, user_id, meal_additives):
+        negative = ("La", "S", "R", "Fi")
+        user_additives = self.users.get_user_additives(user_id)
+        user_negative = set()
+        if "V+" in user_additives:
+            user_positive = "V+"
+        elif "V" in user_additives:
+            user_positive = "V"
+        else:
+            user_positive = None
+        for additive in user_additives:
+            if additive in negative:
+                user_negative.add(additive)
+        for i in user_negative:
+            if i in meal_additives:
+                return True
+        if user_positive is not None:
+            if user_positive not in meal_additives:
+                return True
+        return False
+
 
 if __name__ == "__main__":
     r = Recommender()
     print(r.predict("54"))
     print(r.predict("54", m_id=115))
     print(r.predict("55", m_id=493))
-    #print(r.menu.get_food_per_day("Dienstag"))
-    #print(r.predict("konsti", cluster=True))
-    #print(r.predict("konsti"))
-    #print(r.predict("default"))
+    # print(r.menu.get_food_per_day("Dienstag"))
+    # print(r.predict("konsti", cluster=True))
+    # print(r.predict("konsti"))
+    # print(r.predict("default"))
     # r = Recommender(cluster=True)
     # print(r.predict(55, m_id=601))
     # print(r.predict(56))
-
     # print(str(r.menu.get_food_per_day('Freitag').loc[:, 'title'].tolist()))
     # print(r.users.ratings)

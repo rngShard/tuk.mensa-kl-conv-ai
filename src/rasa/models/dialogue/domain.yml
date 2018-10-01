@@ -10,6 +10,7 @@ actions:
 - action_set_user_wants_no_profile
 - action_set_user_wants_profile
 - utter_welcome
+- utter_only_with_profile
 - utter_ask_create_profile
 - utter_bye
 - utter_ask_like_q1
@@ -21,6 +22,13 @@ actions:
 - utter_ask_time
 - action_predict_meals_after_registration
 - action_meals_without_registration
+- utter_got_you
+- action_vegetarisch
+- action_vegan
+- action_laktose
+- action_schwein
+- action_rind
+- action_fisch
 config:
   store_entities_as_slots: true
 entities: []
@@ -38,6 +46,18 @@ intents:
 - inform:
     use_entities: true
 - create_profile:
+    use_entities: true
+- vegetarisch:
+    use_entities: true
+- vegan:
+    use_entities: true
+- laktose:
+    use_entities: true
+- schwein:
+    use_entities: true
+- rind:
+    use_entities: true
+- fisch:
     use_entities: true
 slots:
   like_q1:
@@ -122,8 +142,13 @@ templates:
   - text: Ich habe dich leider nicht verstanden.
   - text: Entschuldigung, ich habe dich nicht verstanden.
   - text: Das weiß ich leider nicht. Könntest du dich nochmals etwas anders ausdrücken?
+  utter_got_you:
+  - text: Alles klar!
+  - text: Das habe ich mir gemerkt.
   utter_greet:
   - text: ''
+  utter_only_with_profile:
+  - text: Das kann ich mir nur merken, wenn du ein Profil erstellst.
   utter_welcome:
   - text: Wie kann ich dir helfen?
   utter_what_can_do:

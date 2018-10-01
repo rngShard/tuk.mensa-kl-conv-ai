@@ -21,6 +21,19 @@ def clean_title_additives(title):
         title = title.replace(i, "")
     return title
 
+
+def get_meal_title_additives(title):
+    regex = "\([A|Bio|Ei|En|Fi|Gl|Gt|G|Kr|K|La|Lu|L|Nu|R|Se|Sf|Sl|So|Sw|S|V+|V|Wt|W|1|2|3|4|5|6|7|8|9|10].*?\)"
+    reg = re.compile(regex)
+    pos = reg.findall(title)
+    additive_set = set()
+    for po in pos:
+        additives = po.replace("(", "")
+        additives = additives.replace(")", "")
+        additive_set.update(additives.split(","))
+    return additive_set
+
+
 class Data:
 
     def __init__(self):

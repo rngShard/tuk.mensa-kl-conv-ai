@@ -8,7 +8,7 @@ parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
 
 from src.recommender.recommender import Recommender
-from src.recommender.data import clean_title_additives
+from src.recommender.data import clean_title_additives, get_meal_title_additives
 
 WEEKDAYS = {
     1: "Montag",
@@ -89,10 +89,16 @@ def predict():
         else:
             recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
             recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
+            filtered_recommendation = []
+            for meal in recommendation:
+                print(meal)
+                if not r.filter_additives(user_id, get_meal_title_additives(meal[0])):
+                    filtered_recommendation.append(meal)
             # current_day = []
             # for prediction in recommendation:
             #    current_day.append(clean_title_additives(prediction[0]))
-            predictions.append([clean_title_additives(recommendation[0][0])])
+            if filtered_recommendation != []:
+                predictions.append([clean_title_additives(filtered_recommendation[0][0])])
         answer = {}
         answer["meals"] = predictions
         answer["day"] = day
@@ -109,7 +115,12 @@ def predict():
             else:
                 recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
                 recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
-                current_day.append(clean_title_additives(recommendation[0][0]))
+                filtered_recommendation = []
+                for meal in recommendation:
+                    if not r.filter_additives(user_id, get_meal_title_additives(meal[0])):
+                        filtered_recommendation.append(meal)
+                if filtered_recommendation != []:
+                    current_day.append(clean_title_additives(filtered_recommendation[0][0]))
                 # for prediction in recommendation:
                 #    current_day.append(clean_title_additives(prediction[0]))
                 days.append(d)

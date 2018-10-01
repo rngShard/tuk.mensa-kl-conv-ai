@@ -15,6 +15,168 @@
 * help
   - utter_what_can_do
   - action_restart
+  
+## greet additive vegetarisch
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* vegetarisch
+  - action_vegetarisch
+  - utter_got_you
+  - action_restart
+  
+## greet additive vegan
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* vegan
+  - action_vegan
+  - utter_got_you
+  - action_restart
+  
+## greet additive laktose
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* laktose
+  - action_laktose
+  - utter_got_you
+  - action_restart
+
+## greet additive schwein
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* schwein
+  - action_schwein
+  - utter_got_you
+  - action_restart
+  
+## greet additive rind
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* rind
+  - action_rind
+  - utter_got_you
+  - action_restart
+  
+## greet additive fisch
+* greet
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - utter_welcome
+* fisch
+  - action_fisch
+  - utter_got_you
+  - action_restart
+  
+## additive vegetarisch
+* vegetarisch
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_vegetarisch
+  - utter_got_you
+  - action_restart
+
+## additive vegetarisch no profile
+* vegetarisch
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
+  
+## additive vegan
+* vegan
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_vegan
+  - utter_got_you
+  - action_restart
+
+## additive vegan no profile
+* vegan
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
+  
+## additive laktose
+* vegan
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_laktose
+  - utter_got_you
+  - action_restart
+
+## additive laktose no profile
+* laktose
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
+  
+## additive schwein
+* schwein
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_schwein
+  - utter_got_you
+  - action_restart
+
+## additive schwein no profile
+* schwein
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
+
+## additive rind
+* rind
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_rind
+  - utter_got_you
+  - action_restart
+
+## additive rind no profile
+* rind
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
+  
+## additive fisch
+* fisch
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_fisch
+  - utter_got_you
+  - action_restart
+
+## additive fisch no profile
+* fisch
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_only_with_profile
+  - action_restart
 
 ## create profile 1
 * create_profile

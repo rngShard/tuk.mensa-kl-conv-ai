@@ -6,6 +6,12 @@ intents:
   - help
   - inform
   - create_profile
+  - vegetarisch
+  - vegan
+  - laktose
+  - schwein
+  - rind
+  - fisch
 
 
 slots:
@@ -65,6 +71,7 @@ actions:
 - action_set_user_wants_no_profile
 - action_set_user_wants_profile
 - utter_welcome
+- utter_only_with_profile
 - utter_ask_create_profile
 - utter_bye
 - utter_ask_like_q1
@@ -76,8 +83,13 @@ actions:
 - utter_ask_time
 - action_predict_meals_after_registration
 - action_meals_without_registration
-
-
+- utter_got_you
+- action_vegetarisch
+- action_vegan
+- action_laktose
+- action_schwein
+- action_rind
+- action_fisch
 templates:
   utter_ask_howcanhelp:
     - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"
@@ -113,4 +125,9 @@ templates:
   utter_ask_time:
     - text: "Für wann willst du das Essen wissen? (heute / morgen / woche)"
     - text: "Essen von <heute>, <morgen> oder dieser <woche>?"
+  utter_got_you:
+  - text: "Alles klar!"
+  - text: "Das habe ich mir gemerkt."
+  utter_only_with_profile:
+  - text: "Das kann ich mir nur merken, wenn du ein Profil erstellst."
   
