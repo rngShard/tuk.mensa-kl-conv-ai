@@ -91,7 +91,6 @@ def predict():
             recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
             filtered_recommendation = []
             for meal in recommendation:
-                print(meal)
                 if not r.filter_additives(user_id, get_meal_title_additives(meal[0])):
                     filtered_recommendation.append(meal)
             # current_day = []

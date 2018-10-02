@@ -44,6 +44,7 @@ class Recommender:
         self.users.prepare_new_user_ratings(user_id)
         self.data._create_user_item(self.users.get_user_ratings(user_id))
         self.similarities.create_usr_usr_sim(self.data.get_user_item(user_id), user_id)
+        self.users.additives[user_id] = set()
 
     def update_user_specific_data(self, user_id):
         self.data._create_user_item(self.users.get_user_ratings(user_id))
