@@ -99,16 +99,16 @@ class action_predict_meals_after_registration(Action):
         if day == 6 or day == 7:
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
-        print("DAy:" + str(day))
+        # print("DAy:" + str(day))
         res = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day":day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
-        print(meals)
+        # print(meals)
+        no_meals = True
         if day != 0 and meals == []:
             answer = "Für diesen Tag kann ich dir leider nichts empfehlen."
         else:
             answer = "Meine Empfehlung für {}:".format(time)
-            no_meals = True
             for meal in meals:
                 if meal != []:
                     answer += "\n - " + meal[0]
@@ -151,53 +151,6 @@ class action_meals_without_registration(Action):
                 answer += "\n - " + meal[0]
         dispatcher.utter_message(answer)
         return []
-
-
-class ActionGetMeals(Action):
-    def name(self):
-        return 'action_get_meals'
-
-    def run(self, dispatcher, tracker, domain):
-        # type: (Dispatcher, DialogueStateTracker, Domain) -> List[Event]
-
-        user_id = tracker.sender_id
-        time = tracker.get_slot("time")
-        if not time:
-            dispatcher.utter_message("Es ist kein Zeit-Attribut (heute/morgen/woche) gesetzt. Für wann soll Essen erfragt werden?")
-        else:
-            try:
-                msg_time = "Essen für <{}>.".format(time)
-
-                res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id":str(user_id)})
-                if res.json()['user_exists'] == 1:
-                    day = get_day(time)
-                    if day == 6 or day == 7:
-                        dispatcher.utter_message("Heute gibt es nichts zu essen.")
-                        return []
-
-                    msg_profile = "Ein bestehendes Benutzerprofil wurde gefunden."
-
-                    res2 = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day": day})
-                    res2_dict = json.loads(res2.text)
-
-                    res2_meal_list = res2_dict['prediction']
-                else:
-                    msg_profile = "Es wurde kein bestehendes Nutzerprofil gefunden."
-
-                    res2 = requests.post('http://127.0.0.1:5000/getmeals', json={"time":time})
-                    res2_dict = json.loads(res2.text)
-
-                    res2_meal_list = res2_dict['msg']
-
-                utter_msg = "({} \t {})".format(msg_time, msg_profile)
-                for meal in res2_meal_list:
-                    utter_msg += "\n - " + meal
-                dispatcher.utter_message(utter_msg)
-            except KeyError:
-                # pass
-                dispatcher.utter_message("An error occured: <{}>".format(str(res.json()['error'])))
-            
-            return []
 
 
 class ActionAskSpecificQuestions(FormAction):
