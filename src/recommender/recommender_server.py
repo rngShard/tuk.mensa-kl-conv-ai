@@ -214,4 +214,4 @@ def create_user():
 if __name__ == "__main__":
     # with open('config.json', 'r') as f:
     #    config = json.load(f)
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
