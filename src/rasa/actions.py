@@ -99,11 +99,9 @@ class action_predict_meals_after_registration(Action):
         if day == 6 or day == 7:
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
-        # print("DAy:" + str(day))
         res = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day":day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
-        # print(meals)
         no_meals = True
         if day != 0 and meals == []:
             answer = "Für diesen Tag kann ich dir leider nichts empfehlen."
@@ -116,8 +114,7 @@ class action_predict_meals_after_registration(Action):
         if not no_meals:
             dispatcher.utter_message(answer)
         else:
-            dispatcher.utter_message("Diese Woche kann ich dir "
-                                     + "leider nichts empfehlen")
+            dispatcher.utter_message("Ich kann dir leider nichts empfehlen, es wurden keine Essen gefunden.")
         return []
 
 
