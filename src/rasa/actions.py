@@ -7,7 +7,7 @@ import sys
 import requests
 from rasa_core_sdk import Action
 from rasa_core_sdk.events import SlotSet
-from rasa_core_sdk.forms import FormAction, BooleanFormField
+from rasa_core_sdk.forms import FormAction, BooleanFormField, EntityFormField
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
@@ -54,12 +54,12 @@ class action_check_user_wants_profile(Action):
     def name(self):
         return "action_check_user_wants_profile"
 
-    def run(self, dispatcher, tracker, domain):
-        user_id = tracker.sender_id
-        res = requests.post('http://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
-        if res.json()['no_profile'] == 1:
-            return [SlotSet("wants_no_profile", True)]
-        else:
+    def run(sBooleanFormFieldcker, domain):
+        user_BooleanFormFieldid
+        res =BooleanFormField://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
+        if reBooleanFormField'] == 1:
+            rBooleanFormFields_no_profile", True)]
+        else:BooleanFormField
             return [SlotSet("wants_no_profile", False)]
 
 
@@ -156,11 +156,11 @@ class ActionAskSpecificQuestions(FormAction):
     @staticmethod
     def required_fields():
         return [
-            BooleanFormField("like_q1", "affirm", "deny"),
-            BooleanFormField("like_q2", "affirm", "deny"),
-            BooleanFormField("like_q3", "affirm", "deny"),
-            BooleanFormField("like_q4", "affirm", "deny"),
-            BooleanFormField("like_q5", "affirm", "deny")
+            EntityFormField("answer", "like_q1"),
+            EntityFormField("answer", "like_q2"),
+            EntityFormField("answer", "like_q3"),
+            EntityFormField("answer", "like_q4"),
+            EntityFormField("answer", "like_q5")
         ]
 
     def name(self):
@@ -168,17 +168,18 @@ class ActionAskSpecificQuestions(FormAction):
 
     def submit(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        likes = [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
+        # likes = [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
         
         json = {
             "user_id": str(user_id),
-            "ratings": [5 if like else 1 for like in likes]
+            "ratings": [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
+            # "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
         requests.post('http://127.0.0.1:5000/createuser', json=json)
 
-        dispatcher.utter_message("Neues User-Profil mit Bewertungen {} erstellt! "
-                                 + "Von nun an kannst du Empfehlungen von mir bekommen!".format(json['ratings']))
+        msg = "Neues User-Profil mit Bewertungen {} erstellt! Von nun an bekommst du persönliche Empfehlungen!".format(json['ratings'])
+        dispatcher.utter_message(msg)
         return []
 
 

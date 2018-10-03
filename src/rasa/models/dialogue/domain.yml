@@ -33,48 +33,93 @@ config:
   store_entities_as_slots: true
 entities: []
 intents:
-- greet:
+- fisch:
     use_entities: true
 - affirm:
     use_entities: true
-- deny:
-    use_entities: true
-- ask:
-    use_entities: true
-- help:
+- vegan:
     use_entities: true
 - inform:
     use_entities: true
 - create_profile:
     use_entities: true
-- vegetarisch:
-    use_entities: true
-- vegan:
-    use_entities: true
-- laktose:
-    use_entities: true
-- schwein:
+- help:
     use_entities: true
 - rind:
     use_entities: true
-- fisch:
+- vegetarisch:
+    use_entities: true
+- schwein:
+    use_entities: true
+- ask:
+    use_entities: true
+- laktose:
+    use_entities: true
+- deny:
+    use_entities: true
+- greet:
     use_entities: true
 slots:
+  answer:
+    initial_value: null
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   like_q1:
     initial_value: null
-    type: rasa_core.slots.BooleanSlot
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   like_q2:
     initial_value: null
-    type: rasa_core.slots.BooleanSlot
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   like_q3:
     initial_value: null
-    type: rasa_core.slots.BooleanSlot
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   like_q4:
     initial_value: null
-    type: rasa_core.slots.BooleanSlot
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   like_q5:
     initial_value: null
-    type: rasa_core.slots.BooleanSlot
+    type: rasa_core.slots.CategoricalSlot
+    values:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
   q1_meal:
     initial_value: Rindfleischstreifen in Paprika-Pfeffersoße, frische Spätzle
     type: rasa_core.slots.TextSlot
@@ -122,13 +167,15 @@ templates:
   - text: Hallo! Ich bin der Mensa-KL-Bot! Frage mich was es zu essen gibt!
   - text: Hallöchen, wie geht's wie steht's?
   utter_ask_like_q1:
-  - text: "Ok, dann will ich dich mal kennen lernen!\n Magst du \"{q1_meal}\"?"
+  - text: "Ok, dann will ich dich mal kennen lernen!\n Die nachfolgenden Essen kannst\
+      \ du mit 0 (noch nicht gegessen) oder 1-5 (1 schlecht, 5 gut) bewerten.\n\n\
+      \ Kennst du bzw. magst du \"{q1_meal}\"? (0 / 1-5)"
   utter_ask_like_q2:
-  - text: Magst du "{q2_meal}"?
+  - text: Hattest du schon "{q2_meal}"? (0 falls nein, 1-5 falls ja)
   utter_ask_like_q3:
-  - text: Magst du "{q3_meal}"?
+  - text: Magst du "{q3_meal}"? (0 / 1-5)
   utter_ask_like_q4:
-  - text: Magst du "{q4_meal}"?
+  - text: Magst du "{q4_meal}"? (0 / 1-5)
   utter_ask_like_q5:
   - text: Magst du "{q5_meal}"?
   utter_ask_time:
