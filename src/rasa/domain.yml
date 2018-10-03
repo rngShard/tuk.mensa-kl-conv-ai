@@ -34,16 +34,60 @@ slots:
     - sonntag
   requested_slot:
     type: text
+  answer:
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   like_q1:
-    type: bool
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   like_q2:
-    type: bool
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   like_q3:
-    type: bool
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   like_q4:
-    type: bool
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   like_q5:
-    type: bool
+    type: categorical
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   q1_meal:
     type: text
     initial_value: "Rindfleischstreifen in Paprika-Pfeffersoße, frische Spätzle"  # 498
@@ -113,13 +157,13 @@ templates:
   utter_bye:
     - text: "Ciao!"
   utter_ask_like_q1:
-    - text: "Ok, dann will ich dich mal kennen lernen!\n Magst du \"{q1_meal}\"?"
+    - text: "Ok, dann will ich dich mal kennen lernen!\n Die nachfolgenden Essen kannst du mit 0 (noch nicht gegessen) oder 1-5 (1 schlecht, 5 gut) bewerten.\n\n Kennst du bzw. magst du \"{q1_meal}\"? (0 / 1-5)"
   utter_ask_like_q2:
-    - text: "Magst du \"{q2_meal}\"?"
+    - text: "Hattest du schon \"{q2_meal}\"? (0 falls nein, 1-5 falls ja)"
   utter_ask_like_q3:
-    - text: "Magst du \"{q3_meal}\"?"
+    - text: "Magst du \"{q3_meal}\"? (0 / 1-5)"
   utter_ask_like_q4:
-    - text: "Magst du \"{q4_meal}\"?"
+    - text: "Magst du \"{q4_meal}\"? (0 / 1-5)"
   utter_ask_like_q5:
     - text: "Magst du \"{q5_meal}\"?"
   utter_ask_time:

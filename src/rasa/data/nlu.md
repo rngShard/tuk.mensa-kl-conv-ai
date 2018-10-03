@@ -138,6 +138,12 @@
 - [freitag](time)
 - am [montag](time)
 - für den [montag](time)
+- [0](answer)
+- [1](answer)
+- [2](answer)
+- [3](answer)
+- [4](answer)
+- [5](answer)
 
 
 ## intent:vegetarisch
