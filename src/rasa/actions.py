@@ -54,12 +54,12 @@ class action_check_user_wants_profile(Action):
     def name(self):
         return "action_check_user_wants_profile"
 
-    def run(sBooleanFormFieldcker, domain):
-        user_BooleanFormFieldid
-        res =BooleanFormField://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
-        if reBooleanFormField'] == 1:
-            rBooleanFormFields_no_profile", True)]
-        else:BooleanFormField
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        res = requests.post('http://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
+        if res.json()['no_profile'] == 1:
+            return [SlotSet("wants_no_profile", True)]
+        else:
             return [SlotSet("wants_no_profile", False)]
 
 
@@ -172,7 +172,7 @@ class ActionAskSpecificQuestions(FormAction):
         
         json = {
             "user_id": str(user_id),
-            "ratings": [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
+            "ratings": [int(tracker.get_slot("like_q{}".format(i+1))) for i in range(5)]
             # "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
