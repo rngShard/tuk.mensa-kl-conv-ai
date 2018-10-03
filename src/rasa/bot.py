@@ -9,7 +9,7 @@ from rasa_core.policies.keras_policy import KerasPolicy
 from rasa_core.policies.fallback import FallbackPolicy
 
 logger = logging.getLogger(__name__)
-DEFAULT_EPOCHS = 25
+DEFAULT_EPOCHS = 100
 
 
 def train_dialogue(domain_file="domain.yml",

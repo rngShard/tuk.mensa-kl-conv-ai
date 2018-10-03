@@ -7,7 +7,6 @@ import sys
 import requests
 from rasa_core_sdk import Action
 from rasa_core_sdk.events import SlotSet
-from rasa_core_sdk.forms import FormAction, BooleanFormField, EntityFormField
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
@@ -35,6 +34,15 @@ def get_day(time):
         return 8
     else:
         return WEEKDAYS[time]
+
+
+class action_get_user_id(Action):
+    def name(self):
+        return "action_get_user_id"
+
+    def run(self, dispatcher, tracker, domain):
+        user_id = tracker.sender_id
+        dispatcher.utter_message("{}".format(user_id))
 
 
 class action_check_profile(Action):
@@ -150,35 +158,69 @@ class action_meals_without_registration(Action):
         return []
 
 
-class ActionAskSpecificQuestions(FormAction):
-    RANDOMIZE = False
-
-    @staticmethod
-    def required_fields():
-        return [
-            EntityFormField("answer", "like_q1"),
-            EntityFormField("answer", "like_q2"),
-            EntityFormField("answer", "like_q3"),
-            EntityFormField("answer", "like_q4"),
-            EntityFormField("answer", "like_q5")
-        ]
-
+class ActionSetQ1(Action):
     def name(self):
-        return 'action_ask_specific_questions'
+        return "action_set_q1"
 
-    def submit(self, dispatcher, tracker, domain):
+    def run(self, dispatcher, tracker, domain):
+        q1 = tracker.get_slot("answer")
+        return [SlotSet("like_q1", q1)]
+
+
+class ActionSetQ2(Action):
+    def name(self):
+        return "action_set_q2"
+
+    def run(self, dispatcher, tracker, domain):
+        q2 = tracker.get_slot("answer")
+        return [SlotSet("like_q2", q2)]
+
+
+class ActionSetQ3(Action):
+    def name(self):
+        return "action_set_q3"
+
+    def run(self, dispatcher, tracker, domain):
+        q3 = tracker.get_slot("answer")
+        return [SlotSet("like_q3", q3)]
+
+
+class ActionSetQ4(Action):
+    def name(self):
+        return "action_set_q4"
+
+    def run(self, dispatcher, tracker, domain):
+        q4 = tracker.get_slot("answer")
+        return [SlotSet("like_q4", q4)]
+
+
+class ActionSetQ5(Action):
+    def name(self):
+        return "action_set_q5"
+
+    def run(self, dispatcher, tracker, domain):
+        q5 = tracker.get_slot("answer")
+        return [SlotSet("like_q5", q5)]
+
+
+class ActionCreateProfile(Action):
+    def name(self):
+        return "action_create_profile"
+
+    def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         # likes = [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
-        
+
         json = {
             "user_id": str(user_id),
-            "ratings": [int(tracker.get_slot("like_q{}".format(i+1))) for i in range(5)]
+            "ratings": [int(tracker.get_slot("like_q{}".format(i + 1))) for i in range(5)]
             # "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
         requests.post('http://127.0.0.1:5000/createuser', json=json)
 
-        msg = "Neues User-Profil mit Bewertungen {} erstellt! Von nun an bekommst du persönliche Empfehlungen!".format(json['ratings'])
+        msg = "Neues User-Profil mit Bewertungen {} erstellt! Von nun an bekommst du persönliche Empfehlungen!".format(
+            json['ratings'])
         dispatcher.utter_message(msg)
         return []
 

@@ -12,6 +12,7 @@ intents:
   - schwein
   - rind
   - fisch
+  - who_am_i
 
 
 slots:
@@ -107,6 +108,7 @@ slots:
 
 actions:
 - utter_default
+- action_get_user_id
 - utter_greet
 - utter_ask_howcanhelp
 - utter_what_can_do
@@ -123,7 +125,6 @@ actions:
 - utter_ask_like_q3
 - utter_ask_like_q4
 - utter_ask_like_q5
-- action_ask_specific_questions
 - utter_ask_time
 - action_predict_meals_after_registration
 - action_meals_without_registration
@@ -134,6 +135,13 @@ actions:
 - action_schwein
 - action_rind
 - action_fisch
+- action_create_profile
+- action_set_q1
+- action_set_q2
+- action_set_q3
+- action_set_q4
+- action_set_q5
+
 templates:
   utter_ask_howcanhelp:
     - text: "Hi, MensaKL-Bot hier, wie kann ich helfen?"

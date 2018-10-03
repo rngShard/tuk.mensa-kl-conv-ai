@@ -13,6 +13,7 @@
     "intent_schwein",
     "intent_vegan",
     "intent_vegetarisch",
+    "intent_who_am_i",
     "slot_answer_0",
     "slot_answer_1",
     "slot_answer_2",
@@ -71,6 +72,7 @@
     "prev_action_restart",
     "prev_action_default_fallback",
     "prev_utter_default",
+    "prev_action_get_user_id",
     "prev_utter_greet",
     "prev_utter_ask_howcanhelp",
     "prev_utter_what_can_do",
@@ -87,7 +89,6 @@
     "prev_utter_ask_like_q3",
     "prev_utter_ask_like_q4",
     "prev_utter_ask_like_q5",
-    "prev_action_ask_specific_questions",
     "prev_utter_ask_time",
     "prev_action_predict_meals_after_registration",
     "prev_action_meals_without_registration",
@@ -97,6 +98,12 @@
     "prev_action_laktose",
     "prev_action_schwein",
     "prev_action_rind",
-    "prev_action_fisch"
+    "prev_action_fisch",
+    "prev_action_create_profile",
+    "prev_action_set_q1",
+    "prev_action_set_q2",
+    "prev_action_set_q3",
+    "prev_action_set_q4",
+    "prev_action_set_q5"
   ]
 }

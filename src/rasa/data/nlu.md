@@ -1,5 +1,7 @@
 ## intent:greet
 - hey
+- hello
+- hall
 - hallo
 - hi
 - guten tag
@@ -8,6 +10,10 @@
 - moin
 - jo
 - nabend
+
+## intent: who_am_i
+- wer bin ich
+- wie heiße ich
 
 ## intent:help
 - was kannst du
@@ -60,8 +66,6 @@
 - never
 
 ## intent:ask
-- hi, was gibt es [heute](time) zu essen
-
 - was gibt es zu essen
 - was steht auf dem menü
 - was gibt es diesmal zu essen
@@ -204,6 +208,7 @@
 
 ## intent: fisch
 - ich esse keinen fisch
+- ich esse kein fisch
 - ich esse fisch nicht
 - fisch esse ich nicht
 - fisch mag ich nicht
