@@ -6,7 +6,7 @@ from flask import request, jsonify
 
 parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 sys.path.append(parent_path)
-
+sys.path.append("~/tuk.mensa-kl-conv-ai/src/recommender.recommender")
 from src.recommender.recommender import Recommender
 from src.recommender.data import clean_title_additives, get_meal_title_additives
 
@@ -214,4 +214,5 @@ def create_user():
 if __name__ == "__main__":
     # with open('config.json', 'r') as f:
     #    config = json.load(f)
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', port='6000')
+
