@@ -13,14 +13,24 @@ sys.path.append(parent_path)
 
 WEEKDAYS = {
     "montag": 1,
+    "Montag": 1,
     "dienstag": 2,
+    "Dienstag": 2,
     "mittwoch": 3,
+    "Mittwoch": 3,
     "donnerstag": 4,
-    "freitag": 5
+    "Donnerstag": 4,
+    "freitag": 5,
+    "Freitag": 5,
+    "samstag": 6,
+    "Samstag": 6,
+    "sonntag": 7,
+    "Sonntag": 7
 }
 
 
 def get_day(time):
+    time = time.lower()
     current_day = datetime.datetime.now().weekday() + 1
     if time == "heute":
         return current_day
