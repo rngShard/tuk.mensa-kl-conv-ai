@@ -16,18 +16,18 @@ def train_dialogue(domain_file="domain.yml",
                    model_path="models/dialogue",
                    training_data_file="data/stories.md"):
     agent = Agent(domain_file,
-                  policies=[MemoizationPolicy(max_history=3),
+                  policies=[MemoizationPolicy(max_history=None),
                             KerasPolicy(),
                             FallbackPolicy(fallback_action_name="action_default_fallback",
-                                           core_threshold=0.3,
-                                           nlu_threshold=0.3)])
+                                           core_threshold=0.2,
+                                           nlu_threshold=0.2)])
 
     training_data = agent.load_data(training_data_file)
     agent.train(
             training_data,
             epochs=DEFAULT_EPOCHS,
             batch_size=100,
-            validation_split=0.2
+            validation_split=0.1      
     )
 
     agent.persist(model_path)

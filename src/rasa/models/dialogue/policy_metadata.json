@@ -1,22 +1,11 @@
 {
   "action_fingerprints": {
-    "action_listen": {
-      "slots": [
-        "answer",
-        "time"
-      ]
-    },
-    "action_check_profile": {
-      "slots": [
-        "user_exists"
-      ]
-    },
     "action_restart": {
       "slots": []
     },
-    "action_check_user_wants_profile": {
+    "action_set_q4": {
       "slots": [
-        "wants_no_profile"
+        "like_q4"
       ]
     },
     "action_set_q1": {
@@ -24,9 +13,15 @@
         "like_q1"
       ]
     },
-    "action_set_q2": {
+    "action_check_user_wants_profile": {
       "slots": [
-        "like_q2"
+        "wants_no_profile"
+      ]
+    },
+    "action_listen": {
+      "slots": [
+        "answer",
+        "time"
       ]
     },
     "action_set_q3": {
@@ -34,9 +29,14 @@
         "like_q3"
       ]
     },
-    "action_set_q4": {
+    "action_set_q2": {
       "slots": [
-        "like_q4"
+        "like_q2"
+      ]
+    },
+    "action_check_profile": {
+      "slots": [
+        "user_exists"
       ]
     },
     "action_set_q5": {
@@ -46,16 +46,16 @@
     }
   },
   "rasa_core": "0.11.6",
-  "python": "3.6.6",
-  "max_histories": [
-    3,
-    5,
-    null
-  ],
+  "python": "3.5.2",
   "ensemble_name": "rasa_core.policies.ensemble.SimplePolicyEnsemble",
   "policy_names": [
     "rasa_core.policies.memoization.MemoizationPolicy",
     "rasa_core.policies.keras_policy.KerasPolicy",
     "rasa_core.policies.fallback.FallbackPolicy"
+  ],
+  "max_histories": [
+    5,
+    5,
+    null
   ]
 }

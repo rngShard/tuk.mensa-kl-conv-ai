@@ -41,31 +41,31 @@ entities: []
 intents:
 - greet:
     use_entities: true
-- affirm:
-    use_entities: true
-- deny:
-    use_entities: true
-- ask:
-    use_entities: true
-- help:
-    use_entities: true
-- inform:
-    use_entities: true
-- create_profile:
-    use_entities: true
 - vegetarisch:
     use_entities: true
-- vegan:
-    use_entities: true
-- laktose:
-    use_entities: true
-- schwein:
+- ask:
     use_entities: true
 - rind:
     use_entities: true
 - fisch:
     use_entities: true
 - who_am_i:
+    use_entities: true
+- vegan:
+    use_entities: true
+- help:
+    use_entities: true
+- laktose:
+    use_entities: true
+- inform:
+    use_entities: true
+- create_profile:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- schwein:
     use_entities: true
 slots:
   answer:

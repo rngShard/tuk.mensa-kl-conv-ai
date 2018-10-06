@@ -51,7 +51,7 @@ class action_check_profile(Action):
 
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        res = requests.post('http://127.0.0.1:5000/userexists', json={"user_id": str(user_id)})
+        res = requests.post('http://127.0.0.1:6000/userexists', json={"user_id": str(user_id)})
         if res.json()['user_exists'] == 1:
             return [SlotSet("user_exists", True)]
         else:
@@ -64,7 +64,7 @@ class action_check_user_wants_profile(Action):
 
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        res = requests.post('http://127.0.0.1:5000/usernoprofile', json={"user_id": str(user_id)})
+        res = requests.post('http://127.0.0.1:6000/usernoprofile', json={"user_id": str(user_id)})
         if res.json()['no_profile'] == 1:
             return [SlotSet("wants_no_profile", True)]
         else:
@@ -77,7 +77,7 @@ class set_user_wants_no_profile(Action):
 
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        requests.post('http://127.0.0.1:5000/setusernoprofile', json={"user_id": str(user_id)})
+        requests.post('http://127.0.0.1:6000/setusernoprofile', json={"user_id": str(user_id)})
         return []
 
 
@@ -87,7 +87,7 @@ class set_user_wants_profile(Action):
 
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
-        requests.post('http://127.0.0.1:5000/setuserprofile', json={"user_id": str(user_id)})
+        requests.post('http://127.0.0.1:6000/setuserprofile', json={"user_id": str(user_id)})
         return []
 
 
@@ -107,7 +107,7 @@ class action_predict_meals_after_registration(Action):
         if day == 6 or day == 7:
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
-        res = requests.post('http://127.0.0.1:5000/prediction', json={"user_id":str(user_id), "day":day})
+        res = requests.post('http://127.0.0.1:6000/prediction', json={"user_id":str(user_id), "day":day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
         no_meals = True
@@ -144,7 +144,7 @@ class action_meals_without_registration(Action):
             dispatcher.utter_message("Heute gibt es nichts zu essen.")
             return []
         print("DAy:" + str(day))
-        res = requests.post('http://127.0.0.1:5000/getmeals', json={"day": day})
+        res = requests.post('http://127.0.0.1:6000/getmeals', json={"day": day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
         print(meals)
@@ -217,7 +217,7 @@ class ActionCreateProfile(Action):
             # "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
-        requests.post('http://127.0.0.1:5000/createuser', json=json)
+        requests.post('http://127.0.0.1:6000/createuser', json=json)
 
         msg = "Neues User-Profil mit Bewertungen {} erstellt! Von nun an bekommst du persönliche Empfehlungen!".format(
             json['ratings'])
@@ -232,7 +232,7 @@ class ActionVegetarisch(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["V"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
 
@@ -244,7 +244,7 @@ class ActionVegan(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["V+"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
 
@@ -256,7 +256,7 @@ class ActionLaktose(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["La"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
 
@@ -268,7 +268,7 @@ class ActionSchwein(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["S"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
 
@@ -280,7 +280,7 @@ class ActionRind(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["R"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
 
@@ -292,6 +292,6 @@ class ActionFisch(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         additive = ["Fi"]
-        requests.post('http://127.0.0.1:5000/addadditives', json={"user_id": str(user_id),
+        requests.post('http://127.0.0.1:6000/addadditives', json={"user_id": str(user_id),
                                                                   "additives": additive})
         return []
