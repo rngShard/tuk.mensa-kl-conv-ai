@@ -165,7 +165,7 @@ templates:
   utter_bye:
     - text: "Ciao!"
   utter_ask_like_q1:
-    - text: "Ok, dann will ich dich mal kennen lernen!\n Die nachfolgenden Essen kannst du mit 0 (noch nicht gegessen) oder 1-5 (1 schlecht, 5 gut) bewerten.\n\n Kennst du bzw. magst du \"{q1_meal}\"? (0 / 1-5)"
+  - text: "Ok, dann will ich dich mal kennen lernen!\n Die nachfolgenden Essen kannst du mit 0 (noch nicht gegessen) oder 1-5 (1 schlecht, 5 gut) bewerten.\n Kennst du bzw. magst du \"{q1_meal}\"? (0 / 1-5)"
   utter_ask_like_q2:
     - text: "Hattest du schon \"{q2_meal}\"? (0 falls nein, 1-5 falls ja)"
   utter_ask_like_q3:
