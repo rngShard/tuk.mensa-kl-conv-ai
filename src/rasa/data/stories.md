@@ -7,6 +7,7 @@
 * who_am_i
   - action_get_user_id
   - action_restart
+  
 ## hi no profile
 * greet
   - action_check_user_wants_profile
@@ -226,6 +227,18 @@
   - action_predict_meals_after_registration
   - action_restart
   
+## ask hasProfile without day Montag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+* inform{"time": "montag"}
+  - slot{"time": "montag"}
+  - action_predict_meals_after_registration
+  - action_restart
+  
 ## ask hasProfile without day Dienstag
 * ask
   - action_check_user_wants_profile
@@ -238,20 +251,75 @@
   - action_predict_meals_after_registration
   - action_restart
   
-## ask hasProfile without day heute
+## ask hasProfile without day Mittwoch
 * ask
   - action_check_user_wants_profile
   - slot{"wants_no_profile": false}
   - action_check_profile
   - slot{"user_exists": true}
   - action_predict_meals_after_registration
-* inform{"time": "Freitag"}
-  - slot{"time": "Freitag"}
+* inform{"time": "mittwoch"}
+  - slot{"time": "mittwoch"}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile without day donnerstag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+* inform{"time": "donnerstag"}
+  - slot{"time": "donnerstag"}
+  - action_predict_meals_after_registration
+  - action_restart
+
+## ask hasProfile without day Freitag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+* inform{"time": "freitag"}
+  - slot{"time": "freitag"}
   - action_predict_meals_after_registration
   - action_restart
 
 ## ask hasProfile heute
 * ask{"time":"heute"}
+  - slot{"time": "heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+
+## ask hasProfile montag
+* ask{"time":"montag"}
+  - slot{"time": "montag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile dienstag
+* ask{"time":"dienstag"}
+  - slot{"time": "dienstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile mittwoch
+* ask{"time":"mittwoch"}
+  - slot{"time": "mittwoch"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": false}
   - action_check_profile
@@ -261,11 +329,37 @@
 
 ## ask hasProfile donnerstag
 * ask{"time":"donnerstag"}
+  - slot{"time": "donnerstag"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": false}
   - action_check_profile
   - slot{"user_exists": true}
   - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile freitag
+* ask{"time":"freitag"}
+  - slot{"time": "freitag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask first interaction without day heute
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "heute"}
+  - slot{"time": "heute"}
+  - action_meals_without_registration
   - action_restart
   
 ## ask first interaction without day morgen
@@ -280,6 +374,51 @@
   - action_meals_without_registration
 * inform{"time": "morgen"}
   - slot{"time": "morgen"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction without day montag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "montag"}
+  - slot{"time": "montag"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction without day dienstag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "dienstag"}
+  - slot{"time": "dienstag"}
+  - action_meals_without_registration
+  - action_restart
+
+## ask first interaction without day mittwoch
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "mittwoch"}
+  - slot{"time": "mittwoch"}
   - action_meals_without_registration
   - action_restart
 
@@ -297,9 +436,103 @@
   - slot{"time": "donnerstag"}
   - action_meals_without_registration
   - action_restart
+
+## ask first interaction without day freitag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "freitag"}
+  - slot{"time": "freitag"}
+  - action_meals_without_registration
+  - action_restart
+
+## ask first interaction heute
+* ask{"time": "heute"}
+  - slot{"time": "heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction morgen
+* ask{"time": "morgen"}
+  - slot{"time": "morgen"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+
+## ask first interaction montag
+* ask{"time": "montag"}
+  - slot{"time": "montag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
   
 ## ask first interaction dienstag
 * ask{"time": "dienstag"}
+  - slot{"time": "dienstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction mittwoch
+* ask{"time": "mittwoch"}
+  - slot{"time": "mittwoch"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction donnerstag
+* ask{"time": "donnerstag"}
+  - slot{"time": "donnerstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction freitag
+* ask{"time": "freitag"}
+  - slot{"time": "freitag"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": false}
   - action_check_profile
@@ -321,6 +554,42 @@
   - slot{"time": "heute"}
   - action_meals_without_registration
   - action_restart
+  
+## ask hasNoProfile without day morgen
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "morgen"}
+  - slot{"time": "morgen"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile without day montag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "montag"}
+  - slot{"time": "montag"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile without day dienstag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "dienstag"}
+  - slot{"time": "dienstag"}
+  - action_meals_without_registration
+  - action_restart
 
 ## ask hasNoProfile without day Mittwoch
 * ask
@@ -333,9 +602,84 @@
   - slot{"time": "mittwoch"}
   - action_meals_without_registration
   - action_restart
+  
+## ask hasNoProfile without day donnerstag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "donnerstag"}
+  - slot{"time": "donnerstag"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile without day freitag
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "freitag"}
+  - slot{"time": "freitag"}
+  - action_meals_without_registration
+  - action_restart
 
 ## ask hasNoProfile heute
 * ask{"time":"heute"}
+  - slot{"time": "heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile morgen
+* ask{"time":"morgen"}
+  - slot{"time": "morgen"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile montag
+* ask{"time":"montag"}
+  - slot{"time": "montag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile dienstag
+* ask{"time":"dienstag"}
+  - slot{"time": "dienstag"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile mittwoch
+* ask{"time":"mittwoch"}
+  - slot{"time": "mittwoch"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+
+## ask hasNoProfile donnerstag
+* ask{"time":"donnerstag"}
+  - slot{"time": "donnerstag"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": true}
   - action_check_profile
@@ -345,6 +689,7 @@
   
 ## ask hasNoProfile freitag
 * ask{"time":"freitag"}
+  - slot{"time": "freitag"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": true}
   - action_check_profile
