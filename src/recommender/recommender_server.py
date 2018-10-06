@@ -15,10 +15,12 @@ WEEKDAYS = {
     2: "Dienstag",
     3: "Mittwoch",
     4: "Donnerstag",
-    5: "Freitag"
+    5: "Freitag",
+    6: "Samstag,"
+    7: "Sonntag"
 }
 
-STR_WEEKDAYS_DE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+STR_WEEKDAYS_DE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
 
 app = flask.Flask(__name__)
 r = Recommender()
