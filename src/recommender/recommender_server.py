@@ -16,7 +16,7 @@ WEEKDAYS = {
     3: "Mittwoch",
     4: "Donnerstag",
     5: "Freitag",
-    6: "Samstag,"
+    6: "Samstag",
     7: "Sonntag"
 }
 
