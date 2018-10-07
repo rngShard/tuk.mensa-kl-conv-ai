@@ -69,9 +69,11 @@
 - was gibt es zu essen
 - was steht auf dem menü
 - was gibt es diesmal zu essen
-- empfiehl mit etwas
+- empfiehl mir etwas
 - mach mir eine empfehlung
 - gib mir eine empfehlung
+- was ist deine empfehlung
+- was kannst du mir empfehlen
 - ich will essen
 - ich habe hunger
 - ich bin hungrig
@@ -82,6 +84,8 @@
 - welches essen gibt es [heute](time)
 - gib mir eine empfehlung für [heute](time)
 - empfiehl mir etwas für [heute](time)
+- was kannst du mir [heute](time) empfehlen
+
 
 - essen [Heute](time)
 - was gibt es [Heute](time)
@@ -89,6 +93,7 @@
 - welches essen gibt es [Heute](time)
 - gib mir eine empfehlung für [Heute](time)
 - empfiehl mir etwas für [Heute](time)
+- was kannst du mir [Heute](time) empfehlen
 
 - essen [morgen](time)
 - was gibt es [morgen](time)
@@ -249,6 +254,7 @@
 - [Freitag](time)
 - am [Montag](time)
 - für den [Montag](time)
+
 - [0](answer)
 - [1](answer)
 - [2](answer)
