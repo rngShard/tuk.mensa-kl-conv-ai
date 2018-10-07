@@ -33,6 +33,16 @@ slots:
     - freitag
     - samstag
     - sonntag
+    - Heute
+    - Morgen
+    - Woche
+    - Montag
+    - Dienstag
+    - Mittwoch
+    - Donnerstag
+    - Freitag
+    - Samstag
+    - Sonntag
   requested_slot:
     type: text
   answer:

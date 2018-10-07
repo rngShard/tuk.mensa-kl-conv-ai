@@ -69,18 +69,45 @@
 - was gibt es zu essen
 - was steht auf dem menü
 - was gibt es diesmal zu essen
+- empfiehl mit etwas
+- mach mir eine empfehlung
+- gib mir eine empfehlung
+- ich will essen
+- ich habe hunger
+- ich bin hungrig
 
 - essen [heute](time)
 - was gibt es [heute](time)
 - was gibt es [heute](time) zu essen
 - welches essen gibt es [heute](time)
+- gib mir eine empfehlung für [heute](time)
+- empfiehl mir etwas für [heute](time)
+
+- essen [Heute](time)
+- was gibt es [Heute](time)
+- was gibt es [Heute](time) zu essen
+- welches essen gibt es [Heute](time)
+- gib mir eine empfehlung für [Heute](time)
+- empfiehl mir etwas für [Heute](time)
 
 - essen [morgen](time)
 - was gibt es [morgen](time)
 
+- essen [Morgen](time)
+- was gibt es [Morgen](time)
+
 - essen die [woche](time)
 - was gibt es diese [woche](time)
 - was gibt es diese [woche](time) zu essen
+- was kannst du mir diese [woche](time) empfehlen
+- Kannst du mir diese [woche](time) etwas empfehlen
+
+- essen die [Woche](time)
+- was gibt es diese [Woche](time)
+- was gibt es diese [Woche](time) zu essen
+- was kannst du mir diese [woche](time) empfehlen
+- Kannst du mir diese [woche](time) etwas empfehlen
+
 
 - essen [montag](time)
 - was gibt es [montag](time)
@@ -90,6 +117,19 @@
 - was gibt es diesn [montag](time) zu essen
 - was gibt es am [montag](time) zu essen
 - welches essen gibt es [montag](time)
+- gib mir eine empfehlung für [montag](time)
+- empfiehl mir etwas für [montag](time)
+
+- essen [Montag](time)
+- was gibt es [Montag](time)
+- was gibt es am [Montag](time)
+- was gibt es diesen [Montag](time)
+- was gibt es [Montag](time) zu essen
+- was gibt es diesn [Montag](time) zu essen
+- was gibt es am [Montag](time) zu essen
+- welches essen gibt es [Montag](time)
+- gib mir eine empfehlung für [Montag](time)
+- empfiehl mir etwas für [Montag](time)
 
 - essen [dienstag](time)
 - was gibt es [dienstag](time)
@@ -99,6 +139,19 @@
 - was gibt es diesn [dienstag](time) zu essen
 - was gibt es am [dienstag](time) zu essen
 - welches essen gibt es [dienstag](time)
+- gib mir eine empfehlung für [dienstag](time)
+- empfiehl mir etwas für [dienstag](time)
+
+- essen [Dienstag](time)
+- was gibt es [Dienstag](time)
+- was gibt es am [Dienstag](time)
+- was gibt es diesen [Dienstag](time)
+- was gibt es [Dienstag](time) zu essen
+- was gibt es diesn [Dienstag](time) zu essen
+- was gibt es am [Dienstag](time) zu essen
+- welches essen gibt es [Dienstag](time)
+- gib mir eine empfehlung für [Dienstag](time)
+- empfiehl mir etwas für [Dienstag](time)
 
 - essen [mittwoch](time)
 - was gibt es [mittwoch](time)
@@ -108,6 +161,19 @@
 - was gibt es diesn [mittwoch](time) zu essen
 - was gibt es am [mittwoch](time) zu essen
 - welches essen gibt es [mittwoch](time)
+- gib mir eine empfehlung für [mittwoch](time)
+- empfiehl mir etwas für [mittwoch](time)
+
+- essen [Mittwoch](time)
+- was gibt es [Mittwoch](time)
+- was gibt es am [Mittwoch](time)
+- was gibt es diesen [Mittwoch](time)
+- was gibt es [Mittwoch](time) zu essen
+- was gibt es diesn [Mittwoch](time) zu essen
+- was gibt es am [Mittwoch](time) zu essen
+- welches essen gibt es [Mittwoch](time)
+- gib mir eine empfehlung für [Mittwoch](time)
+- empfiehl mir etwas für [Mittwoch](time)
 
 - essen [donnerstag](time)
 - was gibt es [donnerstag](time)
@@ -117,6 +183,19 @@
 - was gibt es diesn [donnerstag](time) zu essen
 - was gibt es am [donnerstag](time) zu essen
 - welches essen gibt es [donnerstag](time)
+- gib mir eine empfehlung für [donnerstag](time)
+- empfiehl mir etwas für [donnerstag](time)
+
+- essen [Donnerstag](time)
+- was gibt es [Donnerstag](time)
+- was gibt es am [Donnerstag](time)
+- was gibt es diesen [Donnerstag](time)
+- was gibt es [Donnerstag](time) zu essen
+- was gibt es diesn [Donnerstag](time) zu essen
+- was gibt es am [Donnerstag](time) zu essen
+- welches essen gibt es [Donnerstag](time)
+- gib mir eine empfehlung für [Donnerstag](time)
+- empfiehl mir etwas für [Donnerstag](time)
 
 - essen [freitag](time)
 - was gibt es [freitag](time)
@@ -126,6 +205,19 @@
 - was gibt es diesn [freitag](time) zu essen
 - was gibt es am [freitag](time) zu essen
 - welches essen gibt es [freitag](time)
+- gib mir eine empfehlung für [freitag](time)
+- empfiehl mir etwas für [freitag](time)
+
+- essen [Freitag](time)
+- was gibt es [Freitag](time)
+- was gibt es am [Freitag](time)
+- was gibt es diesen [Freitag](time)
+- was gibt es [Freitag](time) zu essen
+- was gibt es diesn [Freitag](time) zu essen
+- was gibt es am [Freitag](time) zu essen
+- welches essen gibt es [Freitag](time)
+- gib mir eine empfehlung für [Freitag](time)
+- empfiehl mir etwas für [Freitag](time)
 
 ## intent:inform
 - für [heute](time)
@@ -142,6 +234,21 @@
 - [freitag](time)
 - am [montag](time)
 - für den [montag](time)
+
+- für [Heute](time)
+- [Heute](time)
+- [Morgen](time)
+- für [Morgen](time)
+- [Woche](time)
+- diese [Woche](time)
+- für diese [Woche](time)
+- [Montag](time)
+- [Dienstag](time)
+- [Mittwoch](time)
+- [Donnerstag](time)
+- [Freitag](time)
+- am [Montag](time)
+- für den [Montag](time)
 - [0](answer)
 - [1](answer)
 - [2](answer)

@@ -25,8 +25,12 @@ WEEKDAYS = {
     "samstag": 6,
     "Samstag": 6,
     "sonntag": 7,
-    "Sonntag": 7
+    "Sonntag": 7,
+    "woche": 8,
+    "Woche": 8
 }
+
+VALID_RATINGS = (0, 1, 2, 3, 4, 5)
 
 
 def get_day(time):
@@ -40,8 +44,8 @@ def get_day(time):
         else:
             current_day += 1
         return current_day
-    elif time == "woche":
-        return 8
+    # elif time == "woche":
+    #    return 8
     else:
         return WEEKDAYS[time]
 
@@ -220,10 +224,19 @@ class ActionCreateProfile(Action):
     def run(self, dispatcher, tracker, domain):
         user_id = tracker.sender_id
         # likes = [tracker.get_slot("like_q{}".format(i+1)) for i in range(5)]
-
+        ratings = []
+        for i in range(5):
+            rating = int(tracker.get_slot("like_q{}".format(i + 1)))
+            if rating in VALID_RATINGS:
+                ratings.append(rating)
+            else:
+                msg = "Bitte achte darauf, die Gerichte nur mit 0-5 zu bewerten." \
+                      " Probiere noch einmal ein Profil zu erstellen!"
+                dispatcher.utter_message(msg)
+                return []
         json = {
             "user_id": str(user_id),
-            "ratings": [int(tracker.get_slot("like_q{}".format(i + 1))) for i in range(5)]
+            "ratings": ratings
             # "ratings": [5 if like else 1 for like in likes]
         }
         print(json)
