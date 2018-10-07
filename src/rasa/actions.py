@@ -124,14 +124,15 @@ class action_predict_meals_after_registration(Action):
         res = requests.post('http://127.0.0.1:6000/prediction', json={"user_id":str(user_id), "day":day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
+        locations = res_dict["locations"]
         no_meals = True
         if day != 0 and meals == []:
             answer = "Für diesen Tag kann ich dir leider nichts empfehlen."
         else:
             answer = "Meine Empfehlung für {}:".format(time)
-            for meal in meals:
+            for k, meal in enumerate(meals):
                 if meal != []:
-                    answer += "\n - " + meal[0]
+                    answer += "\n - " + meal[0] + " an Ausgabe: " + locations[k][0]
                     no_meals = False
         if not no_meals:
             dispatcher.utter_message(answer)
@@ -161,13 +162,14 @@ class action_meals_without_registration(Action):
         res = requests.post('http://127.0.0.1:6000/getmeals', json={"day": day})
         res_dict = json.loads(res.text)
         meals = res_dict["meals"]
+        locations = res_dict["locations"]
         print(meals)
         if day != 0 and meals == []:
             answer = "An diesem Tag gibt es nichts zu essen."
         else:
             answer = "Meine Empfehlung für {}:".format(time)
-            for meal in meals:
-                answer += "\n - " + meal[0]
+            for k, meal in enumerate(meals):
+                answer += "\n - " + meal[0] + " an Ausgabe: " + locations[k][0]
         dispatcher.utter_message(answer)
         return []
 

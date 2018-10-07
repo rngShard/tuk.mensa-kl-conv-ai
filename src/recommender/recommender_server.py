@@ -70,6 +70,7 @@ def set_user_no_profile():
     r.users.set_wants_no_profile(user_id)
     return "Set user wants no profile"
 
+
 @app.route("/prediction", methods=['POST'])
 def predict():
     week = False
@@ -84,28 +85,34 @@ def predict():
         day = r.day
     if not week:
         predictions = []
+        locations = []
         recommendation = r.predict(str(user_id), day=day)
         menu = r.menu.get_food_per_day(WEEKDAYS[day])
         if menu is None:
             predictions = []
         else:
-            recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+            recommendation = [(menu.title.values[i], recommendation[i][1], menu["loc"].values[i]) for i in
+                              range(len(recommendation))]
             recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
             filtered_recommendation = []
             for meal in recommendation:
                 if not r.filter_additives(user_id, get_meal_title_additives(meal[0])):
                     filtered_recommendation.append(meal)
+
             # current_day = []
             # for prediction in recommendation:
             #    current_day.append(clean_title_additives(prediction[0]))
             if filtered_recommendation != []:
                 predictions.append([clean_title_additives(filtered_recommendation[0][0])])
+                locations.append([recommendation[0][2]])
         answer = {}
+        answer["locations"] = locations
         answer["meals"] = predictions
         answer["day"] = day
         return jsonify(answer)
     else:
         predictions = []
+        locations = []
         days = []
         for d in day:
             current_day = []
@@ -114,7 +121,8 @@ def predict():
             if menu is None:
                 continue
             else:
-                recommendation = [(menu.title.values[i], recommendation[i][1]) for i in range(len(recommendation))]
+                recommendation = [(menu.title.values[i], recommendation[i][1], menu["loc"].values[i]) for i in
+                                  range(len(recommendation))]
                 recommendation = sorted(recommendation, key=lambda x: x[1], reverse=True)
                 filtered_recommendation = []
                 for meal in recommendation:
@@ -122,11 +130,13 @@ def predict():
                         filtered_recommendation.append(meal)
                 if filtered_recommendation != []:
                     current_day.append(clean_title_additives(filtered_recommendation[0][0]))
+                    locations.append([recommendation[0][2]])
                 # for prediction in recommendation:
                 #    current_day.append(clean_title_additives(prediction[0]))
                 days.append(d)
             predictions.append(current_day)
             answer = {}
+            answer["locations"] = locations
             answer["meals"] = predictions
             answer["day"] = days
         return jsonify(answer)
@@ -165,16 +175,20 @@ def get_meals():
         day = r.day
     if week:
         menu = r.menu.df_menus.loc[:, 'title'].tolist()
+        locs = r.menu.df_menus["loc"].values
     else:
         try:
             menu = r.menu.get_food_per_day(WEEKDAYS[day]).loc[:, "title"]
+            locs = r.menu.get_food_per_day(WEEKDAYS[day])["loc"].values
         except AttributeError:
             menu = []
     meals = []
-    for meal in menu:
+    locations = []
+    for k, meal in enumerate(menu):
         meals.append([clean_title_additives(meal)])
-
+        locations.append([locs[k]])
     answer = {}
+    answer["locations"] = locations
     answer["meals"] = meals
     answer["day"] = day
     return jsonify(answer)
