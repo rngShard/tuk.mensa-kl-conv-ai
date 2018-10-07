@@ -98,13 +98,13 @@ def predict():
             for meal in recommendation:
                 if not r.filter_additives(user_id, get_meal_title_additives(meal[0])):
                     filtered_recommendation.append(meal)
-
             # current_day = []
             # for prediction in recommendation:
             #    current_day.append(clean_title_additives(prediction[0]))
             if filtered_recommendation != []:
                 predictions.append([clean_title_additives(filtered_recommendation[0][0])])
-                locations.append([recommendation[0][2]])
+                locations.append([filtered_recommendation[0][2]])
+
         answer = {}
         answer["locations"] = locations
         answer["meals"] = predictions
@@ -130,7 +130,7 @@ def predict():
                         filtered_recommendation.append(meal)
                 if filtered_recommendation != []:
                     current_day.append(clean_title_additives(filtered_recommendation[0][0]))
-                    locations.append([recommendation[0][2]])
+                    locations.append([filtered_recommendation[0][2]])
                 # for prediction in recommendation:
                 #    current_day.append(clean_title_additives(prediction[0]))
                 days.append(d)
