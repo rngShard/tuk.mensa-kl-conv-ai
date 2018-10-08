@@ -227,6 +227,18 @@
   - action_predict_meals_after_registration
   - action_restart
   
+## ask hasProfile without day woche
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+* inform{"time": "woche"}
+  - slot{"time": "woche"}
+  - action_predict_meals_after_registration
+  - action_restart
+  
 ## ask hasProfile without day Montag
 * ask
   - action_check_user_wants_profile
@@ -290,6 +302,26 @@
 ## ask hasProfile heute
 * ask{"time":"heute"}
   - slot{"time": "heute"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile morgen
+* ask{"time":"morgen"}
+  - slot{"time": "morgen"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": true}
+  - action_predict_meals_after_registration
+  - action_restart
+  
+## ask hasProfile woche
+* ask{"time":"woche"}
+  - slot{"time": "woche"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": false}
   - action_check_profile
@@ -374,6 +406,21 @@
   - action_meals_without_registration
 * inform{"time": "morgen"}
   - slot{"time": "morgen"}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask first interaction without day woche
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+* inform{"time": "woche"}
+  - slot{"time": "woche"}
   - action_meals_without_registration
   - action_restart
   
@@ -477,6 +524,19 @@
   - action_set_user_wants_no_profile
   - action_meals_without_registration
   - action_restart
+  
+## ask first interaction woche
+* ask{"time": "woche"}
+  - slot{"time": "woche"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": false}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - utter_ask_create_profile
+* deny
+  - action_set_user_wants_no_profile
+  - action_meals_without_registration
+  - action_restart
 
 ## ask first interaction montag
 * ask{"time": "montag"}
@@ -567,6 +627,18 @@
   - action_meals_without_registration
   - action_restart
   
+## ask hasNoProfile without day woche
+* ask
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+* inform{"time": "woche"}
+  - slot{"time": "woche"}
+  - action_meals_without_registration
+  - action_restart
+  
 ## ask hasNoProfile without day montag
 * ask
   - action_check_user_wants_profile
@@ -640,6 +712,16 @@
 ## ask hasNoProfile morgen
 * ask{"time":"morgen"}
   - slot{"time": "morgen"}
+  - action_check_user_wants_profile
+  - slot{"wants_no_profile": true}
+  - action_check_profile
+  - slot{"user_exists": false}
+  - action_meals_without_registration
+  - action_restart
+  
+## ask hasNoProfile woche
+* ask{"time":"woche"}
+  - slot{"time": "woche"}
   - action_check_user_wants_profile
   - slot{"wants_no_profile": true}
   - action_check_profile
